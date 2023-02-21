@@ -2,53 +2,6 @@ from django.db import models
 
 ARTICLE_TITLE_LENGTH = 40
 
-class ArticleSummary(models.Model):
-    target_article = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name="Target article's name")
-    nickname = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='', blank=True, null=True, default='')
-    realName = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    race = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    parents = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    couple = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    age = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    gender = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    favourite_food = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    favourite_color = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    civil_state = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    height = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    weight = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    birthdate = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    birthplace = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    begin_date = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    end_date = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    date = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    year = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    created_by = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    nacionality = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    status = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    location = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    branch = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    extension = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    population = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    speciality = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    participants_number = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    duration = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    symptoms = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    victims = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    species = models.CharField(max_length=50, verbose_name='', blank=True, null=True, default='')
-    type = models.CharField(max_length=100, verbose_name='', blank=True, null=True, default='')
-    result = models.CharField(max_length=20, verbose_name='', blank=True, null=True, default='')
-    group = models.CharField(max_length=50, verbose_name='', blank=True, null=True, default='')
-    king = models.CharField(max_length=50, verbose_name='', blank=True, null=True, default='')
-    ruler = models.CharField(max_length=50, verbose_name='', blank=True, null=True, default='')
-    # To add a new field, just copy, paste and rename the new var
-
-    class Meta():
-        verbose_name= 'Article summary'
-        verbose_name_plural= 'Article summaries'
-
-    def __str__(self):
-        return self.target_article
-
 
 class ArticleImages(models.Model):
     title = models.CharField(max_length=30, verbose_name='Image title')
@@ -88,10 +41,9 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')
     other_names = models.TextField(verbose_name='Other names')
-    images = models.ManyToManyField(ArticleImages, verbose_name="Article main's images")
+    images = models.ManyToManyField(ArticleImages, verbose_name="Article main image(s)")
     category = models.ManyToManyField(ArticleCategory, verbose_name='Category(ies)')
     main = models.TextField(verbose_name='Main content')  # This are the firsts paragraphs of content
-    summary = models.OneToOneField(ArticleSummary, verbose_name='Summary', on_delete=models.SET_NULL, null=True)
     views = models.PositiveBigIntegerField(verbose_name='Views number')
 
     class Meta():
@@ -100,6 +52,18 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class ArticleSummary(models.Model):
+    article = models.OneToOneField(Article, on_delete=models.CASCADE, default=None, null=True)
+    summary = models.TextField(verbose_name="Article's summary", default=None, null=True)
+
+    class Meta():
+        verbose_name= 'Article summary'
+        verbose_name_plural= 'Articles summaries'
+
+    def __str__(self):
+        return f"{self.article.title}'s summary"
 
 
 class ArticleSection(models.Model):
@@ -117,7 +81,7 @@ class ArticleSection(models.Model):
         verbose_name_plural= 'Article sections'
 
     def __str__(self):
-        return f'{self.title} {self.targetArticle.title}'
+        return f'{self.title}: {self.targetArticle.title}'
 
 
 class RelatedArticles(models.Model):
