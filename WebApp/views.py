@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from django.conf import settings
 
 def home(request):
-    ctx = {}
+    ctx = {
+        'wiki_name': settings.WIKI_NAME
+    }
     return render(request, 'WebApp/home.html', ctx)
 
 def contact(request):

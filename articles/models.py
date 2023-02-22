@@ -27,12 +27,23 @@ class SectionType(models.Model):
         return self.name
 
 
-class ArticleCategory(models.Model):
+class MainCategory(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name='Name')
 
     class Meta():
         verbose_name= 'Article category'
         verbose_name_plural= 'Article categories'
+
+    def __str__(self):
+        return self.name
+    
+class Subcategory(models.Model):
+    category = models.ForeignKey(MainCategory, on_delete=models.CASCADE, verbose_name='Sub-category')
+    name = models.CharField(max_length=30, unique=True, verbose_name='Name')
+
+    class Meta():
+        verbose_name= 'Subcategory'
+        verbose_name_plural= 'Subcategories'
 
     def __str__(self):
         return self.name
@@ -42,7 +53,8 @@ class Article(models.Model):
     title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')
     other_names = models.TextField(verbose_name='Other names')
     images = models.ManyToManyField(ArticleImages, verbose_name="Article main image(s)")
-    category = models.ManyToManyField(ArticleCategory, verbose_name='Category(ies)')
+    category = models.ForeignKey(MainCategory, verbose_name='Main Category', on_delete=models.SET_NULL, null=True)
+    subcategory = models.ManyToManyField(Subcategory, verbose_name='Subcategories')
     main = models.TextField(verbose_name='Main content')  # This are the firsts paragraphs of content
     views = models.PositiveBigIntegerField(verbose_name='Views number')
 

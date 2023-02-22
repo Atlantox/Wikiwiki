@@ -12,8 +12,26 @@ nav{
     height:60px;
 }
 
-.pentagon{
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+.divisor-bg{
+    height:2em;
+    background-image: url('./divisor_bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.divisor-sm{
+    border-bottom: 2px solid white;
+}
+
+
+.article-title-sm{
+    transition:0.5s;
+    background-color:rgba(0,0,0,0.75);
+}
+
+.article-title-sm:not(:hover){
+    
 }
 
 /* Gradient primary color: light to normal */
@@ -327,6 +345,13 @@ nav{
         min-width:400px;
         max-width:400px;
     }   
+
+    .little-article{
+        min-height:300px;
+        max-height:300px;
+        min-width:300px;
+        max-width:300px;
+    }
 }
 
 @media (min-width:431px) {
@@ -335,7 +360,8 @@ nav{
         max-height:480px;
         min-width:500px;
         max-width:500px;
-    }   
+    }  
+    
 }
 
 @media (min-width:780px) {
@@ -345,6 +371,7 @@ nav{
         min-width:900px;
         max-width:900px;
     }   
+
 }
 
 @media (min-width:1200px) {
