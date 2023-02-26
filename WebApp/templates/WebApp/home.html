@@ -201,11 +201,46 @@
 
 {% include 'WebApp/common/divisor_bg.html' %}
 
-<div class="col-12">
-    <h2>Random Article</h2>
-    <p>
-        This is the main content of the random article, be sure of the firsts lines doesn't contain spoilers 
-    </p>
+<div class="col-12 row justify-content-center align-content-center mt-5">
+    <button class="col-12 row text-center justify-content-center border-0 border-bottom bg-transparent" onclick="ToggleRandomArticle()">
+        <h2 class="m-0 p-0 col-11 align-middle">Random Article</h2>
+
+        <div class="col-1 m-0 p-0">
+            <img class="m-0 w-50" id="collapse-arrow" src="{% static 'WebApp/icons/arrow_down.png' %}" alt="collapse arrow">
+        </div>
+    </button>
+
+    <div class="col-12 row justify-content-center">
+        <div class="random-article row justify-content-center px-5 mt-3" id="random-article">
+            <figure class="col-4">
+                <img class="w-100" src="{% static 'WebApp/icons/wikiwikibig.png' %}" alt="random article image">
+            </figure>
+            <p class ="col-8">
+                This is the main content of the random article, be sure of the firsts lines doesn't contain spoilers 
+            </p>
+        </div>
+    </div>
 </div>
+
+<script>
+    random_article = document.getElementById("random-article");
+    arrow = document.getElementById("collapse-arrow");
+    
+    function ToggleRandomArticle(){
+        if(hasClass(arrow, "collapse-arrow-up")){
+            arrow.classList.remove("collapse-arrow-up");
+            random_article.classList.add("random-article");
+            random_article.classList.remove("visible-random-article");
+        }
+        else{
+            arrow.classList.add("collapse-arrow-up");
+            random_article.classList.remove("random-article")
+            random_article.classList.add("visible-random-article");
+            //random_article.scrollIntoView({behavior: "smooth"});
+        }
+
+    }
+
+</script>
 
 {% endblock %}

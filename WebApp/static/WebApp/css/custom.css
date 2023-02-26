@@ -523,13 +523,34 @@ nav{
     margin: 5px 0;
 }
 
-.animated{
+.animated-f{
     transition:0.2s;
 }
 
-.arrow-up{
+.animated-n{
+    transition:0.5s;
+}
+
+.animated-s{
+    transition:1s;
+}
+
+.collapse-arrow-up{
     transform:rotate(180deg);
 }
+
+.random-article{
+    height:0%;
+    width:0%;
+    font-size: 0px;
+}
+
+.visible-random-article{
+    height:100%;
+    width:100%;
+    font-size: 1em;
+}
+
 
 .hidden-briefcase{
     height:0%;
