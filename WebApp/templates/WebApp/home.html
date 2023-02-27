@@ -37,6 +37,12 @@
         <h2 class="col-12">Categories</h2>
     </div>
 
+    {% for category in categories %}
+        {{category.category.name}}<br>
+        {% for article in category.articles %}
+            {{article.title}}
+        {% endfor %}
+    {% endfor %}
     <div class="col-10">
         <table class="border border-black table table-dark text-center align-middle text-nowrap">
 

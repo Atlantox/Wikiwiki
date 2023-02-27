@@ -1,9 +1,22 @@
 from django.shortcuts import render
 from django.conf import settings
+from articles import models as art
 
 def home(request):
+    categories = art.Category.objects.all()
+    final_categories = []
+
+    for category in categories:
+        articles = art.Article.objects.filter(category=category)
+        final_categories.append({
+            'category': category,
+            'articles': articles
+        })
+
+
     ctx = {
-        'wiki_name': settings.WIKI_NAME
+        'wiki_name': settings.WIKI_NAME,
+        'categories': final_categories
     }
     return render(request, 'WebApp/home.html', ctx)
 
