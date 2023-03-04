@@ -1,1 +1,31 @@
-{{summaries}}
+{% extends 'WebApp/common/base.html' %}
+
+{% block title %} {{article.title}} {% endblock %}
+
+{% block content %}
+
+    {% if not found %}
+        <h1>Article not found</h1>
+    {% else %}
+        <h1>{{article.title}}</h1>
+
+        {% for img in article.images.all %}
+            <img src="{{img.img.url}}" alt="{{article.title}}">
+        {% endfor %}
+
+        <p>{{article.main}}</p>
+
+        <ul>
+            {% for category in article.category.all %}
+
+                <li>{{category.name}}</li>
+
+            {% endfor %}
+        </ul>
+
+        <style>
+            .subtitle{ display:none; }
+        </style>
+    {% endif %}
+
+{% endblock %}

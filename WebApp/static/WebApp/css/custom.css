@@ -542,15 +542,24 @@ nav{
 .random-article{
     height:0%;
     width:0%;
-    font-size: 0px;
+}
+
+div.random-article > *{
+    font-size: 0px !important;
 }
 
 .visible-random-article{
     height:100%;
     width:100%;
-    font-size: 1em;
 }
 
+div.visible-random-article > span{
+    font-size: 3em !important;
+}
+
+div.visible-random-article > p{
+    font-size: 1em !important;
+}
 
 .hidden-briefcase{
     height:0%;
