@@ -24,6 +24,16 @@ nav{
     border-bottom: 2px solid white;
 }
 
+.censored{
+    background-color: black;
+    color:black;
+}
+
+.censored:hover{
+    background-color: unset;
+    color: white;
+}
+
 
 .article-title-sm{
     transition:0.5s;

@@ -57,7 +57,7 @@ class Article(models.Model):
 
 class Summary(models.Model):
     article = models.OneToOneField(Article, on_delete=models.CASCADE, default=None, null=True)
-    summary = models.TextField(verbose_name="Article's summary", default=None, null=True)
+    content = models.TextField(verbose_name="Article's summary content", default=None, null=True)
 
     class Meta():
         verbose_name= 'Article summary'
