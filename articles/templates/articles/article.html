@@ -4,6 +4,9 @@
 
 {% block content %}
 
+    <script>
+        var currentImg = 1;
+    </script>
     {% if not found %}
         <h1>Article not found</h1>
     {% else %}
@@ -19,18 +22,36 @@
             </div>
 
             <div class="col-3 p-5 rounded shadowed">
-                {% for img in article.images.all %}
-                    <img class="w-100" src="{{img.img.url}}" alt="{{article.title}}">
-                {% endfor %}
-                <ul class="list-unstyled text-center">
-                    {% for field in summary %}
-                    {% if field.0 == 'Status' or field.0 == 'status' %}
-                        <li>{{field.0}}:<span class="censored">{{field.1}}</span></li>
-                    {% else %}
-                        <li >{{field.0}}:{{field.1}}</li>
-                    {% endif %}
+                <div class="row justify-content-around my-2">
+                    <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(-1)"> < </button>
+                    <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(1)"> > </button>
+                </div>
+
+                <div class="row p-2">
+                    {% for img in article_images %}
+                        {% if img.order == 1 %}
+                            <img id="img-{{img.order}}" class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
+                        {% else %}
+                            <img id="img-{{img.order}}" class="w-100 d-none article-img" src="{{img.url}}" alt="{{article.title}}">
+                        {% endif %}
                     {% endfor %}
-                </ul>
+                </div>
+
+                <div class="row mt-3 justify-content-center">
+                    {% for field in summary %}
+                        <div class="col-6 text-center border">
+                            {{field.0}}
+                        </div>
+                        {% if field.0 == 'Status' or field.0 == 'status' %}
+                        <div class="col-6 text-center border censored">
+                        {% else %}
+                        <div class="col-6 text-center border">
+                        {% endif %}
+                            {{field.1}}
+                        </div>
+
+                    {% endfor %}
+                </div>
             </div>
         </div>
 
@@ -61,5 +82,30 @@
             .subtitle{ display:none; }
         </style>
     {% endif %}
+
+    <script>
+        var imgCount = document.querySelectorAll(".article-img").length;
+
+        function ChangeImg(operation){
+            var to_hide = document.getElementById("img-" + currentImg);
+            NextId(imgCount, operation);
+            var to_show = document.getElementById("img-" + currentImg);
+            ToggleImages(to_show, to_hide);        
+        }
+
+        function ToggleImages(to_show, to_hide){
+            to_hide.classList.add("d-none");
+            to_show.classList.remove("d-none");
+        }
+
+        function NextId(max, to_add){
+            currentImg += to_add;
+            if (currentImg > max)
+                currentImg = 1;
+            else if(currentImg <= 0)
+                currentImg = max;
+                
+        }
+    </script>
 
 {% endblock %}

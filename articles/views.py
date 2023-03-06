@@ -29,9 +29,11 @@ def show_article(request, article, found = True):
     summary = getSummary(article)
     related = getRelatedArticles(article.title)
     sections = getArticleSections(article)
+    images = getArticleImages(article)
 
     ctx = {
         'article': article,
+        'article_images': images,
         'summary': summary,
         'relatedArtices': related,
         'sections': sections,
@@ -45,7 +47,7 @@ def getSummary(article):
     fields = summary.content.split(';')
     result = []
     for field in fields:
-        key, value = field.split(':')[0], field.split(':')[1]
+        key, value = field.split(':')[0].capitalize(), field.split(':')[1].capitalize()
         result.append([key, value])
     return result
 
@@ -66,3 +68,16 @@ def getArticleSections(article):
             result.append(section)
     
     return result
+
+def getArticleImages(article):
+    images = []
+    count = 1
+    for img in article.images.all():
+        to_add = {
+            'url': img.img.url,
+            'order': count
+        }
+        count += 1
+        images.append(to_add)
+
+    return images

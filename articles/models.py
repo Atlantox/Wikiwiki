@@ -72,7 +72,7 @@ class Section(models.Model):
     content = models.TextField(verbose_name='Section text', blank=True, null=True)
     targetArticle = models.ForeignKey(Article, verbose_name='Target article', on_delete=models.CASCADE)
     images = models.ManyToManyField(Image, verbose_name='Section images', blank=True)
-    articleType = models.ForeignKey(SectionType, verbose_name='Section type', on_delete=models.SET_NULL, null=True)
+    sectionType = models.ForeignKey(SectionType, verbose_name='Section type', on_delete=models.SET_NULL, null=True)
     order = models.PositiveIntegerField(default=0, verbose_name='Show order')
     visible = models.BooleanField(default=True, verbose_name='Is visible')
     collapse = models.BooleanField(default=False, verbose_name='Is collapse')

@@ -1,5 +1,5 @@
 <div class="row ">
-    {% if section.articleType.name == 'Pure text' %}
-        {% include 'articles/sections/Pure text.html' %}
-    {% endif %}    
+    {% with "articles/sections/"|add:section.sectionType.name|add:".html" as template %}
+    {% include template %}
+    {% endwith %}   
 </div>
