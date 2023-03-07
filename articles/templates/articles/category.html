@@ -1,0 +1,25 @@
+{% extends 'WebApp/common/base.html' %}
+{% block title %} {{category.name}} {% endblock %}
+
+{% load static %}
+{% block content %}
+    <div class="row mt-5 px-5">
+        <h1 class="border-bottom px-5">{{category.name}}</h1>
+
+        <ul class="col-12 fs-4 p-4">
+            {% for article in articles %}
+                <li class="my-1">
+                    <a class="text-white" href="{% url 'article' article.id %}">
+                        {{article.title}}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>   
+    </div>
+
+    <style>
+        .subtitle{
+            display: none;
+        }
+    </style>
+{% endblock %}

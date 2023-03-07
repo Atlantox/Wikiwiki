@@ -1,4 +1,9 @@
-<h2 class="border-bottom">
+{% if section.collapse %}
+    <h2 class="">
+{% else %}
+    <h2 class="border-bottom">
+{% endif %}
+
     {{section.title}}
 </h2>
 <p class="p-2 mx-2">

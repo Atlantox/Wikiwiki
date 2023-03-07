@@ -22,10 +22,10 @@
 <div class="col-9 justify-content-center align-content-center my-3">
     {% include 'WebApp/common/divisor_sm.html' %}
     <ul class="list-unstyled d-flex justify-content-around align-content-center my-2">
-        <li><span class="number_counter">100</span> Articles</li>
-        <li><span class="number_counter">100</span> Images</li>
-        <li><span class="number_counter">100</span> Members</li>
-        <li><span class="number_counter">100</span> Editors</li>
+        <li><span class="number_counter">{{counters.articles}}</span> Articles</li>
+        <li><span class="number_counter">{{counters.images}}</span> Images</li>
+        <li><span class="number_counter">{{counters.members}}</span> Members</li>
+        <li><span class="number_counter">{{counters.editors}}</span> Editors</li>
     </ul>
     {% include 'WebApp/common/divisor_sm.html' %}
 </div>
@@ -81,113 +81,18 @@
 
     <div class="col-10 row justify-content-around flex-wrap">
 
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
-
-        <article class="col-2 row p-2">
-            <figure class="col-12 m-0 p-0 border border-black">
-                <img class="w-100 m-0 p-0" src="{% static 'WebApp/icons/wikiwikismall.png' %}" alt="article img">
-            </figure>
-            <div class="col-12 text-center fs-5 article-title-sm border border-black">
-                <span>Article title but larger</span>
-            </div>
-        </article>
+        {% for article in most_viewed %}
+            <article class="col-2 row p-2">
+                <figure class="col-12 m-0 p-0 border border-black">
+                    <a href="{% url 'article' article.id %}">
+                        <img class="w-100 m-0 p-0" src="{{article.images.all.0.img.url}}" alt="{{article.title}} img">
+                    </a>
+                </figure>
+                <div class="col-12 text-center fs-5 article-title-sm border border-black">
+                    <span>{{article.title}}</span>
+                </div>
+            </article>
+        {% endfor %}
 
     </div>
 </div>
@@ -195,16 +100,16 @@
 {% include 'WebApp/common/divisor_bg.html' %}
 
 <div class="col-12 row justify-content-center align-content-center mt-5">
-    <button class="col-12 row text-center justify-content-center border-0 border-bottom bg-transparent" onclick="ToggleRandomArticle()">
+    <button class="col-12 row text-center justify-content-center border-0 border-bottom bg-transparent" onclick="ToggleCollapse('random_article')">
         <h2 class="m-0 p-0 col-11 align-middle">Random article</h2>
 
         <div class="col-1 m-0 p-0">
-            <img class="m-0 w-50" id="collapse-arrow" src="{% static 'WebApp/icons/arrow_down.png' %}" alt="collapse arrow">
+            <img class="m-0 w-50" id="collapse-arrow-random_articlen" src="{% static 'WebApp/icons/arrow_down.png' %}" alt="collapse arrow">
         </div>
     </button>
 
     <div class="col-12 row justify-content-center">
-        <div class="random-article row justify-content-center px-5 mt-3" id="random-article">
+        <div class="collapse-section row justify-content-center px-5 mt-3" id="random_article">
             <span>{{random_article.title}}</span>
             <figure class="col-4">
                 <img class="w-100" src="{{random_article.images.all.0.img.url}}" alt="{{random_article.title}} image">
@@ -218,23 +123,24 @@
 </div>
 
 <script>
-    random_article = document.getElementById("random-article");
+    /*
+    random_article = document.getElementById("collapse-section");
     arrow = document.getElementById("collapse-arrow");
     
     function ToggleRandomArticle(){
         if(hasClass(arrow, "collapse-arrow-up")){
             arrow.classList.remove("collapse-arrow-up");
-            random_article.classList.add("random-article");
-            random_article.classList.remove("visible-random-article");
+            random_article.classList.add("collapse-section");
+            random_article.classList.remove("visible-collapse-section");
         }
         else{
             arrow.classList.add("collapse-arrow-up");
-            random_article.classList.remove("random-article")
-            random_article.classList.add("visible-random-article");
+            random_article.classList.remove("collapse-section")
+            random_article.classList.add("visible-collapse-section");
             //random_article.scrollIntoView({behavior: "smooth"});
         }
 
-    }
+    }*/
 
 </script>
 

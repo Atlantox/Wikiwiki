@@ -1,5 +1,22 @@
-<div class="row ">
-    {% with "articles/sections/"|add:section.sectionType.name|add:".html" as template %}
-    {% include template %}
-    {% endwith %}   
+<div class="row my-2 justify-content-center">
+    {% if section.collapse %}
+        {% load static %}
+        <button class="col-12 px-2 row text-center justify-content-center border-0 border-bottom bg-transparent align-items-center" onclick="ToggleCollapse('{{section.id}}')">
+            <h2 class="m-0 p-0 col-11 align-middle">Spoiler</h2>
+                
+            <div class="col-1 m-0 p-0">
+                <img class="m-0 w-50" id="collapse-arrow-{{section.id}}" src="{% static 'WebApp/icons/arrow_down.png' %}" alt="collapse arrow">
+            </div>
+        </button>
+
+        <div class="collapse-section row justify-content-center p-5" id="collapse-section-{{section.id}}">
+            {% with "articles/sections/"|add:section.sectionType.name|add:".html" as template %}
+            {% include template %}
+            {% endwith %} 
+        </div>
+    {% else %}
+        {% with "articles/sections/"|add:section.sectionType.name|add:".html" as template %}
+        {% include template %}
+        {% endwith %}   
+    {% endif %}
 </div>

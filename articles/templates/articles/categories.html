@@ -1,0 +1,37 @@
+{% extends 'WebApp/common/base.html' %}
+{% block title %} Categories {% endblock %}
+
+{% load static %}
+{% block content %}
+
+    <div class="row mt-5 px-5">
+        <h1 class="border-bottom px-5">Categories</h1>
+    </div>
+
+    <div class="row justify-content-around my-3">
+        {% for category in categories %}
+            <div class="col-3 row justify-content-center p-3">
+                <div class="col-12 row bg-primary-light shadowed justify-content-center align-items-center text-center rounded">
+                    <figure class="col-8 p-3 m-0">
+                        <a href="{% url 'category' category.id %}">
+                            <img class="w-100" src="{{category.img.img.url}}" alt="{{category.name}} img">
+                        </a>
+                    </figure>
+                    
+                    <span class="col-8 fs-3 align-middle p-3">
+                            <a class="text-white fw-bold" href="{% url 'category' category.id %}">
+                                {{category.name}}
+                            </a>
+                    </span>
+                </div>
+            </div>      
+        {% endfor %}
+    </div>
+
+    <style>
+        .subtitle{
+            display: none;
+        }
+    </style>
+
+{% endblock %}

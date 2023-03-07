@@ -549,25 +549,25 @@ nav{
     transform:rotate(180deg);
 }
 
-.random-article{
+.collapse-section{
     height:0%;
     width:0%;
 }
 
-div.random-article > *{
+div.collapse-section > *{
     font-size: 0px !important;
 }
 
-.visible-random-article{
+.visible-collapse-section{
     height:100%;
     width:100%;
 }
 
-div.visible-random-article > span{
+div.visible-collapse-section > span{
     font-size: 3em !important;
 }
 
-div.visible-random-article > p{
+div.visible-collapse-section > p{
     font-size: 1em !important;
 }
 

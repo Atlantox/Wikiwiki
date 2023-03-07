@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-03-2023 a las 23:26:35
+-- Tiempo de generación: 07-03-2023 a las 17:04:44
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -41,8 +41,8 @@ CREATE TABLE `articles_article` (
 --
 
 INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`) VALUES
-(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 0, '2023-03-06 21:58:39.555962'),
-(2, 'Dark elves', '', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 0, '2023-02-27 17:05:07.990609');
+(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 49, '2023-03-07 16:01:54.622191'),
+(2, 'Dark elves', '', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 8, '2023-03-07 14:05:31.958188');
 
 -- --------------------------------------------------------
 
@@ -93,19 +93,20 @@ INSERT INTO `articles_article_images` (`id`, `article_id`, `image_id`) VALUES
 
 CREATE TABLE `articles_category` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(30) NOT NULL
+  `name` varchar(30) NOT NULL,
+  `img_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `articles_category`
 --
 
-INSERT INTO `articles_category` (`id`, `name`) VALUES
-(1, 'Characters'),
-(4, 'Festivities'),
-(3, 'Heroes'),
-(2, 'Places'),
-(5, 'Races');
+INSERT INTO `articles_category` (`id`, `name`, `img_id`) VALUES
+(1, 'Characters', 7),
+(2, 'Places', 6),
+(3, 'Heroes', 10),
+(4, 'Festivities', 8),
+(5, 'Races', 9);
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,12 @@ INSERT INTO `articles_image` (`id`, `title`, `img`, `description`) VALUES
 (2, 'Ámber', 'article_imgs/Amber2.jpg', ''),
 (3, 'Liz\'Amar', 'article_imgs/Liz_Amar2.jpg', ''),
 (4, 'Dark elves', 'article_imgs/dark_elfs.png', 'The dark elves crest, is a knife with a contract reflecting their big justice feel'),
-(5, 'Stealth Stefannie', 'article_imgs/stefannie.jpg', 'Stefannie with stleath uniform and tools');
+(5, 'Stealth Stefannie', 'article_imgs/stefannie.jpg', 'Stefannie with stleath uniform and tools'),
+(6, 'Places category', 'article_imgs/places.png', ''),
+(7, 'Characters category', 'article_imgs/characters.png', ''),
+(8, 'Festivities category', 'article_imgs/festivities.png', ''),
+(9, 'Races categories', 'article_imgs/races.png', ''),
+(10, 'Heroes category', 'article_imgs/heroes.png', '');
 
 -- --------------------------------------------------------
 
@@ -192,7 +198,8 @@ CREATE TABLE `articles_section` (
 --
 
 INSERT INTO `articles_section` (`id`, `title`, `content`, `order`, `visible`, `collapse`, `sectionType_id`, `targetArticle_id`) VALUES
-(1, 'Personality', 'Stefannie is very independent, logical and solitaire,  always search the self benefit and never helps others without gain something, she is very direct and in many cases cruel.', 1, 1, 0, 1, 1);
+(1, 'Personality', 'Stefannie is very independent, logical and solitaire,  always search the self benefit and never helps others without gain something, she is very direct and in many cases cruel.', 1, 1, 0, 1, 1),
+(2, 'Death', 'Stefanne dies of an horrible form, forcing to be furry', 2, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -446,7 +453,19 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (25, '2023-03-05 22:10:57.061201', '2', 'Dark elves', 1, '[{\"added\": {}}]', 13, 1),
 (26, '2023-03-05 22:24:43.032589', '1', 'Personality: Stefannie Kyoi', 1, '[{\"added\": {}}]', 12, 1),
 (27, '2023-03-06 21:58:26.007968', '5', 'Stealth Stefannie', 1, '[{\"added\": {}}]', 9, 1),
-(28, '2023-03-06 21:58:39.614085', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Article main image(s)\"]}}]', 7, 1);
+(28, '2023-03-06 21:58:39.614085', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Article main image(s)\"]}}]', 7, 1),
+(29, '2023-03-07 13:38:49.598877', '2', 'Death: Stefannie Kyoi', 1, '[{\"added\": {}}]', 12, 1),
+(30, '2023-03-07 14:48:36.326070', '6', 'Places', 1, '[{\"added\": {}}]', 9, 1),
+(31, '2023-03-07 14:48:54.002799', '7', 'Characters category', 1, '[{\"added\": {}}]', 9, 1),
+(32, '2023-03-07 14:49:15.425936', '8', 'Festivities category', 1, '[{\"added\": {}}]', 9, 1),
+(33, '2023-03-07 14:49:25.600143', '9', 'Races categories', 1, '[{\"added\": {}}]', 9, 1),
+(34, '2023-03-07 14:49:40.557517', '10', 'Heroes category', 1, '[{\"added\": {}}]', 9, 1),
+(35, '2023-03-07 14:49:55.127260', '6', 'Places category', 2, '[{\"changed\": {\"fields\": [\"Image title\"]}}]', 9, 1),
+(36, '2023-03-07 14:50:31.923204', '5', 'Races', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
+(37, '2023-03-07 14:50:41.257249', '4', 'Festivities', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
+(38, '2023-03-07 14:50:46.503121', '3', 'Heroes', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
+(39, '2023-03-07 14:50:56.290403', '2', 'Places', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
+(40, '2023-03-07 14:51:03.182086', '1', 'Characters', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -524,7 +543,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (24, 'articles', '0005_alter_article_other_names', '2023-02-27 17:04:50.587814'),
 (25, 'articles', '0006_alter_article_views', '2023-02-27 17:05:45.442232'),
 (26, 'articles', '0007_remove_summary_summary_summary_content', '2023-03-05 21:19:23.514649'),
-(27, 'articles', '0008_rename_articletype_section_sectiontype', '2023-03-06 21:07:16.965857');
+(27, 'articles', '0008_rename_articletype_section_sectiontype', '2023-03-06 21:07:16.965857'),
+(28, 'articles', '0009_category_img', '2023-03-07 14:41:13.098173');
 
 -- --------------------------------------------------------
 
@@ -589,7 +609,8 @@ ALTER TABLE `articles_article_images`
 --
 ALTER TABLE `articles_category`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `articles_category_img_id_da684201_fk_articles_image_id` (`img_id`);
 
 --
 -- Indices de la tabla `articles_image`
@@ -752,7 +773,7 @@ ALTER TABLE `articles_category`
 -- AUTO_INCREMENT de la tabla `articles_image`
 --
 ALTER TABLE `articles_image`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_relatedarticles`
@@ -770,7 +791,7 @@ ALTER TABLE `articles_relatedarticles_related`
 -- AUTO_INCREMENT de la tabla `articles_section`
 --
 ALTER TABLE `articles_section`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_sectiontype`
@@ -830,7 +851,7 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`
@@ -842,7 +863,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `webapp_contact`
@@ -867,6 +888,12 @@ ALTER TABLE `articles_article_category`
 ALTER TABLE `articles_article_images`
   ADD CONSTRAINT `articles_article_ima_article_id_0b6cb70f_fk_articles_` FOREIGN KEY (`article_id`) REFERENCES `articles_article` (`id`),
   ADD CONSTRAINT `articles_article_images_image_id_8a24e451_fk_articles_image_id` FOREIGN KEY (`image_id`) REFERENCES `articles_image` (`id`);
+
+--
+-- Filtros para la tabla `articles_category`
+--
+ALTER TABLE `articles_category`
+  ADD CONSTRAINT `articles_category_img_id_da684201_fk_articles_image_id` FOREIGN KEY (`img_id`) REFERENCES `articles_image` (`id`);
 
 --
 -- Filtros para la tabla `articles_relatedarticles_related`

@@ -16,9 +16,33 @@ def article(request, id):
 def random_article(request):
     return show_article(request, getRandomArticle())
 
+def categories(request):
+    categories = models.Category.objects.all()
+    ctx = {
+        'categories': categories
+    }
+    return render(request, 'articles/categories.html', ctx)
+
 def category(request, id):
-    ctx = {}
+    found = False
+    category = models.Category.objects.filter(id=id)
+    if len(category) > 0:
+        category = models.Category.objects.get(id=id)
+        articles = models.Article.objects.filter(category=category).order_by('title')
+
+    ctx = {
+        'category': category,
+        'articles': articles,
+        'found': found,
+    }
     return render(request, 'articles/category.html', ctx)
+
+def gallery(request):
+    images = models.Image.objects.all().order_by('title')
+    ctx = {
+        'images': images,
+    }
+    return render(request, 'articles/gallery.html', ctx)
 
 def getRandomArticle():
     articles = models.Article.objects.all()
@@ -30,6 +54,9 @@ def show_article(request, article, found = True):
     related = getRelatedArticles(article.title)
     sections = getArticleSections(article)
     images = getArticleImages(article)
+
+    article.views += 1
+    article.save()
 
     ctx = {
         'article': article,
