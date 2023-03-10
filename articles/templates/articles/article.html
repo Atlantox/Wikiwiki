@@ -17,24 +17,31 @@
                     {{article.title}}
                 </h1>
                 <p class="px-2 my-4">
-                    {{article.main}}
+                    {{article.main | safe }}
                 </p>
             </div>
 
             <div class="col-3 p-5 rounded shadowed">
-                <div class="row justify-content-around my-2">
-                    <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(-1)"> < </button>
-                    <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(1)"> > </button>
-                </div>
+
+                {% if article_images|length > 1 %}
+                    <div class="row justify-content-around my-2">
+                        <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(-1)"> < </button>
+                        <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(1)"> > </button>
+                    </div>
+                {% endif %}
 
                 <div class="row p-2">
-                    {% for img in article_images %}
-                        {% if img.order == 1 %}
-                            <img id="img-{{img.order}}" class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
-                        {% else %}
-                            <img id="img-{{img.order}}" class="w-100 d-none article-img" src="{{img.url}}" alt="{{article.title}}">
-                        {% endif %}
-                    {% endfor %}
+                    {% if article_images|length > 1 %}
+                        {% for img in article_images %}
+                            {% if img.order == 1 %}
+                                <img id="img-{{img.order}}" class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
+                            {% else %}
+                                <img id="img-{{img.order}}" class="w-100 d-none article-img" src="{{img.url}}" alt="{{article.title}}">
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <img class="w-100 article-img" src="{{article_images.0.url}}" alt="{{article.title}}">
+                    {% endif %}
                 </div>
 
                 <div class="row mt-3 justify-content-center">
@@ -47,7 +54,7 @@
                         {% else %}
                         <div class="col-6 text-center border">
                         {% endif %}
-                            {{field.1}}
+                            {{field.1 | safe}}
                         </div>
 
                     {% endfor %}
@@ -60,7 +67,7 @@
         {% endfor %}
 
 
-        <div class="row my-3">
+        <div class="row my-3 mt-5 pt-5">
             <div class="d-flex justify-content-start align-items-center">
                 <span class="fs-5 align-middle">Categories: &nbsp;</span>
                 {% for category in article.category.all %}
@@ -69,14 +76,16 @@
             </div>
         </div>
 
-        <div class="row my-3">
-            <div class="d-flex justify-content-start align-items-center">
-                <span class="fs-5 align-middle">Related articles: &nbsp;</span>
-                {% for related in relatedArtices %}
-                    <a class="fs-5 align-middle text-white" href="{% url 'article' related.id %}">{{related.title}}</a>
-                {% endfor %}
+        {% if relatedArtices %}
+            <div class="row my-3">
+                <div class="d-flex justify-content-start align-items-center">
+                    <span class="fs-5 align-middle">Related articles: &nbsp;</span>
+                    {% for related in relatedArtices %}
+                        <a class="fs-5 align-middle text-white mx-2" href="{% url 'article' related.id %}">{{related.title}}</a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        {% endif %}
 
         <style>
             .subtitle{ display:none; }

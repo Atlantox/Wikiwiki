@@ -1,0 +1,19 @@
+{% if section.collapse %}
+    <h2 class="">
+{% else %}
+    <h2 class="border-bottom">
+{% endif %}
+        {{section.title}}
+    </h2>
+
+<div class="row mt-3">
+    <div class="col-9">
+        <p>
+            {{section.content | safe}}
+        </p>
+    </div>
+    <div class="col-3 text-center d-flex flex-column justify-content-center align-items-center">
+        <img class="w-75" src="{{section.images.all.0.img.url}}" alt="{{section.title}} img">
+        <span class="w-75 bg-primary-light">{{section.images.all.0.title}}</span>
+    </div>
+</div>

@@ -50,13 +50,16 @@ def getRandomArticle():
     return articles[random.randint(0, count)]
 
 def show_article(request, article, found = True):
-    summary = getSummary(article)
+    article_names = getAllArticleNames(article.title)
+    summary = getSummary(article, article_names)
     related = getRelatedArticles(article.title)
-    sections = getArticleSections(article)
+    sections = getArticleSections(article, article_names)
     images = getArticleImages(article)
 
     article.views += 1
     article.save()
+
+    article.main = getContentWithLinks(article.main, article_names)
 
     ctx = {
         'article': article,
@@ -69,13 +72,22 @@ def show_article(request, article, found = True):
     
     return render(request, 'articles/article.html', ctx)
 
-def getSummary(article):
+def getSummary(article, ordened_names):
     summary = models.Summary.objects.get(article=article)
+    summary.content = getContentWithLinks(summary.content, ordened_names) 
     fields = summary.content.split(';')
     result = []
     for field in fields:
-        key, value = field.split(':')[0].capitalize(), field.split(':')[1].capitalize()
-        result.append([key, value])
+        if field:
+            key, value = field.split(':')[0], field.split(':')[1]
+            if '</a>' not in value:
+                value = value.capitalize()
+
+            if '</a>' not in key:
+                key = key.capitalize()
+
+            result.append([key, value])
+
     return result
 
 def getRelatedArticles(title):
@@ -87,11 +99,18 @@ def getRelatedArticles(title):
     
     return result
 
-def getArticleSections(article):
+def getArticleSections(article, ordened_names):
     result = []
-    sections = models.Section.objects.filter(targetArticle=article).order_by('order')
+    sections = models.Section.objects.filter(targetArticle=article, visible=True).order_by('order')
     if(len(sections) > 0):
         for section in sections:
+            if(section.content):
+                section.content = getContentWithLinks(section.content, ordened_names)
+
+            if section.sectionType.name in ['Ordened list', 'Unordened list']:
+                elements = [s.capitalize() for s in section.content.split('#;')]
+                section.content = elements
+                
             result.append(section)
     
     return result
@@ -108,3 +127,53 @@ def getArticleImages(article):
         images.append(to_add)
 
     return images
+
+from datetime import datetime
+
+def show_execution_time(func):
+    def wrapper(*args, **kwargs):
+        initial_time = datetime.now()
+        func(*args, **kwargs)
+        final_time = datetime.now()
+        time_elapsed = final_time - initial_time
+        print(f'[TIME]: {time_elapsed.total_seconds()}s')
+    return wrapper()
+
+#@show_execution_time
+def getAllArticleNames(excluded_title = False):
+    articles = models.Article.objects.all().values('id', 'title', 'other_names')
+    ordened_names = []
+    for article in articles:
+        if(article['title'] != excluded_title):
+            names = [n.lower().strip() for n in article['other_names'].split(',') if n != '']   
+            names.append(article['title'])
+            to_add = {
+                'id': article['id'],
+                'names': names
+            }
+            ordened_names.append(to_add)
+    return ordened_names
+    
+
+def getContentWithLinks(content, ordened_names):
+    link = '<a class="" href="/article/{0}">{1}</a>'
+    new_content, old_content = content, content
+    
+    for names in ordened_names:
+        id = names['id']
+        for name in names['names']:
+            C_name = name.capitalize()
+            L_name = name.lower()
+            new_content = new_content.replace(L_name, link.format(id, C_name))
+            if new_content != old_content:
+                print(f'{name} reemplazado \n')
+                old_content = new_content
+                break
+            else:
+                new_content = new_content.replace(C_name, link.format(id, C_name))
+                if new_content != old_content:
+                    print(f'{name} reemplazado \n')
+                    old_content = new_content
+                    break
+
+    return new_content

@@ -1,0 +1,17 @@
+{% if section.collapse %}
+    <h2 class="">
+{% else %}
+    <h2 class="border-bottom">
+{% endif %}
+        {{section.title}}
+    </h2>
+
+<div class="row mt-3">
+    <ul>
+        {% for element in section.content %}
+            <li>
+                {{element | safe}}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
