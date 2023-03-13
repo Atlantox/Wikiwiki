@@ -13,7 +13,12 @@
         </p>
     </div>
     <div class="col-3 text-center d-flex flex-column justify-content-center align-items-center">
-        <img class="w-75" src="{{section.images.all.0.img.url}}" alt="{{section.title}} img">
-        <span class="w-75 bg-primary-light">{{section.images.all.0.title}}</span>
+        {% for img in section.images.all %}
+            <button type="button" class="w-100 h-auto border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#fullImgModal" id="{{img.id}}" onclick="OpenModal({{img.id}})">
+                <img class="w-75" src="{{img.img.url}}" alt="{{section.title}} img">
+            </button>
+            <span class="w-75 bg-primary-light">{{img.title}}</span>
+            {% include 'articles/imgModalLoader.html' %}
+        {% endfor %}
     </div>
 </div>

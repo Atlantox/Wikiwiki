@@ -12,6 +12,10 @@ nav{
     height:60px;
 }
 
+.d-none{
+    display: none !important;
+}
+
 .divisor-bg{
     height:2em;
     background-image: url('./divisor_bg.png');
@@ -538,7 +542,7 @@ nav{
 }
 
 .animated-n{
-    transition:0.5s;
+    transition: visibility 0s, 0.5s;
 }
 
 .animated-s{
@@ -549,25 +553,34 @@ nav{
     transform:rotate(180deg);
 }
 
+
 .collapse-section{
+    max-height: 0;
+    transition: max-height 0.2s ease-out;
+    overflow: hidden;
+    opacity: 0;
     height:0%;
     width:0%;
 }
 
 div.collapse-section > *{
+    opacity: 0;
     font-size: 0px !important;
 }
 
 .visible-collapse-section{
+    opacity: 1;
     height:100%;
     width:100%;
 }
 
 div.visible-collapse-section > span{
+    opacity: 1;
     font-size: 3em !important;
 }
 
 div.visible-collapse-section > p{
+    opacity: 1;
     font-size: 1.1em !important;
 }
 

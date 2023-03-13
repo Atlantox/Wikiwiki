@@ -3,15 +3,34 @@ from django.forms.models import model_to_dict
 from . import models
 import random
 
-def article(request, id):
-    ctx = {}
+def article(request, search:str):
+    names = getAllArticleNames()
+    coincidences = []
     exists = True
-    if len(models.Article.objects.filter(id=id)) == 0:
-        exists = False
+    article = None
+    for name in names:
+        if search.lower() in name['names']:
+            coincidences.append(name['id'])
 
-    article = models.Article.objects.get(id=id)
+    if len(coincidences) > 1:
+        articles = []
+        for id in coincidences:
+            articles.append(models.Article.objects.get(id=id))
+        
+        ctx = {
+            'title': search + ' (disambiguation)',
+            'articles': articles,
+            'found': exists
+            }
+        
+        return loadArticleList(request, ctx)
+    else:
+        if len(coincidences) == 1:
+            article = models.Article.objects.get(id=coincidences[0])
+        else:
+            exists = False
 
-    return show_article(request, article, exists)
+        return show_article(request, article, exists)
 
 def random_article(request):
     return show_article(request, getRandomArticle())
@@ -23,19 +42,25 @@ def categories(request):
     }
     return render(request, 'articles/categories.html', ctx)
 
-def category(request, id):
+def category(request, search):
     found = False
-    category = models.Category.objects.filter(id=id)
-    if len(category) > 0:
-        category = models.Category.objects.get(id=id)
+    articles = None
+    category = models.Category.objects.filter(name=search)
+    if len(category) == 1:
+        category = models.Category.objects.get(name=category[0].name)
         articles = models.Article.objects.filter(category=category).order_by('title')
+        found = True
 
     ctx = {
-        'category': category,
+        'title': search,
         'articles': articles,
         'found': found,
     }
-    return render(request, 'articles/category.html', ctx)
+    return loadArticleList(request, ctx)
+
+def loadArticleList(request, ctx):
+    return render(request, 'articles/list.html', ctx)
+
 
 def gallery(request):
     images = models.Image.objects.all().order_by('title')
@@ -50,25 +75,27 @@ def getRandomArticle():
     return articles[random.randint(0, count)]
 
 def show_article(request, article, found = True):
-    article_names = getAllArticleNames(article.title)
-    summary = getSummary(article, article_names)
-    related = getRelatedArticles(article.title)
-    sections = getArticleSections(article, article_names)
-    images = getArticleImages(article)
+    ctx = { 'found': found}
+    if found:
+        article_names = getAllArticleNames(article.title)
+        summary = getSummary(article, article_names)
+        related = getRelatedArticles(article.title)
+        sections = getArticleSections(article, article_names)
+        images = getArticleImages(article)
 
-    article.views += 1
-    article.save()
+        article.views += 1
+        article.save()
 
-    article.main = getContentWithLinks(article.main, article_names)
+        article.main = getContentWithLinks(article.main, article_names)
 
-    ctx = {
-        'article': article,
-        'article_images': images,
-        'summary': summary,
-        'relatedArtices': related,
-        'sections': sections,
-        'found': found
-        }
+        ctx = {
+            'article': article,
+            'article_images': images,
+            'summary': summary,
+            'relatedArtices': related,
+            'sections': sections,
+            'found': found
+            }
     
     return render(request, 'articles/article.html', ctx)
 
@@ -80,13 +107,16 @@ def getSummary(article, ordened_names):
     for field in fields:
         if field:
             key, value = field.split(':')[0], field.split(':')[1]
-            if '</a>' not in value:
-                value = value.capitalize()
+            censored = False
+            if '#C' in key.upper():
+                key = key.split('#C')[1]
+                censored = True
 
-            if '</a>' not in key:
-                key = key.capitalize()
-
-            result.append([key, value])
+            result.append({
+                'field': key, 
+                'value': value,
+                'censored': censored
+                })
 
     return result
 
@@ -118,6 +148,7 @@ def getArticleSections(article, ordened_names):
 def getArticleImages(article):
     images = []
     count = 1
+    '''
     for img in article.images.all():
         to_add = {
             'url': img.img.url,
@@ -125,28 +156,22 @@ def getArticleImages(article):
         }
         count += 1
         images.append(to_add)
+    '''
 
+    for img in [model_to_dict(ar) | {'url': ar.img.url} for ar in article.images.all()]:
+        to_add = img | {'order' : count}
+        count += 1
+        images.append(to_add)
     return images
 
-from datetime import datetime
 
-def show_execution_time(func):
-    def wrapper(*args, **kwargs):
-        initial_time = datetime.now()
-        func(*args, **kwargs)
-        final_time = datetime.now()
-        time_elapsed = final_time - initial_time
-        print(f'[TIME]: {time_elapsed.total_seconds()}s')
-    return wrapper()
-
-#@show_execution_time
 def getAllArticleNames(excluded_title = False):
     articles = models.Article.objects.all().values('id', 'title', 'other_names')
     ordened_names = []
     for article in articles:
         if(article['title'] != excluded_title):
-            names = [n.lower().strip() for n in article['other_names'].split(',') if n != '']   
-            names.append(article['title'])
+            names = [n.strip().lower() for n in article['other_names'].split(',') if n != '']   
+            names.append(article['title'].lower())
             to_add = {
                 'id': article['id'],
                 'names': names
@@ -156,23 +181,19 @@ def getAllArticleNames(excluded_title = False):
     
 
 def getContentWithLinks(content, ordened_names):
-    link = '<a class="" href="/article/{0}">{1}</a>'
+    link = '<a class="text-capitalize fw-bold text-white" href="/article/{0}">{1}</a>'
     new_content, old_content = content, content
     
     for names in ordened_names:
         id = names['id']
         for name in names['names']:
-            C_name = name.capitalize()
-            L_name = name.lower()
-            new_content = new_content.replace(L_name, link.format(id, C_name))
+            new_content = new_content.replace(name.lower(), link.format(name, name))
             if new_content != old_content:
-                print(f'{name} reemplazado \n')
                 old_content = new_content
                 break
             else:
-                new_content = new_content.replace(C_name, link.format(id, C_name))
+                new_content = new_content.replace(name.capitalize(), link.format(name, name))
                 if new_content != old_content:
-                    print(f'{name} reemplazado \n')
                     old_content = new_content
                     break
 

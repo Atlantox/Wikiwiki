@@ -50,14 +50,18 @@
             <tbody class="fs-6">
                 {% for category in categories %}
                     <tr>
-                        <th class="text-center align-middle p-3 fs-5 fw-bold px-4" colspan="1">{{category.category.name}}</th>
+                        <th class="text-center align-middle p-3 fs-5 fw-bold px-4" colspan="1">
+                            <a class="text-white text-decoration-none" href="{% url 'category' category.category.name %}">
+                                {{category.category.name}}
+                            </a>  
+                        </th>
                         <th class="border border-black fw-normal table-active" colspan="2">
                             <div class="d-flex justify-content-center align-content-center">
                                 <ul class="list-unstyled d-flex flex-wrap justify-content-center align-content-center m-0">
                         
                                     {% for article in category.articles %}
                                         <li class="m-3">
-                                            <a class="underline-hover strong-hover text-decoration-none text-white" href="{% url 'article' article.id %}">{{article.title}}</a>
+                                            <a class="fw-bold text-decoration-none text-white" href="{% url 'article' article.title %}">{{article.title}}</a>
                                         </li>
                                     {% endfor %}
 
@@ -84,7 +88,7 @@
         {% for article in most_viewed %}
             <article class="col-2 row p-2">
                 <figure class="col-12 m-0 p-0 border border-black">
-                    <a href="{% url 'article' article.id %}">
+                    <a href="{% url 'article' article.title %}">
                         <img class="w-100 m-0 p-0" src="{{article.images.all.0.img.url}}" alt="{{article.title}} img">
                     </a>
                 </figure>
@@ -99,17 +103,17 @@
 
 {% include 'WebApp/common/divisor_bg.html' %}
 
-<div class="col-12 row justify-content-center align-content-center mt-5">
+<div class="col-12 row justify-content-center align-content-center my-5">
     <button class="col-12 row text-center justify-content-center border-0 border-bottom bg-transparent" onclick="ToggleCollapse('random_article')">
         <h2 class="m-0 p-0 col-11 align-middle">Random article</h2>
 
         <div class="col-1 m-0 p-0">
-            <img class="m-0 w-50" id="collapse-arrow-random_articlen" src="{% static 'WebApp/icons/arrow_down.png' %}" alt="collapse arrow">
+            <img class="m-0 w-50 animated-f" id="collapse-arrow-random_article" src="{% static 'WebApp/icons/arrow_down.png' %}" alt="collapse arrow">
         </div>
     </button>
 
     <div class="col-12 row justify-content-center">
-        <div class="collapse-section row justify-content-center px-5 mt-3" id="random_article">
+        <div class="row justify-content-center px-5 mt-3 d-none" id="collapse-section-random_article">
             <span>{{random_article.title}}</span>
             <figure class="col-4">
                 <img class="w-100" src="{{random_article.images.all.0.img.url}}" alt="{{random_article.title}} image">
@@ -117,7 +121,7 @@
             <p class ="col-8">
                 {{random_article.main}}
             </p>
-            <a class="text-decoration-none text-white" href="{% url 'article' random_article.id %}">Read more</a>
+            <a class="text-decoration-none text-white" href="{% url 'article' random_article.title %}">Read more</a>
         </div>
     </div>
 </div>

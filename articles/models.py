@@ -1,7 +1,15 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 ARTICLE_TITLE_LENGTH = 40
+XSS_VALIDATOR = [RegexValidator('.[<->]','The field contains suspicous content',inverse_match=True)]
 
+'''
+progress_history = models.IntegerField(
+        verbose_name='Progreso de historia y guion',
+        default=0,
+        validators=[MaxValueValidator(100), MinValueValidator(0)])
+'''
 
 class Image(models.Model):
     title = models.CharField(max_length=30, verbose_name='Image title')
@@ -41,10 +49,10 @@ class Category(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')
-    other_names = models.TextField(verbose_name='Other names', blank=True, null=True)
+    other_names = models.TextField(verbose_name='Other names', blank=True, null=True, validators=XSS_VALIDATOR)
     images = models.ManyToManyField(Image, verbose_name="Article main image(s)")
     category = models.ManyToManyField(Category, verbose_name='Categories')
-    main = models.TextField(verbose_name='Main content')  # This are the firsts paragraphs of content
+    main = models.TextField(verbose_name='Main content', validators=XSS_VALIDATOR) # This are the firsts paragraphs of content   
     views = models.PositiveBigIntegerField(verbose_name='Views number', null=True, default=0)
     created = models.DateTimeField(verbose_name='Created at', auto_now=True)
 
@@ -58,7 +66,7 @@ class Article(models.Model):
 
 class Summary(models.Model):
     article = models.OneToOneField(Article, on_delete=models.CASCADE, default=None, null=True)
-    content = models.TextField(verbose_name="Article's summary content", default=None, null=True)
+    content = models.TextField(verbose_name="Summary's content. Follow this format: name1:value1;name2:value2 \n\n Place #C before any name to set it as censored: #Cstatus:alive", default=None, null=True, validators=XSS_VALIDATOR)
 
     class Meta():
         verbose_name= 'Article summary'
@@ -70,7 +78,7 @@ class Summary(models.Model):
 
 class Section(models.Model):
     title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')
-    content = models.TextField(verbose_name='Section text', blank=True, null=True)
+    content = models.TextField(verbose_name='Section text', blank=True, null=True, validators=XSS_VALIDATOR)
     targetArticle = models.ForeignKey(Article, verbose_name='Target article', on_delete=models.CASCADE)
     images = models.ManyToManyField(Image, verbose_name='Section images', blank=True)
     sectionType = models.ForeignKey(SectionType, verbose_name='Section type', on_delete=models.SET_NULL, null=True)

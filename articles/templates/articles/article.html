@@ -6,6 +6,7 @@
 
     <script>
         var currentImg = 1;
+        var images = {};
     </script>
     {% if not found %}
         <h1>Article not found</h1>
@@ -31,30 +32,34 @@
                 {% endif %}
 
                 <div class="row p-2">
-                    {% if article_images|length > 1 %}
-                        {% for img in article_images %}
-                            {% if img.order == 1 %}
-                                <img id="img-{{img.order}}" class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
+                    {% for img in article_images %}
+                        <button type="button" class="w-100 h-auto border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#fullImgModal" id="{{img.id}}" onclick="OpenModal({{img.id}})">
+                            {% if article_images|length > 1 %}
+                                {% if img.order == 1 %}
+                                    <img id="img-{{img.order}}" class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
+                                {% else %}
+                                    <img id="img-{{img.order}}" class="w-100 d-none article-img" src="{{img.url}}" alt="{{article.title}}">
+                                {% endif %}
                             {% else %}
-                                <img id="img-{{img.order}}" class="w-100 d-none article-img" src="{{img.url}}" alt="{{article.title}}">
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        <img class="w-100 article-img" src="{{article_images.0.url}}" alt="{{article.title}}">
-                    {% endif %}
+                                <img class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
+                                {% endif %}
+                        </button>
+                        {% include 'articles/imgModalLoader.html' %}
+
+                    {% endfor %}
                 </div>
 
                 <div class="row mt-3 justify-content-center">
                     {% for field in summary %}
-                        <div class="col-6 text-center border">
-                            {{field.0}}
+                        <div class="col-6 text-center border text-capitalize">
+                            {{field.field}}
                         </div>
-                        {% if field.0 == 'Status' or field.0 == 'status' %}
-                        <div class="col-6 text-center border censored">
+                        {% if field.censored %}
+                        <div class="col-6 text-center border text-capitalize censored">
                         {% else %}
-                        <div class="col-6 text-center border">
+                        <div class="col-6 text-center border text-capitalize">
                         {% endif %}
-                            {{field.1 | safe}}
+                            {{field.value | safe}}
                         </div>
 
                     {% endfor %}
@@ -71,7 +76,7 @@
             <div class="d-flex justify-content-start align-items-center">
                 <span class="fs-5 align-middle">Categories: &nbsp;</span>
                 {% for category in article.category.all %}
-                    <a class="fs-5 align-middle text-white" href="">{{category.name}}</a>
+                    <a class="fs-5 align-middle text-white" href="{% url 'category' category.name %}">{{category.name}}</a>
                 {% endfor %}
             </div>
         </div>
@@ -81,7 +86,7 @@
                 <div class="d-flex justify-content-start align-items-center">
                     <span class="fs-5 align-middle">Related articles: &nbsp;</span>
                     {% for related in relatedArtices %}
-                        <a class="fs-5 align-middle text-white mx-2" href="{% url 'article' related.id %}">{{related.title}}</a>
+                        <a class="fs-5 align-middle text-white mx-2" href="{% url 'article' related.title %}">{{related.title}}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -91,6 +96,8 @@
             .subtitle{ display:none; }
         </style>
     {% endif %}
+
+    {% include 'articles/imageModal.html' %}
 
     <script>
         var imgCount = document.querySelectorAll(".article-img").length;

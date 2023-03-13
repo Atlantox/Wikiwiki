@@ -4,6 +4,10 @@
 {% load static %}
 {% block content %}
 
+<script>
+    var images = {};
+</script>
+
 <div class="row align-content-center my-3 align-items-center">
 
     <div class="col-12">
@@ -15,15 +19,19 @@
         <div class="col-2 p-2">
             <div class="col-12 row justify-content-center align-items-center text-center bg-primary-light rounded">
                 <figure class="col-12 p-0 m-0"> 
-                    <img class="w-100 m-0" src="{{img.img.url}}" alt="{{img.title}}">
+                    <button type="button" class="w-100 h-auto border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#fullImgModal" id="{{img.id}}" onclick="OpenModal({{img.id}})">
+                        <img class="w-100 m-0" src="{{img.img.url}}" alt="{{img.title}}">
+                    </button>
                 </figure>
                 <h4 class="col-12 p-2 fs-5 m-0">{{img.title}}</h4>
-                
             </div>
         </div>
+        {% include 'articles/imgModalLoader.html' %}
         {% endfor %}
     </div>
 
 </div>
+
+{% include 'articles/imageModal.html' %}
 
 {% endblock %}

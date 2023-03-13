@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-03-2023 a las 17:04:44
+-- Tiempo de generación: 13-03-2023 a las 23:22:33
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -41,8 +41,11 @@ CREATE TABLE `articles_article` (
 --
 
 INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`) VALUES
-(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 49, '2023-03-07 16:01:54.622191'),
-(2, 'Dark elves', '', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 8, '2023-03-07 14:05:31.958188');
+(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 226, '2023-03-13 22:22:11.850818'),
+(2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 18, '2023-03-13 22:05:27.353806'),
+(3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 76, '2023-03-13 22:02:53.826756'),
+(4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 7, '2023-03-13 22:02:12.593008'),
+(5, 'Liz\'Amar(War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 2, '2023-03-13 22:02:43.654803');
 
 -- --------------------------------------------------------
 
@@ -62,7 +65,10 @@ CREATE TABLE `articles_article_category` (
 
 INSERT INTO `articles_article_category` (`id`, `article_id`, `category_id`) VALUES
 (1, 1, 1),
-(2, 2, 5);
+(2, 2, 5),
+(3, 3, 1),
+(4, 4, 1),
+(5, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -83,7 +89,10 @@ CREATE TABLE `articles_article_images` (
 INSERT INTO `articles_article_images` (`id`, `article_id`, `image_id`) VALUES
 (1, 1, 1),
 (3, 1, 5),
-(2, 2, 4);
+(2, 2, 4),
+(4, 3, 11),
+(5, 4, 3),
+(7, 5, 12);
 
 -- --------------------------------------------------------
 
@@ -135,7 +144,9 @@ INSERT INTO `articles_image` (`id`, `title`, `img`, `description`) VALUES
 (7, 'Characters category', 'article_imgs/characters.png', ''),
 (8, 'Festivities category', 'article_imgs/festivities.png', ''),
 (9, 'Races categories', 'article_imgs/races.png', ''),
-(10, 'Heroes category', 'article_imgs/heroes.png', '');
+(10, 'Heroes category', 'article_imgs/heroes.png', ''),
+(11, 'Stealth instructor', 'article_imgs/Stealth_instructor.jpg', ''),
+(12, 'Armored LizAmar', 'article_imgs/Armored_Liz_Amar.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -154,7 +165,8 @@ CREATE TABLE `articles_relatedarticles` (
 
 INSERT INTO `articles_relatedarticles` (`id`, `article_title`) VALUES
 (1, 'Stefannie Kyoi'),
-(2, 'Dark elves');
+(2, 'Dark elves'),
+(3, 'Stealth Instructor');
 
 -- --------------------------------------------------------
 
@@ -174,7 +186,9 @@ CREATE TABLE `articles_relatedarticles_related` (
 
 INSERT INTO `articles_relatedarticles_related` (`id`, `relatedarticles_id`, `article_id`) VALUES
 (1, 1, 2),
-(2, 2, 1);
+(2, 2, 1),
+(3, 3, 1),
+(4, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -199,7 +213,9 @@ CREATE TABLE `articles_section` (
 
 INSERT INTO `articles_section` (`id`, `title`, `content`, `order`, `visible`, `collapse`, `sectionType_id`, `targetArticle_id`) VALUES
 (1, 'Personality', 'Stefannie is very independent, logical and solitaire,  always search the self benefit and never helps others without gain something, she is very direct and in many cases cruel.', 1, 1, 0, 1, 1),
-(2, 'Death', 'Stefanne dies of an horrible form, forcing to be furry', 2, 1, 1, 1, 1);
+(2, 'Death', 'Stefanne dies of an horrible form, forcing to be furry', 2, 1, 1, 1, 1),
+(3, 'Family', 'Stefannie has only a single familiar alive, is her mother, en other words, the stealth instructor', 2, 1, 1, 2, 1),
+(4, 'Disgusts', 'Disorder#;injustice#;sloth people', 4, 1, 0, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -235,6 +251,13 @@ CREATE TABLE `articles_section_images` (
   `image_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `articles_section_images`
+--
+
+INSERT INTO `articles_section_images` (`id`, `section_id`, `image_id`) VALUES
+(1, 3, 11);
+
 -- --------------------------------------------------------
 
 --
@@ -252,8 +275,11 @@ CREATE TABLE `articles_summary` (
 --
 
 INSERT INTO `articles_summary` (`id`, `article_id`, `content`) VALUES
-(1, 1, 'Gender:female;Birthplace:Quimol;Status:alive'),
-(2, 2, 'Skin:grey;District:Neburia;Speciality:Self control');
+(1, 1, 'Gender:female;Birthplace:Quimol;#CStatus:alive'),
+(2, 2, 'Skin:grey;District:Neburia;Speciality:Self control'),
+(3, 3, 'Gender:female;age:unknown;Race:dark elf;#Cstatus:alive'),
+(4, 4, 'Gender:Female;race:orc;#Cstatus:alive;age:21-22;'),
+(5, 5, 'race:orc;age:25;gender:female;#Cstatus:dead');
 
 -- --------------------------------------------------------
 
@@ -378,7 +404,7 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-02-27 16:36:05.052489', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947');
+(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-03-13 15:00:13.501391', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947');
 
 -- --------------------------------------------------------
 
@@ -465,7 +491,43 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (37, '2023-03-07 14:50:41.257249', '4', 'Festivities', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
 (38, '2023-03-07 14:50:46.503121', '3', 'Heroes', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
 (39, '2023-03-07 14:50:56.290403', '2', 'Places', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
-(40, '2023-03-07 14:51:03.182086', '1', 'Characters', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1);
+(40, '2023-03-07 14:51:03.182086', '1', 'Characters', 2, '[{\"changed\": {\"fields\": [\"Category image\"]}}]', 8, 1),
+(41, '2023-03-10 16:13:13.394311', '11', 'Stealth instructor', 1, '[{\"added\": {}}]', 9, 1),
+(42, '2023-03-10 16:13:23.145406', '3', 'Family: Stefannie Kyoi', 1, '[{\"added\": {}}]', 12, 1),
+(43, '2023-03-10 16:34:43.270604', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Section type\"]}}]', 12, 1),
+(44, '2023-03-10 16:34:59.944508', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Is collapse\"]}}]', 12, 1),
+(45, '2023-03-10 16:36:04.045039', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Is visible\"]}}]', 12, 1),
+(46, '2023-03-10 16:36:17.398700', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Is visible\", \"Is collapse\"]}}]', 12, 1),
+(47, '2023-03-10 17:01:59.815024', '4', 'Disgusts: Stefannie Kyoi', 1, '[{\"added\": {}}]', 12, 1),
+(48, '2023-03-10 17:03:43.492225', '4', 'Disgusts: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Show order\"]}}]', 12, 1),
+(49, '2023-03-10 18:43:58.075559', '4', 'Disgusts: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Is collapse\"]}}]', 12, 1),
+(50, '2023-03-10 18:45:08.991830', '4', 'Disgusts: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Is collapse\"]}}]', 12, 1),
+(51, '2023-03-10 18:45:39.054272', '4', 'Disgusts: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Is collapse\"]}}]', 12, 1),
+(52, '2023-03-10 18:46:31.234449', '4', 'Disgusts: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Section type\"]}}]', 12, 1),
+(53, '2023-03-10 18:48:05.491117', '2', 'Dark elves', 2, '[{\"changed\": {\"fields\": [\"Other names\"]}}]', 7, 1),
+(54, '2023-03-10 19:03:47.658707', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Other names\"]}}]', 7, 1),
+(55, '2023-03-10 19:03:58.949325', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Other names\"]}}]', 7, 1),
+(56, '2023-03-10 20:26:37.428241', '3', 'Stealth Instructor', 1, '[{\"added\": {}}]', 7, 1),
+(57, '2023-03-10 20:27:50.545323', '3', 'Stealth Instructor\'s summary', 1, '[{\"added\": {}}]', 11, 1),
+(58, '2023-03-10 20:32:00.361654', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(59, '2023-03-10 20:43:15.212630', '3', 'Stealth Instructor', 1, '[{\"added\": {}}]', 13, 1),
+(60, '2023-03-10 20:43:47.453380', '3', 'Stealth Instructor', 2, '[]', 13, 1),
+(61, '2023-03-13 15:00:47.745862', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(62, '2023-03-13 15:01:20.697256', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(63, '2023-03-13 15:01:33.611670', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(64, '2023-03-13 16:01:52.391328', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(65, '2023-03-13 16:02:32.390805', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(66, '2023-03-13 16:02:54.213926', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(67, '2023-03-13 16:15:25.518635', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(68, '2023-03-13 18:51:25.151902', '3', 'Stealth Instructor\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(69, '2023-03-13 19:53:11.197756', '1', 'Stefannie Kyoi\'s summary', 2, '[{\"changed\": {\"fields\": [\"Article\'s summary content\"]}}]', 11, 1),
+(70, '2023-03-13 20:02:58.775383', '4', 'Liz\'Amar (Tales of Venslla)', 1, '[{\"added\": {}}]', 7, 1),
+(71, '2023-03-13 20:03:41.443984', '4', 'Liz\'Amar (Tales of Venslla)\'s summary', 1, '[{\"added\": {}}]', 11, 1),
+(72, '2023-03-13 20:06:12.943181', '12', 'Armored LizAmar', 1, '[{\"added\": {}}]', 9, 1),
+(73, '2023-03-13 20:07:19.521932', '5', 'Liz\'Amar(War of Venslla)', 1, '[{\"added\": {}}]', 7, 1),
+(74, '2023-03-13 20:07:52.858487', '5', 'Liz\'Amar(War of Venslla)\'s summary', 1, '[{\"added\": {}}]', 11, 1),
+(75, '2023-03-13 20:11:11.042854', '5', 'Liz\'Amar(War of Venslla)', 2, '[{\"changed\": {\"fields\": [\"Article main image(s)\"]}}]', 7, 1),
+(76, '2023-03-13 22:22:10.052966', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Section type\"]}}]', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -544,7 +606,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (25, 'articles', '0006_alter_article_views', '2023-02-27 17:05:45.442232'),
 (26, 'articles', '0007_remove_summary_summary_summary_content', '2023-03-05 21:19:23.514649'),
 (27, 'articles', '0008_rename_articletype_section_sectiontype', '2023-03-06 21:07:16.965857'),
-(28, 'articles', '0009_category_img', '2023-03-07 14:41:13.098173');
+(28, 'articles', '0009_category_img', '2023-03-07 14:41:13.098173'),
+(29, 'articles', '0010_alter_article_main_alter_article_other_names_and_more', '2023-03-13 15:48:15.474790');
 
 -- --------------------------------------------------------
 
@@ -563,6 +626,7 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('g0sp2045v70u1j3sbhvkoqiyeuje3iat', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pbjen:0sMOiyUpzreGGVFBmCulmLIcz477SyeMO9tY9AzeFDw', '2023-03-27 15:00:13.534438'),
 ('lyv9sqtvjb69vsb48fczdp02vv3x9015', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pWgTt:1vYdSAl2c65cvQVTtWQuEKvsG1Rg7oVMjTdNb5F1rNk', '2023-03-13 16:36:05.060484');
 
 -- --------------------------------------------------------
@@ -749,19 +813,19 @@ ALTER TABLE `webapp_contact`
 -- AUTO_INCREMENT de la tabla `articles_article`
 --
 ALTER TABLE `articles_article`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_article_category`
 --
 ALTER TABLE `articles_article_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_article_images`
 --
 ALTER TABLE `articles_article_images`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_category`
@@ -773,25 +837,25 @@ ALTER TABLE `articles_category`
 -- AUTO_INCREMENT de la tabla `articles_image`
 --
 ALTER TABLE `articles_image`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_relatedarticles`
 --
 ALTER TABLE `articles_relatedarticles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_relatedarticles_related`
 --
 ALTER TABLE `articles_relatedarticles_related`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_section`
 --
 ALTER TABLE `articles_section`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_sectiontype`
@@ -803,13 +867,13 @@ ALTER TABLE `articles_sectiontype`
 -- AUTO_INCREMENT de la tabla `articles_section_images`
 --
 ALTER TABLE `articles_section_images`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_summary`
 --
 ALTER TABLE `articles_summary`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_group`
@@ -851,7 +915,7 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`
@@ -863,7 +927,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `webapp_contact`

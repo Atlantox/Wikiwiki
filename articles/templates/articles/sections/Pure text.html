@@ -1,11 +1,13 @@
-{% if section.collapse %}
-    <h2 class="">
-{% else %}
-    <h2 class="border-bottom">
-{% endif %}
 
-    {{section.title}}
-</h2>
-<p class="p-2 mx-2">
-    {{section.content | safe}}
-</p>
+<div class="row">
+    <div class="col-12">
+        <h2 class="border-bottom m-0">
+            {{section.title}}
+        </h2>
+    </div>
+    <div class="col-12">
+        <p class="p-2 py-0 mx-2">
+            {{section.content | safe}}
+        </p>
+    </div>
+</div>
