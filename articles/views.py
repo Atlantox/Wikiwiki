@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.forms.models import model_to_dict
 from . import models
+from comments.models import Comment
 import random
 
 def article(request, search:str):

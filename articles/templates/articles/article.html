@@ -92,10 +92,12 @@
             </div>
         {% endif %}
 
-        <style>
-            .subtitle{ display:none; }
-        </style>
+        {% include 'comments/comment_list.html' %}
     {% endif %}
+
+    <style>
+        .subtitle{ display:none; }
+    </style>
 
     {% include 'articles/imageModal.html' %}
 

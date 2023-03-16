@@ -27,4 +27,4 @@ function OpenModal(id){
     document.getElementById("modal-content").innerHTML = current_img.content;
     document.getElementById("modal-img").src = current_img.url;
 
-}   
+}

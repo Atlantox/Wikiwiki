@@ -1,0 +1,52 @@
+<div class="row flex-column" id="comments_section">
+
+</div>
+
+<script>
+
+    String.prototype.format = function () {
+        // store arguments in an array
+        var args = arguments;
+        // use replace to iterate over the string
+        // select the match and check if the related argument is present
+        // if yes, replace the match with the argument
+        return this.replace(/{([0-9]+)}/g, function (match, index) {
+        // check if the argument is present
+        return typeof args[index] == 'undefined' ? match : args[index];
+        });
+    };
+
+
+    let id_written = [];
+    function CheckComments(){
+        console.log("checking comments...");
+        var xhReq = new XMLHttpRequest();
+        xhReq.open("GET", window.location.origin + "/api/comments", false);
+        xhReq.send(null);
+        var comments = JSON.parse(xhReq.responseText).comments;
+    
+    
+        var template = 
+            '<section class="col-12">'+
+                ' <h4>{0}</h4>' +
+            '</section>'
+        
+        var comments_section = document.getElementById("comments_section");
+        
+        comments.forEach(comment => {
+            if(!id_written.includes(comment.id)){
+                comments_section.innerHTML += template.format(comment.content);
+                id_written.push(comment.id);
+            }
+        });
+    }
+
+    CheckComments();
+    
+    setInterval(function(){
+        CheckComments();
+    }
+    ,10000);
+
+</script>
+

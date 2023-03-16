@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'articles',
     'WebApp',
+    'comments',
+    'api',
 ]
 
 MIDDLEWARE = [

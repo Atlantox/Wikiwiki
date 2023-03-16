@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-03-2023 a las 23:22:33
+-- Tiempo de generación: 16-03-2023 a las 22:49:19
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -41,11 +41,11 @@ CREATE TABLE `articles_article` (
 --
 
 INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`) VALUES
-(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 226, '2023-03-13 22:22:11.850818'),
+(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 256, '2023-03-16 21:06:36.456414'),
 (2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 18, '2023-03-13 22:05:27.353806'),
 (3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 76, '2023-03-13 22:02:53.826756'),
 (4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 7, '2023-03-13 22:02:12.593008'),
-(5, 'Liz\'Amar(War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 2, '2023-03-13 22:02:43.654803');
+(5, 'Liz\'Amar(War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 3, '2023-03-16 19:37:52.121342');
 
 -- --------------------------------------------------------
 
@@ -377,7 +377,15 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (53, 'Can add contact', 14, 'add_contact'),
 (54, 'Can change contact', 14, 'change_contact'),
 (55, 'Can delete contact', 14, 'delete_contact'),
-(56, 'Can view contact', 14, 'view_contact');
+(56, 'Can view contact', 14, 'view_contact'),
+(57, 'Can add Comment', 15, 'add_comment'),
+(58, 'Can change Comment', 15, 'change_comment'),
+(59, 'Can delete Comment', 15, 'delete_comment'),
+(60, 'Can view Comment', 15, 'view_comment'),
+(61, 'Can add author', 16, 'add_author'),
+(62, 'Can change author', 16, 'change_author'),
+(63, 'Can delete author', 16, 'delete_author'),
+(64, 'Can view author', 16, 'view_author');
 
 -- --------------------------------------------------------
 
@@ -428,6 +436,32 @@ CREATE TABLE `auth_user_user_permissions` (
   `id` bigint(20) NOT NULL,
   `user_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comments_author`
+--
+
+CREATE TABLE `comments_author` (
+  `id` bigint(20) NOT NULL,
+  `nickname` varchar(20) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comments_comment`
+--
+
+CREATE TABLE `comments_comment` (
+  `id` bigint(20) NOT NULL,
+  `content` varchar(200) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `article_id` bigint(20) NOT NULL,
+  `author_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -527,7 +561,9 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (73, '2023-03-13 20:07:19.521932', '5', 'Liz\'Amar(War of Venslla)', 1, '[{\"added\": {}}]', 7, 1),
 (74, '2023-03-13 20:07:52.858487', '5', 'Liz\'Amar(War of Venslla)\'s summary', 1, '[{\"added\": {}}]', 11, 1),
 (75, '2023-03-13 20:11:11.042854', '5', 'Liz\'Amar(War of Venslla)', 2, '[{\"changed\": {\"fields\": [\"Article main image(s)\"]}}]', 7, 1),
-(76, '2023-03-13 22:22:10.052966', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Section type\"]}}]', 12, 1);
+(76, '2023-03-13 22:22:10.052966', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Section type\"]}}]', 12, 1),
+(77, '2023-03-16 19:32:51.658614', '1', 'She is my favourite!', 1, '[{\"added\": {}}]', 15, 1),
+(78, '2023-03-16 20:29:30.518442', '2', 'I love her!', 1, '[{\"added\": {}}]', 15, 1);
 
 -- --------------------------------------------------------
 
@@ -557,6 +593,8 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (3, 'auth', 'group'),
 (2, 'auth', 'permission'),
 (4, 'auth', 'user'),
+(16, 'comments', 'author'),
+(15, 'comments', 'comment'),
 (5, 'contenttypes', 'contenttype'),
 (6, 'sessions', 'session'),
 (14, 'WebApp', 'contact');
@@ -607,7 +645,10 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (26, 'articles', '0007_remove_summary_summary_summary_content', '2023-03-05 21:19:23.514649'),
 (27, 'articles', '0008_rename_articletype_section_sectiontype', '2023-03-06 21:07:16.965857'),
 (28, 'articles', '0009_category_img', '2023-03-07 14:41:13.098173'),
-(29, 'articles', '0010_alter_article_main_alter_article_other_names_and_more', '2023-03-13 15:48:15.474790');
+(29, 'articles', '0010_alter_article_main_alter_article_other_names_and_more', '2023-03-13 15:48:15.474790'),
+(30, 'articles', '0011_alter_article_main_alter_article_other_names_and_more', '2023-03-16 19:32:02.911786'),
+(31, 'comments', '0001_initial', '2023-03-16 19:32:04.550655'),
+(32, 'comments', '0002_alter_comment_content_author_comment_author', '2023-03-16 21:48:41.906761');
 
 -- --------------------------------------------------------
 
@@ -772,6 +813,21 @@ ALTER TABLE `auth_user_user_permissions`
   ADD KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`);
 
 --
+-- Indices de la tabla `comments_author`
+--
+ALTER TABLE `comments_author`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comments_author_user_id_ba33c815_fk_auth_user_id` (`user_id`);
+
+--
+-- Indices de la tabla `comments_comment`
+--
+ALTER TABLE `comments_comment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comments_comment_article_id_94fe60a2_fk_articles_article_id` (`article_id`),
+  ADD KEY `comments_comment_author_id_334ce9e2_fk_comments_author_id` (`author_id`);
+
+--
 -- Indices de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
@@ -891,7 +947,7 @@ ALTER TABLE `auth_group_permissions`
 -- AUTO_INCREMENT de la tabla `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_user`
@@ -912,22 +968,34 @@ ALTER TABLE `auth_user_user_permissions`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `comments_author`
+--
+ALTER TABLE `comments_author`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `comments_comment`
+--
+ALTER TABLE `comments_comment`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `webapp_contact`
@@ -1012,6 +1080,19 @@ ALTER TABLE `auth_user_groups`
 ALTER TABLE `auth_user_user_permissions`
   ADD CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Filtros para la tabla `comments_author`
+--
+ALTER TABLE `comments_author`
+  ADD CONSTRAINT `comments_author_user_id_ba33c815_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Filtros para la tabla `comments_comment`
+--
+ALTER TABLE `comments_comment`
+  ADD CONSTRAINT `comments_comment_article_id_94fe60a2_fk_articles_article_id` FOREIGN KEY (`article_id`) REFERENCES `articles_article` (`id`),
+  ADD CONSTRAINT `comments_comment_author_id_334ce9e2_fk_comments_author_id` FOREIGN KEY (`author_id`) REFERENCES `comments_author` (`id`);
 
 --
 -- Filtros para la tabla `django_admin_log`
