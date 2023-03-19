@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.forms.models import model_to_dict
+from comments.views import CommentForm
 from . import models
-from comments.models import Comment
 import random
 
 def article(request, search:str):
@@ -75,7 +75,7 @@ def getRandomArticle():
     count = len(articles) - 1
     return articles[random.randint(0, count)]
 
-def show_article(request, article, found = True):
+def show_article(request, article, found = True, move_to = False):
     ctx = { 'found': found}
     if found:
         article_names = getAllArticleNames(article.title)
@@ -83,7 +83,8 @@ def show_article(request, article, found = True):
         related = getRelatedArticles(article.title)
         sections = getArticleSections(article, article_names)
         images = getArticleImages(article)
-
+        comment_form = CommentForm()
+        
         article.views += 1
         article.save()
 
@@ -95,6 +96,8 @@ def show_article(request, article, found = True):
             'summary': summary,
             'relatedArtices': related,
             'sections': sections,
+            'comment_form': comment_form,
+            'move_to': move_to,
             'found': found
             }
     
