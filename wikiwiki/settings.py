@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'articles',
     'WebApp',
     'comments',
+    'authentication',
     'api',
 ]
 

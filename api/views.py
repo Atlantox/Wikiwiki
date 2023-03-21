@@ -2,8 +2,9 @@ from django.http.response import JsonResponse
 from django.views import View
 from django.forms.models import model_to_dict
 from comments import models as Com
+from comments.views import CommentForm
 from articles import models as Art
-from articles.views import show_article
+import re
 
 class Comment(View):
 
@@ -12,7 +13,7 @@ class Comment(View):
             comments = Com.Comment.objects.filter(article=art_id)
             comments = getOrderedComments(comments)
             if len(comments) > 0:
-                data = {'message': 'Success', 'comments': comments}
+                data = {'message': 'Success', 'comments': comments,}
         else:
             comments = Com.Comment.objects.all()
 
@@ -29,25 +30,27 @@ class Comment(View):
     def post(self, request, art_id):
         author = Com.Author.objects.get(user=request.user)
         article = Art.Article.objects.get(id=art_id)
-        to_add = Com.Comment(
-            author=author,
-            content=request.POST['comment'],
-            article=article)
-        
-        to_add.save()
-        
-        return show_article(request, article, move_to='comments_section')
+        content = request.POST['comment']
+        form = CommentForm(request.POST)
+        if form.is_valid() and not re.search('[<>]', content):
+            to_add = Com.Comment(
+                author=author,
+                content=form.cleaned_data['comment'],
+                article=article)
 
-    def put(self, request):
-        pass
+            to_add.save()
+            data = {'status': 'ok'}
+            #return redirect('article', search=str(art_id))
+        else:
+            data = {'status': 'fail'}
+            #return redirect('article', search=str(art_id), error=1)
+        return JsonResponse(data)
 
-    def delete(self, request):
-        pass
 
 def getOrderedComments(comments):
     result = []
     for comment in comments:
-        if '<' in comment.content or '>' in comment.content:
+        if re.search('[<>]', comment.content):
             continue
 
         myDate = str(comment.created.strftime('%Y-%m-%d %H:%M'))

@@ -41,6 +41,19 @@
               Contact
             </a>
           </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item mx-2">
+              <a class="underline-hover nav-link text-white fw-bold" href="{% url 'log_out' %}">
+                Logout
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item mx-2">
+              <a class="underline-hover nav-link text-white fw-bold" href="{% url 'log_in' %}">
+                Log In
+              </a>
+            </li>
+          {% endif %}
           
         </ul>
       </div>

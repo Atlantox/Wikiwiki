@@ -4,34 +4,39 @@ from comments.views import CommentForm
 from . import models
 import random
 
-def article(request, search:str):
-    names = getAllArticleNames()
-    coincidences = []
-    exists = True
-    article = None
-    for name in names:
-        if search.lower() in name['names']:
-            coincidences.append(name['id'])
-
-    if len(coincidences) > 1:
-        articles = []
-        for id in coincidences:
-            articles.append(models.Article.objects.get(id=id))
-        
-        ctx = {
-            'title': search + ' (disambiguation)',
-            'articles': articles,
-            'found': exists
-            }
-        
-        return loadArticleList(request, ctx)
+def article(request, search:str, error = 0):
+    if search.isnumeric():
+        article = models.Article.objects.filter(id=int(search))
+        exists = True if len(article) > 0 else False
+        return show_article(request, article.first(), exists, commentError=error)
     else:
-        if len(coincidences) == 1:
-            article = models.Article.objects.get(id=coincidences[0])
-        else:
-            exists = False
+        names = getAllArticleNames()
+        coincidences = []
+        exists = True
+        article = None
+        for name in names:
+            if search.lower() in name['names']:
+                coincidences.append(name['id'])
 
-        return show_article(request, article, exists)
+        if len(coincidences) > 1:
+            articles = []
+            for id in coincidences:
+                articles.append(models.Article.objects.get(id=id))
+            
+            ctx = {
+                'title': search + ' (disambiguation)',
+                'articles': articles,
+                'found': exists
+                }
+            
+            return loadArticleList(request, ctx)
+        else:
+            if len(coincidences) == 1:
+                article = models.Article.objects.get(id=coincidences[0])
+            else:
+                exists = False
+
+            return show_article(request, article, exists, commentError=error)
 
 def random_article(request):
     return show_article(request, getRandomArticle())
@@ -75,7 +80,7 @@ def getRandomArticle():
     count = len(articles) - 1
     return articles[random.randint(0, count)]
 
-def show_article(request, article, found = True, move_to = False):
+def show_article(request, article, found = True, move_to = False, commentError = 0):
     ctx = { 'found': found}
     if found:
         article_names = getAllArticleNames(article.title)
@@ -98,6 +103,7 @@ def show_article(request, article, found = True, move_to = False):
             'sections': sections,
             'comment_form': comment_form,
             'move_to': move_to,
+            'error': commentError,
             'found': found
             }
     

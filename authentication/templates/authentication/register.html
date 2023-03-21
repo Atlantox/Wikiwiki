@@ -1,0 +1,18 @@
+{% extends 'WebApp/common/base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center mb-5">
+    <div class="col-12 text-center my-4">
+        <h1 class="w-100">Register</h1>
+    </div>
+    <form class="row col-5 flex-column bg-primary-dark align-items-center p-4" action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button class="col-5 fs-5 p-2 bg-primary-light my-3" type="submit">Register</button>
+    </form>
+</div>
+
+{% endblock %}

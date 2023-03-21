@@ -4,7 +4,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('article/<str:search>', views.article, name='article'),
+    path('article/<str:search>/', views.article, name='article'),
+    path('article/<str:search>/<int:error>/', views.article, name='article'),
     path('random/', views.random_article, name='random_article'),
     path('categories/', views.categories, name='categories'),
     path('category/<str:search>', views.category, name='category'),

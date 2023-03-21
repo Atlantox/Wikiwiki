@@ -95,21 +95,69 @@
 
 
         <div class="row justify-content-center p-5">
-            <h3 class="col-12">Comments</h3>
+            <h3 class="col-12">Comments (becareful with spoilers)</h3>
             {% include 'WebApp/common/divisor_bg.html' %}
             <div class="row col-11 border border-1 border-primary-light justify-content-center align-items-center flex-column my-3">
                 {% include 'comments/comment_list.html' %}
 
                 {% if user.is_authenticated %}
-                    <form class="row justify-content-center align-middle" action="{% url 'add_comment' article.id %}" method="POST"> {% csrf_token %}
+                    {% if error %}
+                        <div class="row">
+                            <h4 class="text-danger text-center">Invalid comment</h4>
+                        </div>
+                    {% endif %}
+                    
+                    <form class="row justify-content-center align-middle" id="comment_form" novalidate> {% csrf_token %}
                         <div class="row p-2 align-items-center justify-content-center">
                             {% for field in comment_form %}
                                 <label class="fs-5 col-2 align-middle text-end align-self-start" for="{{ field.auto_id }}">Write your comment:</label>
                                 {{field}}
                             {% endfor %}
-                            <button class="col-3 fs-5 p-2 bg-primary-light my-3" type="submit" >Comment</button>
+                            <button class="col-3 fs-5 p-2 bg-primary-light my-3" type="submit">Comment</button>
                         </div>
                     </form>
+
+                    <script>
+                        // Thanks to: https://programadorwebvalencia.com/django-crear-formulario-de-contacto/
+                        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                        const form = document.querySelector('#comment_form');
+                
+                        //// Functions
+                
+                        function sendForm(event) {
+                            event.preventDefault();
+                            const request = new Request(
+                                "{% url 'add_comment' article.id %}",
+                                {
+                                    method: 'POST',
+                                    headers: {'X-CSRFToken': csrfToken},
+                                    mode: 'same-origin',
+                                    body: new FormData(form)
+                                }
+                            );
+                            fetch(request)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return response.json();
+                                    }
+                                    throw new Error('Something is wrong with the server.');
+                                })
+                                .then(function(data) {
+                                    console.log(data)
+                                    if (data.status === 'ok') {
+                                        //alert('Mensaje enviado correctamente');
+                                        form.reset();
+                                        CheckComments();
+                                    } else {
+                                        alert("The comment's content is invalid.");
+                                    }
+                                });
+                        }
+                
+                        //// Events
+                        form.addEventListener('submit', sendForm);
+                    </script>
+
                 {% endif %}
                 
             </div>
@@ -120,7 +168,6 @@
     <style>
         .subtitle{ display:none; }
     </style>
-
     
     {% include 'articles/imageModal.html' %}
 
@@ -149,9 +196,9 @@
         }
     </script>
 
-    {% if move_to %}
+    {% if error %}
         <script>
-            document.getElementById("{{move_to}}").scrollIntoView({behavior: "smooth"});
+            setTimeout(() => {  document.getElementById("comment_form").scrollIntoView({behavior: "smooth"}); }, 100);
         </script>
     {% endif %}
 
