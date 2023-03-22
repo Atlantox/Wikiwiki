@@ -10,7 +10,19 @@
     </div>
     <form class="row col-5 flex-column bg-primary-dark align-items-center p-5 pb-0" action="{% url 'log_in' %}" method="POST">
         {% csrf_token %}
-        {{form}}
+        {% for field in form %}
+            <label class="fw-bold fs-4" for="{{label.id_for_label}}">{{field.label}}</label>
+            <p class="px-4">{{field.help_text}}</p>
+            {{field}}
+        {% endfor %}
+
+        {% if messages %}
+            <ul class="list-unstyled">
+                {% for msg in messages %}
+                    <li class="text-danger" >{{msg}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <button class="col-4 fs-5 p-2 bg-primary-light my-3" type="submit">Log In</button>
     </form>
 

@@ -59,3 +59,27 @@ def getOrderedComments(comments):
         result.append(new_comment)
         
     return result
+
+class Favourite(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            author = Com.Author.objects.get(user=request.user)
+            favourites = Com.FavouriteArticles.objects.get(user=author)
+            favourites = [fa for fa in favourites.articles.all().values('id', 'title') ]
+            print(favourites)
+            data = {
+                'message': 'success',
+                'status': 'ok',
+                'favourites': favourites
+            }
+
+            return JsonResponse(data)
+
+        else:
+            return JsonResponse({'message:': 'You are not logged in', 'status': 'fail'})
+
+    def post(self, request, id):
+        pass
+
+    def delete(self, request, id):
+        pass

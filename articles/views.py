@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.forms.models import model_to_dict
 from comments.views import CommentForm
+from comments.models import Author, FavouriteArticles
 from . import models
 import random
 
@@ -58,11 +59,28 @@ def category(request, search):
         found = True
 
     ctx = {
-        'title': search,
+        'title': search + ' Category',
         'articles': articles,
         'found': found,
     }
     return loadArticleList(request, ctx)
+
+def favouriteArticles(request):
+    if request.user.is_authenticated:
+        author = Author.objects.get(user=request.user)
+        favourites = FavouriteArticles.objects.get(user=author)
+
+        articles = [ a for a in favourites.articles.all() ]
+
+        ctx = {
+            'title': 'Your favourite articles',
+            'articles': articles,
+            'found': True
+        }
+        return loadArticleList(request, ctx)
+    else:
+        return redirect('Home')
+
 
 def loadArticleList(request, ctx):
     return render(request, 'articles/list.html', ctx)
@@ -158,15 +176,6 @@ def getArticleSections(article, ordened_names):
 def getArticleImages(article):
     images = []
     count = 1
-    '''
-    for img in article.images.all():
-        to_add = {
-            'url': img.img.url,
-            'order': count
-        }
-        count += 1
-        images.append(to_add)
-    '''
 
     for img in [model_to_dict(ar) | {'url': ar.img.url} for ar in article.images.all()]:
         to_add = img | {'order' : count}

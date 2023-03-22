@@ -1,19 +1,17 @@
 {% extends 'WebApp/common/base.html' %}
 
-{% block title %} Register {% endblock %}
+{% block title %} Set your nickname {% endblock %}
 
 {% block content %}
 
 <div class="row justify-content-center mb-5">
     <div class="col-12 text-center my-4">
-        <h1 class="w-100">Register</h1>
+        <h1 class="w-100">Set your nickname</h1>
     </div>
-    <form class="row col-5 flex-column bg-primary-dark align-items-center p-4" action="{% url 'register' %}" method="POST">
+    <form class="row col-5 flex-column bg-primary-dark align-items-center p-4" action="{% url 'set_nickname' %}" method="POST">
         {% csrf_token %}
 
         {% for field in form %}
-            <label class="fw-bold fs-4" for="{{label.id_for_label}}">{{field.label}}</label>
-            <p class="px-4">{{field.help_text}}</p>
             {{field}}
         {% endfor %}
 
@@ -24,7 +22,7 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <button class="col-5 fs-5 p-2 bg-primary-light my-3" type="submit">Register</button>
+        <button class="col-5 fs-5 p-2 bg-primary-light my-3" type="submit">Set nickname</button>
     </form>
 </div>
 

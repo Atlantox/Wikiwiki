@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-03-2023 a las 22:49:19
+-- Tiempo de generación: 22-03-2023 a las 21:12:44
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -33,19 +33,20 @@ CREATE TABLE `articles_article` (
   `other_names` longtext DEFAULT NULL,
   `main` longtext NOT NULL,
   `views` bigint(20) UNSIGNED DEFAULT NULL,
-  `created` datetime(6) NOT NULL
+  `created` datetime(6) NOT NULL,
+  `summary_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `articles_article`
 --
 
-INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`) VALUES
-(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 256, '2023-03-16 21:06:36.456414'),
-(2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 18, '2023-03-13 22:05:27.353806'),
-(3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 76, '2023-03-13 22:02:53.826756'),
-(4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 7, '2023-03-13 22:02:12.593008'),
-(5, 'Liz\'Amar(War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 3, '2023-03-16 19:37:52.121342');
+INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`, `summary_id`) VALUES
+(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 509, '2023-03-22 20:10:13.932686', 1),
+(2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 37, '2023-03-22 15:19:27.464429', 2),
+(3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 87, '2023-03-22 14:44:59.115429', 3),
+(4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 12, '2023-03-22 14:44:52.384460', 4),
+(5, 'Liz\'Amar(War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 11, '2023-03-22 14:44:45.645945', 5);
 
 -- --------------------------------------------------------
 
@@ -266,20 +267,20 @@ INSERT INTO `articles_section_images` (`id`, `section_id`, `image_id`) VALUES
 
 CREATE TABLE `articles_summary` (
   `id` bigint(20) NOT NULL,
-  `article_id` bigint(20) DEFAULT NULL,
-  `content` longtext DEFAULT NULL
+  `content` longtext DEFAULT NULL,
+  `title` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `articles_summary`
 --
 
-INSERT INTO `articles_summary` (`id`, `article_id`, `content`) VALUES
-(1, 1, 'Gender:female;Birthplace:Quimol;#CStatus:alive'),
-(2, 2, 'Skin:grey;District:Neburia;Speciality:Self control'),
-(3, 3, 'Gender:female;age:unknown;Race:dark elf;#Cstatus:alive'),
-(4, 4, 'Gender:Female;race:orc;#Cstatus:alive;age:21-22;'),
-(5, 5, 'race:orc;age:25;gender:female;#Cstatus:dead');
+INSERT INTO `articles_summary` (`id`, `content`, `title`) VALUES
+(1, 'Gender:female;Birthplace:Quimol;#CStatus:alive', 'Stefannie Kyoi'),
+(2, 'Skin:grey;District:Neburia;Speciality:Self control', 'Dark elves'),
+(3, 'Gender:female;age:unknown;Race:dark elf;#Cstatus:alive', 'Stealth instructor'),
+(4, 'Gender:Female;race:orc;#Cstatus:alive;age:21-22;', 'Liz\'Amar (Tales of Venslla)'),
+(5, 'race:orc;age:25;gender:female;#Cstatus:dead', 'Liz\'Amar (War of Venslla)');
 
 -- --------------------------------------------------------
 
@@ -385,7 +386,11 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (61, 'Can add author', 16, 'add_author'),
 (62, 'Can change author', 16, 'change_author'),
 (63, 'Can delete author', 16, 'delete_author'),
-(64, 'Can view author', 16, 'view_author');
+(64, 'Can view author', 16, 'view_author'),
+(65, 'Can add Favourite articles', 17, 'add_favouritearticles'),
+(66, 'Can change Favourite articles', 17, 'change_favouritearticles'),
+(67, 'Can delete Favourite articles', 17, 'delete_favouritearticles'),
+(68, 'Can view Favourite articles', 17, 'view_favouritearticles');
 
 -- --------------------------------------------------------
 
@@ -412,7 +417,9 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-03-13 15:00:13.501391', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947');
+(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-03-22 20:06:47.449806', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947'),
+(3, 'pbkdf2_sha256$390000$b6BMKBEKlJcOpkQGGavn4o$Ach1/68G7gOkQVNK1NRK0nH/Xc6vbX3JRLZkQZikZkI=', '2023-03-22 16:45:28.962218', 0, 'PepitoGaming', '', '', '', 0, 1, '2023-03-22 16:45:28.591718'),
+(4, 'pbkdf2_sha256$390000$suODQmZCXWIVcwW8DGVojI$xdS0n1w3tor+s9PXIOkASxjtm1/tGbWkbzaCzdCoOQk=', '2023-03-22 18:21:50.450961', 0, 'Romulo', '', '', '', 0, 1, '2023-03-22 18:15:57.674185');
 
 -- --------------------------------------------------------
 
@@ -447,8 +454,17 @@ CREATE TABLE `auth_user_user_permissions` (
 CREATE TABLE `comments_author` (
   `id` bigint(20) NOT NULL,
   `nickname` varchar(20) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comments_author`
+--
+
+INSERT INTO `comments_author` (`id`, `nickname`, `user_id`) VALUES
+(1, 'Atlantox7', 1),
+(2, 'El mas capo', 3),
+(3, 'Romulito', 4);
 
 -- --------------------------------------------------------
 
@@ -461,8 +477,55 @@ CREATE TABLE `comments_comment` (
   `content` varchar(200) NOT NULL,
   `created` datetime(6) NOT NULL,
   `article_id` bigint(20) NOT NULL,
-  `author_id` bigint(20) NOT NULL
+  `author_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comments_comment`
+--
+
+INSERT INTO `comments_comment` (`id`, `content`, `created`, `article_id`, `author_id`) VALUES
+(3, 'She is my favourite!', '2023-03-19 20:27:53.751673', 1, 1),
+(32, 'Me too!', '2023-03-22 16:53:55.530658', 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comments_favouritearticles`
+--
+
+CREATE TABLE `comments_favouritearticles` (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comments_favouritearticles`
+--
+
+INSERT INTO `comments_favouritearticles` (`id`, `user_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comments_favouritearticles_articles`
+--
+
+CREATE TABLE `comments_favouritearticles_articles` (
+  `id` bigint(20) NOT NULL,
+  `favouritearticles_id` bigint(20) NOT NULL,
+  `article_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comments_favouritearticles_articles`
+--
+
+INSERT INTO `comments_favouritearticles_articles` (`id`, `favouritearticles_id`, `article_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -563,7 +626,23 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (75, '2023-03-13 20:11:11.042854', '5', 'Liz\'Amar(War of Venslla)', 2, '[{\"changed\": {\"fields\": [\"Article main image(s)\"]}}]', 7, 1),
 (76, '2023-03-13 22:22:10.052966', '3', 'Family: Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Section type\"]}}]', 12, 1),
 (77, '2023-03-16 19:32:51.658614', '1', 'She is my favourite!', 1, '[{\"added\": {}}]', 15, 1),
-(78, '2023-03-16 20:29:30.518442', '2', 'I love her!', 1, '[{\"added\": {}}]', 15, 1);
+(78, '2023-03-16 20:29:30.518442', '2', 'I love her!', 1, '[{\"added\": {}}]', 15, 1),
+(79, '2023-03-19 15:13:13.277482', '1', 'Author object (1)', 1, '[{\"added\": {}}]', 16, 1),
+(80, '2023-03-19 15:14:10.968938', '3', 'She is my favourite!', 1, '[{\"added\": {}}]', 15, 1),
+(81, '2023-03-19 20:27:53.782994', '3', 'She is my favourite!', 2, '[{\"changed\": {\"fields\": [\"Content\"]}}]', 15, 1),
+(82, '2023-03-19 21:31:54.020335', '4', 'I love her!', 1, '[{\"added\": {}}]', 15, 1),
+(83, '2023-03-22 14:43:28.498483', '5', 'self.title', 2, '[{\"changed\": {\"fields\": [\"Title\"]}}]', 11, 1),
+(84, '2023-03-22 14:43:52.493837', '4', 'self.title', 2, '[{\"changed\": {\"fields\": [\"Title\"]}}]', 11, 1),
+(85, '2023-03-22 14:44:06.163807', '3', 'self.title', 2, '[{\"changed\": {\"fields\": [\"Title\"]}}]', 11, 1),
+(86, '2023-03-22 14:44:19.470612', '2', 'self.title', 2, '[{\"changed\": {\"fields\": [\"Title\"]}}]', 11, 1),
+(87, '2023-03-22 14:44:25.425663', '1', 'self.title', 2, '[{\"changed\": {\"fields\": [\"Title\"]}}]', 11, 1),
+(88, '2023-03-22 14:44:45.693966', '5', 'Liz\'Amar(War of Venslla)', 2, '[{\"changed\": {\"fields\": [\"Summary\"]}}]', 7, 1),
+(89, '2023-03-22 14:44:52.397768', '4', 'Liz\'Amar (Tales of Venslla)', 2, '[{\"changed\": {\"fields\": [\"Summary\"]}}]', 7, 1),
+(90, '2023-03-22 14:44:59.117427', '3', 'Stealth Instructor', 2, '[{\"changed\": {\"fields\": [\"Summary\"]}}]', 7, 1),
+(91, '2023-03-22 14:45:04.676119', '2', 'Dark elves', 2, '[{\"changed\": {\"fields\": [\"Summary\"]}}]', 7, 1),
+(92, '2023-03-22 14:45:10.352820', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Summary\"]}}]', 7, 1),
+(93, '2023-03-22 15:41:30.339118', '1', 'Atlantox7', 1, '[{\"added\": {}}]', 17, 1),
+(94, '2023-03-22 16:57:54.836563', '2', 'El mas capo', 1, '[{\"added\": {}}]', 17, 1);
 
 -- --------------------------------------------------------
 
@@ -595,6 +674,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (4, 'auth', 'user'),
 (16, 'comments', 'author'),
 (15, 'comments', 'comment'),
+(17, 'comments', 'favouritearticles'),
 (5, 'contenttypes', 'contenttype'),
 (6, 'sessions', 'session'),
 (14, 'WebApp', 'contact');
@@ -648,7 +728,11 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (29, 'articles', '0010_alter_article_main_alter_article_other_names_and_more', '2023-03-13 15:48:15.474790'),
 (30, 'articles', '0011_alter_article_main_alter_article_other_names_and_more', '2023-03-16 19:32:02.911786'),
 (31, 'comments', '0001_initial', '2023-03-16 19:32:04.550655'),
-(32, 'comments', '0002_alter_comment_content_author_comment_author', '2023-03-16 21:48:41.906761');
+(32, 'comments', '0002_alter_comment_content_author_comment_author', '2023-03-16 21:48:41.906761'),
+(33, 'articles', '0012_remove_summary_article_article_summary', '2023-03-22 14:38:55.359013'),
+(34, 'comments', '0003_alter_author_options_alter_author_user_and_more', '2023-03-22 14:39:01.263245'),
+(35, 'articles', '0013_summary_title', '2023-03-22 14:42:18.543586'),
+(36, 'comments', '0004_alter_favouritearticles_articles', '2023-03-22 20:12:15.941235');
 
 -- --------------------------------------------------------
 
@@ -667,8 +751,8 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('g0sp2045v70u1j3sbhvkoqiyeuje3iat', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pbjen:0sMOiyUpzreGGVFBmCulmLIcz477SyeMO9tY9AzeFDw', '2023-03-27 15:00:13.534438'),
-('lyv9sqtvjb69vsb48fczdp02vv3x9015', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pWgTt:1vYdSAl2c65cvQVTtWQuEKvsG1Rg7oVMjTdNb5F1rNk', '2023-03-13 16:36:05.060484');
+('lyv9sqtvjb69vsb48fczdp02vv3x9015', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pWgTt:1vYdSAl2c65cvQVTtWQuEKvsG1Rg7oVMjTdNb5F1rNk', '2023-03-13 16:36:05.060484'),
+('m9o2tp931s1fe226g20lva4eg11jcyj2', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pf4jP:cTKpIk8DDhrWvEDhv7lxmWFPttFeTJslJ4nqnpSwBVg', '2023-04-05 20:06:47.482620');
 
 -- --------------------------------------------------------
 
@@ -691,7 +775,8 @@ CREATE TABLE `webapp_contact` (
 -- Indices de la tabla `articles_article`
 --
 ALTER TABLE `articles_article`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `summary_id` (`summary_id`);
 
 --
 -- Indices de la tabla `articles_article_category`
@@ -764,8 +849,7 @@ ALTER TABLE `articles_section_images`
 -- Indices de la tabla `articles_summary`
 --
 ALTER TABLE `articles_summary`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `article_id` (`article_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `auth_group`
@@ -826,6 +910,21 @@ ALTER TABLE `comments_comment`
   ADD PRIMARY KEY (`id`),
   ADD KEY `comments_comment_article_id_94fe60a2_fk_articles_article_id` (`article_id`),
   ADD KEY `comments_comment_author_id_334ce9e2_fk_comments_author_id` (`author_id`);
+
+--
+-- Indices de la tabla `comments_favouritearticles`
+--
+ALTER TABLE `comments_favouritearticles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comments_favouritear_user_id_26dc2c59_fk_comments_` (`user_id`);
+
+--
+-- Indices de la tabla `comments_favouritearticles_articles`
+--
+ALTER TABLE `comments_favouritearticles_articles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `comments_favouritearticl_favouritearticles_id_art_0a04ecb1_uniq` (`favouritearticles_id`,`article_id`),
+  ADD KEY `comments_favouritear_article_id_5486f070_fk_articles_` (`article_id`);
 
 --
 -- Indices de la tabla `django_admin_log`
@@ -947,13 +1046,13 @@ ALTER TABLE `auth_group_permissions`
 -- AUTO_INCREMENT de la tabla `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_user_groups`
@@ -971,31 +1070,43 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT de la tabla `comments_author`
 --
 ALTER TABLE `comments_author`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `comments_comment`
 --
 ALTER TABLE `comments_comment`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT de la tabla `comments_favouritearticles`
+--
+ALTER TABLE `comments_favouritearticles`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `comments_favouritearticles_articles`
+--
+ALTER TABLE `comments_favouritearticles_articles`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `webapp_contact`
@@ -1006,6 +1117,12 @@ ALTER TABLE `webapp_contact`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `articles_article`
+--
+ALTER TABLE `articles_article`
+  ADD CONSTRAINT `articles_article_summary_id_234d800c_fk_articles_summary_id` FOREIGN KEY (`summary_id`) REFERENCES `articles_summary` (`id`);
 
 --
 -- Filtros para la tabla `articles_article_category`
@@ -1049,12 +1166,6 @@ ALTER TABLE `articles_section_images`
   ADD CONSTRAINT `articles_section_images_image_id_d9dd3e7a_fk_articles_image_id` FOREIGN KEY (`image_id`) REFERENCES `articles_image` (`id`);
 
 --
--- Filtros para la tabla `articles_summary`
---
-ALTER TABLE `articles_summary`
-  ADD CONSTRAINT `articles_summary_article_id_09ebd80a_fk_articles_article_id` FOREIGN KEY (`article_id`) REFERENCES `articles_article` (`id`);
-
---
 -- Filtros para la tabla `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
@@ -1093,6 +1204,19 @@ ALTER TABLE `comments_author`
 ALTER TABLE `comments_comment`
   ADD CONSTRAINT `comments_comment_article_id_94fe60a2_fk_articles_article_id` FOREIGN KEY (`article_id`) REFERENCES `articles_article` (`id`),
   ADD CONSTRAINT `comments_comment_author_id_334ce9e2_fk_comments_author_id` FOREIGN KEY (`author_id`) REFERENCES `comments_author` (`id`);
+
+--
+-- Filtros para la tabla `comments_favouritearticles`
+--
+ALTER TABLE `comments_favouritearticles`
+  ADD CONSTRAINT `comments_favouritear_user_id_26dc2c59_fk_comments_` FOREIGN KEY (`user_id`) REFERENCES `comments_author` (`id`);
+
+--
+-- Filtros para la tabla `comments_favouritearticles_articles`
+--
+ALTER TABLE `comments_favouritearticles_articles`
+  ADD CONSTRAINT `comments_favouritear_article_id_5486f070_fk_articles_` FOREIGN KEY (`article_id`) REFERENCES `articles_article` (`id`),
+  ADD CONSTRAINT `comments_favouritear_favouritearticles_id_a8c6e236_fk_comments_` FOREIGN KEY (`favouritearticles_id`) REFERENCES `comments_favouritearticles` (`id`);
 
 --
 -- Filtros para la tabla `django_admin_log`

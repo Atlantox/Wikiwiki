@@ -28,3 +28,14 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+
+class FavouriteArticles(models.Model):
+    user = models.ForeignKey(Author, verbose_name='User', on_delete=models.CASCADE)
+    articles = models.ManyToManyField(Article, verbose_name='Favourite articles', blank=True)
+
+    class Meta():
+        verbose_name= 'Favourite articles'
+        verbose_name_plural= 'Favourite articles'
+
+    def __str__(self):
+        return self.user.nickname

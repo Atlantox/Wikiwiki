@@ -4,13 +4,6 @@ from django.db import models
 ARTICLE_TITLE_LENGTH = 40
 XSS_VALIDATOR = RegexValidator('.[<->]','The field contains suspicous content',inverse_match=True)
 
-'''
-progress_history = models.IntegerField(
-        verbose_name='Progreso de historia y guion',
-        default=0,
-        validators=[MaxValueValidator(100), MinValueValidator(0)])
-'''
-
 class Image(models.Model):
     title = models.CharField(max_length=30, verbose_name='Image title')
     img = models.ImageField(upload_to='article_imgs', verbose_name='Image')
@@ -46,11 +39,23 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Summary(models.Model):
+    title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title', default='')
+    content = models.TextField(verbose_name="Summary's content. Follow this format: name1:value1;name2:value2 \n\n Place #C before any name to set it as censored: #Cstatus:alive", 
+                               default=None, null=True, validators=[XSS_VALIDATOR])
+
+    class Meta():
+        verbose_name= 'Article summary'
+        verbose_name_plural= 'Articles summaries'
+
+    def __str__(self):
+        return self.title
 
 class Article(models.Model):
     title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')
     other_names = models.TextField(verbose_name='Other names', blank=True, null=True, validators=[XSS_VALIDATOR])
     images = models.ManyToManyField(Image, verbose_name="Article main image(s)")
+    summary = models.OneToOneField(Summary, verbose_name='Summary', default=None, null=True, on_delete=models.SET_NULL)
     category = models.ManyToManyField(Category, verbose_name='Categories')
     main = models.TextField(verbose_name='Main content', validators=[XSS_VALIDATOR]) # This are the firsts paragraphs of content   
     views = models.PositiveBigIntegerField(verbose_name='Views number', null=True, default=0)
@@ -63,19 +68,6 @@ class Article(models.Model):
     def __str__(self):
         return self.title
     
-
-class Summary(models.Model):
-    article = models.OneToOneField(Article, on_delete=models.CASCADE, default=None, null=True)
-    content = models.TextField(verbose_name="Summary's content. Follow this format: name1:value1;name2:value2 \n\n Place #C before any name to set it as censored: #Cstatus:alive", 
-                               default=None, null=True, validators=[XSS_VALIDATOR])
-
-    class Meta():
-        verbose_name= 'Article summary'
-        verbose_name_plural= 'Articles summaries'
-
-    def __str__(self):
-        return f"{self.article.title}'s summary"
-
 
 class Section(models.Model):
     title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')

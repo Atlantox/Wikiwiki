@@ -8,7 +8,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 h5 pe-3 fw-semibold fs-3 text-center text-lg-end my-1 my-lg-0">
+        <ul class="navbar-nav mb-2 mb-lg-0 h5 pe-3 fw-semibold fs-3 text-center text-lg-end my-1 my-lg-0 w-100">
 
           
           <li class="nav-item mx-2">
@@ -41,14 +41,21 @@
               Contact
             </a>
           </li>
+
           {% if request.user.is_authenticated %}
-            <li class="nav-item mx-2">
-              <a class="underline-hover nav-link text-white fw-bold" href="{% url 'log_out' %}">
-                Logout
+
+            <li class="nav-item dropdown mx-2 ms-auto">
+              <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{nickname}}
               </a>
+              <ul class="dropdown-menu bg-primary-dark">
+                <li><a class="dropdown-item strong-hover text-white" href="{% url 'favouriteArticles' %}">Favourites</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item strong-hover text-white" href="{% url 'log_out' %}">Log out</a></li>
+              </ul>
             </li>
           {% else %}
-            <li class="nav-item mx-2">
+            <li class="nav-item mx-2 ms-auto">
               <a class="underline-hover nav-link text-white fw-bold" href="{% url 'log_in' %}">
                 Log In
               </a>
