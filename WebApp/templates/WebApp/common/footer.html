@@ -1,30 +1,16 @@
 <footer class="w-100 bg-primary-dark p-4 py-2 mt-0 shadowed" style="box-shadow:inset 0px 10px 20px -5px rgb(0 0 0); z-index:7;">
     {% load static %}
     <div class="container-fluid">
-      <div class="row flex-column flex-lg-row align-items-center">
+      <div class="row flex-column flex-lg-row align-items-center justify-content-between">
 
         <div class="col-12 col-lg-2 text-center mb-4 mb-lg-0">
-          <img class="" src="{% static 'WebApp/icons/atlantox-icon.svg' %}" alt="logo" width="150px">
+          <img class="" src="{% static 'WebApp/icons/wikiwikimedium.png' %}" alt="logo" width="150px">
         </div>
 
-        <div class="col-12 col-md-6 col-lg-5 text-secondary justify-content-center">
-          <ul class="list-unstyled h6 d-flex justify-content-center flex-column h-100 align-items-center">
-            <li>Made in 
-              <a target="_blank" class="text-decoration-none text-black fw-semibold" href="https://www.djangoproject.com/">
-              <span class="underline-hover">Django</span>
-            </a>
-          </li>
-            <li>By
-              <a target="_blank" class="text-decoration-none text-black fw-semibold" href="https://twitter.com/atlantox7">
-                <span class="underline-hover">Atlantox</span>
-              </a>
-            <!--- and <a href=""><span class="underline-hover">Other person</span></a> -->
-            </li>
-          </ul>
-        </div>
+        
 
+        <!--
         <div class="col-12 col-md-6 col-lg-3 ps-0 my-5 my-md-0 p-0  text-center text-secondary">
-          <!--
           <h4 class="h4 m-0 p-0">Contacto</h4>
           <ul class="list-unstyled row w-100 p-0 m-0 my-2">
             <li class="col px-1 w-100">
@@ -48,43 +34,33 @@
               </a>
             </li>
           </ul>
-          -->
         </div>
+      -->
 
-        <div class="col-12 col-lg-2 d-none d-lg-flex text-end">
+        <div class="col-12 col-lg-2 d-lg-flex text-end">
           <ul class="list-unstyled h6 w-100 footer-nav">
-            <!--
+            
             <li>
-              <a class="text-decoration-none text-black fw-semibold" href="">
-                <span class="underline-hover text-secondary">Inicio</span>
+              <a class="text-decoration-none text-black fw-semibold" href="{% url 'Home' %}">
+                <span class="underline-hover text-white">Home</span>
               </a>
             </li>
             <li>
-              <a class="text-decoration-none text-black fw-semibold" href="">
-                <span class="underline-hover text-secondary">Proyectos</span>
+              <a class="text-decoration-none text-black fw-semibold" href="{% url 'categories' %}">
+                <span class="underline-hover text-white">Categories</span>
               </a>
             </li>
             <li>
-              <a class="text-decoration-none text-black fw-semibold" href="">
-                <span class="underline-hover text-secondary">Sobre mi</span>
+              <a class="text-decoration-none text-black fw-semibold" href="{% url 'random_article' %}">
+                <span class="underline-hover text-white">Gallery</span>
               </a>
             </li>
             <li>
-              <a class="text-decoration-none text-black fw-semibold" href="">
-                <span class="underline-hover text-secondary">Portafolio</span>
+              <a class="text-decoration-none text-black fw-semibold" href="{% url 'about' %}">
+                <span class="underline-hover text-white">About</span>
               </a>
             </li>
-            <li>
-              <a class="text-decoration-none text-black fw-semibold" href="">
-                <span class="underline-hover text-secondary">Galería</span>
-              </a>
-            </li>
-            <li>
-              <a class="text-decoration-none text-black fw-semibold" href="">
-                <span class="underline-hover text-secondary">Contacto</span>
-              </a>
-            </li>
-            -->
+            
           </ul>
         </div>
       </div>

@@ -29,9 +29,12 @@
         if (comments){
             var template = 
                 '<section class="row col-12 p-3 justify-content-center">'+
-                    '<div class="row bg-primary-dark p-3 flex-column">' +
-                        ' <h4 class="col-2">{0}</h4>' +
-                        ' <p class="col-9 ms-5">{1}</p>' +
+                    '<div class="row bg-primary-dark p-3 flex-column border border-primary-light">' +
+                        '<div class="col-12 d-flex justify-content-between align-items-center mb-3">' +
+                            '<h4 class="m-0">{0}</h4>' +
+                            '<span class="mx-2 fw-lighter">{1}</span>' +
+                        '</div>' +
+                        ' <p class="col-9 ms-5">{2}</p>' +
                     '</div>' +
                 '</section>'
             
@@ -39,7 +42,7 @@
             
             comments.forEach(comment => {
                 if(!id_written.includes(comment.id)){
-                    comments_section.innerHTML += template.format(comment.author, comment.content);
+                    comments_section.innerHTML += template.format(comment.author, comment.date, comment.content);
                     id_written.push(comment.id);
                 }
             });

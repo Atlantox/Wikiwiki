@@ -31,15 +31,15 @@
 
 
           <li class="nav-item mx-2">
-            <a class="underline-hover nav-link text-white fw-bold" href="">
+            <a class="underline-hover nav-link text-white fw-bold" href="{% url 'about' %}">
               About
             </a>
           </li>
 
           <li class="nav-item mx-2">
-            <a class="underline-hover nav-link text-white fw-bold" href="">
-              Contact
-            </a>
+            <button type="button" class="w-100 h-auto border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#searchModal">
+                <img class="w-50" src="{% static 'WebApp/icons/search.png' %}" alt="search icon">
+            </button>
           </li>
 
           {% if request.user.is_authenticated %}
@@ -66,6 +66,29 @@
       </div>
     </div>
   </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-2" aria-labelledby="searchModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-primary-dark">
+              <div class="modal-header">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body bg-transparent">
+                <form class="row flex-column justify-content-center align-items-center" action="{% url 'search' %}" method="POST">
+                    <h4 class="col-2 m-0 text-center">Search</h4>
+                    {% csrf_token %}
+                    <input class="col-5 bg-secondary-dark my-3" type="text" name="search" maxlength="40">
+                    <button class="col-2 bg-secondary-light" type="submit">Search</button>
+                  </form>
+                  
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
 
   <script>
     function hasClass(element, clsName) {

@@ -10,8 +10,10 @@
     </div>
     <form class="row col-5 flex-column bg-primary-dark align-items-center p-4" action="{% url 'set_nickname' %}" method="POST">
         {% csrf_token %}
-
+        
         {% for field in form %}
+            <label class="fw-bold fs-4" for="{{label.id_for_label}}">{{field.label}}</label>
+            <p class="px-4">{{field.help_text}}</p>
             {{field}}
         {% endfor %}
 

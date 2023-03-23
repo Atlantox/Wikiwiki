@@ -34,8 +34,8 @@ def home(request):
     }
     return render(request, 'WebApp/home.html', ctx)
 
-def contact(request):
-    return None
+def about(request):
+    return render(request, 'WebApp/about.html')
 
 def text_resumer(text):
     return text[0:100] + '...'

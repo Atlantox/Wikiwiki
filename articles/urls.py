@@ -8,6 +8,7 @@ urlpatterns = [
     path('article/<str:search>/<int:error>/', views.article, name='article'),
     path('favourites/', views.favouriteArticles, name='favouriteArticles'),
     path('random/', views.random_article, name='random_article'),
+    path('search/', views.search, name='search'),
     path('categories/', views.categories, name='categories'),
     path('category/<str:search>', views.category, name='category'),
     path('gallery/', views.gallery, name='gallery'),

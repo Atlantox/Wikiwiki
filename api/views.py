@@ -1,5 +1,6 @@
 from django.http.response import JsonResponse
 from django.views import View
+from django.shortcuts import render
 from django.forms.models import model_to_dict
 from comments import models as Com
 from comments.views import CommentForm
@@ -28,23 +29,24 @@ class Comment(View):
 
 
     def post(self, request, art_id):
-        author = Com.Author.objects.get(user=request.user)
-        article = Art.Article.objects.get(id=art_id)
-        content = request.POST['comment']
-        form = CommentForm(request.POST)
-        if form.is_valid() and not re.search('[<>]', content):
-            to_add = Com.Comment(
-                author=author,
-                content=form.cleaned_data['comment'],
-                article=article)
+        if request.user.is_authenticated:
+            author = Com.Author.objects.get(user=request.user)
+            article = Art.Article.objects.get(id=art_id)
+            content = request.POST['comment']
+            form = CommentForm(request.POST)
+            if form.is_valid() and not re.search('[<>]', content):
+                to_add = Com.Comment(
+                    author=author,
+                    content=form.cleaned_data['comment'],
+                    article=article)
 
-            to_add.save()
-            data = {'status': 'ok'}
-            #return redirect('article', search=str(art_id))
+                to_add.save()
+                data = {'status': 'ok'}
+            else:
+                data = {'status': 'fail'}
+            return JsonResponse(data)
         else:
-            data = {'status': 'fail'}
-            #return redirect('article', search=str(art_id), error=1)
-        return JsonResponse(data)
+            return JsonResponse({'message:': 'You are not logged in', 'status': 'fail'})
 
 
 def getOrderedComments(comments):
@@ -74,12 +76,31 @@ class Favourite(View):
             }
 
             return JsonResponse(data)
-
         else:
             return JsonResponse({'message:': 'You are not logged in', 'status': 'fail'})
 
     def post(self, request, id):
-        pass
+        if request.user.is_authenticated:
+            author = Com.Author.objects.get(user=request.user)
+            current_favourite = Com.FavouriteArticles.objects.get(user=author)
+            current_favourite.articles.add(Art.Article.objects.get(id=id))
+            current_favourite.save()
+
+            return JsonResponse({'message': 'success','status': 'ok'})
+        else:
+            return JsonResponse({'message:': 'You are not logged in', 'status': 'fail'})
 
     def delete(self, request, id):
-        pass
+        if request.user.is_authenticated:
+            author = Com.Author.objects.get(user=request.user)
+            current_favourite = Com.FavouriteArticles.objects.get(user=author)
+
+            current_favourite.articles.remove(Art.Article.objects.get(id=id))
+            current_favourite.save()
+
+            return JsonResponse({'message': 'success','status': 'ok'})
+        else:
+            return JsonResponse({'message': 'success','status': 'ok'})
+
+def tutorial(request):
+    return render(request, 'api/tutorial.html')

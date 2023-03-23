@@ -20,7 +20,6 @@ function ToggleCollapse(element_id){
     }
 }
 function OpenModal(id){
-    console.log(images);
     imgId = parseInt(id);
     current_img = images[id];
     document.getElementById("modal-title").innerHTML = current_img.title;

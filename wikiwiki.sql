@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-03-2023 a las 21:12:44
+-- Tiempo de generación: 23-03-2023 a las 21:08:44
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -42,11 +42,11 @@ CREATE TABLE `articles_article` (
 --
 
 INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`, `summary_id`) VALUES
-(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 509, '2023-03-22 20:10:13.932686', 1),
-(2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 37, '2023-03-22 15:19:27.464429', 2),
-(3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 87, '2023-03-22 14:44:59.115429', 3),
-(4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 12, '2023-03-22 14:44:52.384460', 4),
-(5, 'Liz\'Amar(War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 11, '2023-03-22 14:44:45.645945', 5);
+(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself', 602, '2023-03-23 19:01:12.879846', 1),
+(2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 38, '2023-03-23 18:44:08.342537', 2),
+(3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 90, '2023-03-23 18:44:04.806361', 3),
+(4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 34, '2023-03-23 19:33:53.872760', 4),
+(5, 'Liz\'Amar (War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 17, '2023-03-23 19:13:31.225095', 5);
 
 -- --------------------------------------------------------
 
@@ -167,7 +167,9 @@ CREATE TABLE `articles_relatedarticles` (
 INSERT INTO `articles_relatedarticles` (`id`, `article_title`) VALUES
 (1, 'Stefannie Kyoi'),
 (2, 'Dark elves'),
-(3, 'Stealth Instructor');
+(3, 'Stealth Instructor'),
+(4, 'Liz\'Amar (War of Venslla)'),
+(5, 'Liz\'Amar (Tales of Venslla)');
 
 -- --------------------------------------------------------
 
@@ -187,9 +189,12 @@ CREATE TABLE `articles_relatedarticles_related` (
 
 INSERT INTO `articles_relatedarticles_related` (`id`, `relatedarticles_id`, `article_id`) VALUES
 (1, 1, 2),
+(5, 1, 3),
 (2, 2, 1),
 (3, 3, 1),
-(4, 3, 2);
+(4, 3, 2),
+(6, 4, 4),
+(7, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -417,9 +422,10 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-03-22 20:06:47.449806', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947'),
-(3, 'pbkdf2_sha256$390000$b6BMKBEKlJcOpkQGGavn4o$Ach1/68G7gOkQVNK1NRK0nH/Xc6vbX3JRLZkQZikZkI=', '2023-03-22 16:45:28.962218', 0, 'PepitoGaming', '', '', '', 0, 1, '2023-03-22 16:45:28.591718'),
-(4, 'pbkdf2_sha256$390000$suODQmZCXWIVcwW8DGVojI$xdS0n1w3tor+s9PXIOkASxjtm1/tGbWkbzaCzdCoOQk=', '2023-03-22 18:21:50.450961', 0, 'Romulo', '', '', '', 0, 1, '2023-03-22 18:15:57.674185');
+(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-03-23 15:27:57.598815', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947'),
+(3, 'pbkdf2_sha256$390000$b6BMKBEKlJcOpkQGGavn4o$Ach1/68G7gOkQVNK1NRK0nH/Xc6vbX3JRLZkQZikZkI=', '2023-03-23 15:07:34.412913', 0, 'PepitoGaming', '', '', '', 0, 1, '2023-03-22 16:45:28.591718'),
+(4, 'pbkdf2_sha256$390000$suODQmZCXWIVcwW8DGVojI$xdS0n1w3tor+s9PXIOkASxjtm1/tGbWkbzaCzdCoOQk=', '2023-03-22 18:21:50.450961', 0, 'Romulo', '', '', '', 0, 1, '2023-03-22 18:15:57.674185'),
+(5, 'pbkdf2_sha256$390000$EVuNylHryN7whvJcG1J6GO$kJ8fBKo7omYjceyIgWQxyYCkU8lRA6yn/zDg9zTg8xA=', '2023-03-23 15:01:51.717027', 0, 'El_pepe', '', '', '', 0, 1, '2023-03-23 15:01:51.231327');
 
 -- --------------------------------------------------------
 
@@ -464,7 +470,8 @@ CREATE TABLE `comments_author` (
 INSERT INTO `comments_author` (`id`, `nickname`, `user_id`) VALUES
 (1, 'Atlantox7', 1),
 (2, 'El mas capo', 3),
-(3, 'Romulito', 4);
+(3, 'Romulito', 4),
+(4, 'El pepe', 5);
 
 -- --------------------------------------------------------
 
@@ -506,7 +513,8 @@ CREATE TABLE `comments_favouritearticles` (
 INSERT INTO `comments_favouritearticles` (`id`, `user_id`) VALUES
 (1, 1),
 (2, 2),
-(3, 3);
+(3, 3),
+(4, 4);
 
 -- --------------------------------------------------------
 
@@ -525,7 +533,9 @@ CREATE TABLE `comments_favouritearticles_articles` (
 --
 
 INSERT INTO `comments_favouritearticles_articles` (`id`, `favouritearticles_id`, `article_id`) VALUES
-(1, 1, 1);
+(3, 1, 1),
+(5, 1, 3),
+(4, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -642,7 +652,11 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (91, '2023-03-22 14:45:04.676119', '2', 'Dark elves', 2, '[{\"changed\": {\"fields\": [\"Summary\"]}}]', 7, 1),
 (92, '2023-03-22 14:45:10.352820', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Summary\"]}}]', 7, 1),
 (93, '2023-03-22 15:41:30.339118', '1', 'Atlantox7', 1, '[{\"added\": {}}]', 17, 1),
-(94, '2023-03-22 16:57:54.836563', '2', 'El mas capo', 1, '[{\"added\": {}}]', 17, 1);
+(94, '2023-03-22 16:57:54.836563', '2', 'El mas capo', 1, '[{\"added\": {}}]', 17, 1),
+(95, '2023-03-23 15:28:19.280729', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Related articles\"]}}]', 13, 1),
+(96, '2023-03-23 18:21:35.465867', '4', 'Liz\'Amar (War of Venslla)', 1, '[{\"added\": {}}]', 13, 1),
+(97, '2023-03-23 18:21:47.993481', '5', 'Liz\'Amar (Tales of Venslla)', 1, '[{\"added\": {}}]', 13, 1),
+(98, '2023-03-23 18:22:33.653853', '5', 'Liz\'Amar (War of Venslla)', 2, '[{\"changed\": {\"fields\": [\"Title\"]}}]', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -751,8 +765,8 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('lyv9sqtvjb69vsb48fczdp02vv3x9015', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pWgTt:1vYdSAl2c65cvQVTtWQuEKvsG1Rg7oVMjTdNb5F1rNk', '2023-03-13 16:36:05.060484'),
-('m9o2tp931s1fe226g20lva4eg11jcyj2', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pf4jP:cTKpIk8DDhrWvEDhv7lxmWFPttFeTJslJ4nqnpSwBVg', '2023-04-05 20:06:47.482620');
+('gexp5ukhlix2v5cg6g5sur1zl7vap851', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pfMr7:3kpq3qPxdzJ6VtgCXzU4rB5g0kmrAPpVhq2_yopKSi4', '2023-04-06 15:27:57.674074'),
+('lyv9sqtvjb69vsb48fczdp02vv3x9015', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pWgTt:1vYdSAl2c65cvQVTtWQuEKvsG1Rg7oVMjTdNb5F1rNk', '2023-03-13 16:36:05.060484');
 
 -- --------------------------------------------------------
 
@@ -998,13 +1012,13 @@ ALTER TABLE `articles_image`
 -- AUTO_INCREMENT de la tabla `articles_relatedarticles`
 --
 ALTER TABLE `articles_relatedarticles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_relatedarticles_related`
 --
 ALTER TABLE `articles_relatedarticles_related`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `articles_section`
@@ -1052,7 +1066,7 @@ ALTER TABLE `auth_permission`
 -- AUTO_INCREMENT de la tabla `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_user_groups`
@@ -1070,7 +1084,7 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT de la tabla `comments_author`
 --
 ALTER TABLE `comments_author`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `comments_comment`
@@ -1082,19 +1096,19 @@ ALTER TABLE `comments_comment`
 -- AUTO_INCREMENT de la tabla `comments_favouritearticles`
 --
 ALTER TABLE `comments_favouritearticles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `comments_favouritearticles_articles`
 --
 ALTER TABLE `comments_favouritearticles_articles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`

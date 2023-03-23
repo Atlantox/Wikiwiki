@@ -114,14 +114,14 @@
 
     <div class="col-12 row justify-content-center">
         <div class="row justify-content-center px-5 mt-3 d-none" id="collapse-section-random_article">
-            <span>{{random_article.title}}</span>
-            <figure class="col-4">
+            <figure class="col-2">
+                <h2>{{random_article.title}}</h2>
                 <img class="w-100" src="{{random_article.images.all.0.img.url}}" alt="{{random_article.title}} image">
             </figure>
-            <p class ="col-8">
+            <p class ="col-8 p-3">
                 {{random_article.main}}
             </p>
-            <a class="text-decoration-none text-white" href="{% url 'article' random_article.title %}">Read more</a>
+            <a class="col-3 text-decoration-none text-center fs-4 text-white border border-1 border-white" href="{% url 'article' random_article.title %}">Read more</a>
         </div>
     </div>
 </div>

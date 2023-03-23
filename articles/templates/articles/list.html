@@ -7,7 +7,7 @@
 {% load static %}
 {% block content %}
     {% if found %}
-        <div class="row mt-5 px-5">
+        <div class="row my-5 px-5">
             <h1 class="border-bottom px-5">{{title}}</h1>
 
             {% if articles|length > 0 %}
@@ -24,6 +24,21 @@
                 <h2 class="col-12 text-center my-4">Looks like it's not {{title}} yet</h2>
             {% endif %}
         </div>
+
+        {% if related %}
+            <div class="row mt-5 px-5">
+                <h2>Related articles:</h2>
+                <ul class="col-12 fs-4 p-4">
+                    {% for article in related %}
+                        <li class="my-1">
+                            <a class="text-white" href="{% url 'article' article.title %}">
+                                {{article.title}}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     {% else %}
     <div class="row mt-5 px-5">
         <h1 class="border-bottom px-5">{{title}} not found</h1>

@@ -89,20 +89,27 @@ class set_nickname(View):
 class SetNicknameForm(forms.Form):
     nickname = forms.CharField(
         max_length=20,
+        label='Nickname',
+        help_text='Max 20 characters',
         widget=forms.TextInput(
             attrs= {
-                'class': 'bg-primary'
+                'class': 'fs-5 bg-primary-light mb-5'
             }
         )
     )
 
 class myUserCreationForm(UserCreationForm):
-     def __init__(self, *args, **kwargs):
+    error_messages = {
+        'password_mismatch': "Password or username invalid (can't have blank spaces)"
+    }
+
+    def __init__(self, *args, **kwargs):
         super(myUserCreationForm, self).__init__(*args, **kwargs)
 
         self.fields['username'].widget.attrs['class'] = 'fs-5 bg-primary-light mb-5'
         self.fields['password1'].widget.attrs['class'] = 'fs-5 bg-primary-light mb-5'
         self.fields['password2'].widget.attrs['class'] = 'fs-5 bg-primary-light mb-5'
+
 
 class MyUserAuthenticationForm(AuthenticationForm):
      def __init__(self, *args, **kwargs):

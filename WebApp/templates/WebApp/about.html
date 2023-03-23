@@ -1,0 +1,42 @@
+{% extends 'WebApp/common/base.html' %}
+{% block title %} About {% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row flex-column justify-content-center align-items-center py-3">
+        <div class="col-6">
+            <h1 class="text-center">Technical details</h1>
+        </div>
+        <div class="col-6">
+            <ul class="fs-5 mt-3 d-flex justify-content-center flex-column">
+                <li class="my-2">This Wiki was created using the framework
+                    <a target="_blank" class="text-decoration-none text-white fw-semibold" href="https://www.djangoproject.com/">
+                        <span class="underline-hover">Django</span>
+                    </a>
+                    4.1.7 version by the skillfuls hands of
+                    <a target="_blank" class="text-decoration-none text-white fw-semibold" href="https://twitter.com/atlantox7">
+                        <span class="underline-hover">Atlantox</span>
+                    </a>
+                    The template name is
+                    <a target="_blank" class="text-decoration-none text-white fw-semibold" href="https://github.com/Atlantox/Wikiwiki">
+                        <span class="underline-hover">WikWiki</span>,
+                    </a>
+                    I would like to you support him <3
+                </li>
+                <li class="my-2">
+                    In this Wiki you can register and login your account, this will able to have a favourite articles and write comments in each one of them
+                </li>
+                <li class="my-2">
+                    If you are developer, let me give you good news, this wiki template has Resftul API, is you want to explore the requests, click
+                    <a target="_blank" class="text-decoration-none text-white fw-semibold" href="{% url 'api_tutorial' %}">
+                        <span class="underline-hover">Here</span>,
+                    </a>
+                </li>
+                <li class="my-2">
+                    I hope this wiki helps you, internet user, developer, editor, everybody!
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

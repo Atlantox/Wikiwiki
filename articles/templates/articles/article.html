@@ -2,6 +2,8 @@
 
 {% block title %} {{article.title}} {% endblock %}
 
+{% load static %}
+
 {% block content %}
 
     <script>
@@ -15,12 +17,45 @@
 
         <div class="row m-2 p-2 mt-5 px-4">
             <div class="col-9 mt-5 px-4">
-                <h1 class="border-bottom">
-                    {{article.title}}
-                </h1>
-                <p class="px-2 my-4">
-                    {{article.main | safe }}
-                </p>
+                <div class="row flex-column">
+                    <div class="row col-12 justify-content-between border-bottom">
+                        {% if disambiguation is not None %}
+                            <span class="mb-2">
+                                View too 
+                                <a class="text-white" href="{% url 'article' disambiguation %}">
+                                    {{disambiguation}} (disambiguation)
+                                </a>
+                            </span>
+                        {% endif %}
+                        <h1 class="col-6">
+                            {{article.title}}
+                        </h1>
+                        {% if user.is_authenticated %}
+                            {% if is_favourite %}
+                                <form class="col-1" id="delete_favourite" novalidate>
+                                    <input type="text" hidden value="{{article.id}}">
+                                    <button type="submit">
+                                        <img class="w-100" id="favourite_icon" src="{% static 'WebApp/icons/filled_heart.png' %}" alt="filled heart">
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form class="col-1" id="add_favourite" novalidate>
+                                    <input type="text" hidden value="{{article.id}}">
+                                    <button type="submit">
+                                        <img class="w-100" id="favourite_icon" src="{% static 'WebApp/icons/empty_heart.png' %}" alt="empty heart">
+                                    </button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <div class="col-3 align-middle h-100">
+                                Login for mark as favourite
+                            </div>
+                        {% endif %}
+                    </div>
+                    <p class="px-2 my-4">
+                        {{article.main | safe }}
+                    </p>
+                </div>
             </div>
 
             <div class="col-3 p-5 rounded shadowed">
@@ -50,21 +85,23 @@
                     {% endfor %}
                 </div>
 
-                <div class="row mt-3 justify-content-center">
-                    {% for field in summary %}
-                        <div class="col-6 text-center border text-capitalize">
-                            {{field.field}}
-                        </div>
-                        {% if field.censored %}
-                        <div class="col-6 text-center border text-capitalize censored">
-                        {% else %}
-                        <div class="col-6 text-center border text-capitalize">
-                        {% endif %}
-                            {{field.value | safe}}
-                        </div>
+                {% if summary is not None %}
+                    <div class="row mt-3 justify-content-center">
+                        {% for field in summary %}
+                            <div class="col-6 text-center border text-capitalize">
+                                {{field.field}}
+                            </div>
+                            {% if field.censored %}
+                            <div class="col-6 text-center border text-capitalize censored">
+                            {% else %}
+                            <div class="col-6 text-center border text-capitalize">
+                            {% endif %}
+                                {{field.value | safe}}
+                            </div>
 
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </div>
 
@@ -118,6 +155,15 @@
                     </form>
 
                     <script>
+
+                        function ToggleFavouriteIcon(){
+                            var img = document.getElementById('favourite_icon');
+                            if (img.alt == 'filled heart')
+                                img.src = "{% static 'WebApp/icons/empty_heart.png' %}"
+                            else
+                                img.src = "{% static 'WebApp/icons/filled_heart.png' %}"
+                        }
+
                         // Thanks to: https://programadorwebvalencia.com/django-crear-formulario-de-contacto/
                         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                         const form = document.querySelector('#comment_form');
@@ -126,15 +172,27 @@
                 
                         function sendForm(event) {
                             event.preventDefault();
-                            const request = new Request(
-                                "{% url 'add_comment' article.id %}",
-                                {
-                                    method: 'POST',
-                                    headers: {'X-CSRFToken': csrfToken},
-                                    mode: 'same-origin',
-                                    body: new FormData(form)
-                                }
-                            );
+                            var path = "";
+                            var method = "POST";
+                            if (event.srcElement.id == "comment_form"){
+                                path = "{% url 'add_comment' article.id %}";
+                            }
+                            else if(event.srcElement.id == "add_favourite"){
+                                path = "{% url 'add_favourite' article.id %}";
+                            }
+                            else if(event.srcElement.id == "delete_favourite"){
+                                path = "{% url 'delete_favourite' article.id %}";
+                                method = "DELETE";
+                            }
+                                const request = new Request(
+                                    path,
+                                    {
+                                        method: method,
+                                        headers: {'X-CSRFToken': csrfToken},
+                                        mode: 'same-origin',
+                                        body: new FormData(form)
+                                    }
+                                );
                             fetch(request)
                                 .then((response) => {
                                     if (response.ok) {
@@ -145,9 +203,10 @@
                                 .then(function(data) {
                                     console.log(data)
                                     if (data.status === 'ok') {
-                                        //alert('Mensaje enviado correctamente');
                                         form.reset();
                                         CheckComments();
+                                        if (event.srcElement.id == "add_favourite" || event.srcElement.id == "delete_favourite")
+                                            ToggleFavouriteIcon();
                                     } else {
                                         alert("The comment's content is invalid.");
                                     }
@@ -156,6 +215,11 @@
                 
                         //// Events
                         form.addEventListener('submit', sendForm);
+                        try {
+                            document.getElementById("add_favourite").addEventListener('submit', sendForm);
+                        } catch (error) {
+                            document.getElementById("delete_favourite").addEventListener('submit', sendForm);
+                        }
                     </script>
 
                 {% endif %}

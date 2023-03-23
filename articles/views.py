@@ -20,9 +20,7 @@ def article(request, search:str, error = 0):
                 coincidences.append(name['id'])
 
         if len(coincidences) > 1:
-            articles = []
-            for id in coincidences:
-                articles.append(models.Article.objects.get(id=id))
+            articles = models.Article.objects.filter(id__in=coincidences).values('id', 'title')
             
             ctx = {
                 'title': search + ' (disambiguation)',
@@ -49,35 +47,71 @@ def categories(request):
     }
     return render(request, 'articles/categories.html', ctx)
 
-def category(request, search):
+def category(request, search:str):
     found = False
     articles = None
-    category = models.Category.objects.filter(name=search)
+    if search.isnumeric():
+        category = models.Category.objects.filter(id=search)            
+    else:
+        category = models.Category.objects.filter(name=search)
+
     if len(category) == 1:
         category = models.Category.objects.get(name=category[0].name)
         articles = models.Article.objects.filter(category=category).order_by('title')
+        search = category.name
         found = True
-
     ctx = {
         'title': search + ' Category',
         'articles': articles,
         'found': found,
     }
+
     return loadArticleList(request, ctx)
 
 def favouriteArticles(request):
     if request.user.is_authenticated:
         author = Author.objects.get(user=request.user)
         favourites = FavouriteArticles.objects.get(user=author)
-
         articles = [ a for a in favourites.articles.all() ]
+
+        related_total = getRelatedArticles(articles)
 
         ctx = {
             'title': 'Your favourite articles',
             'articles': articles,
+            'related': related_total,
             'found': True
         }
         return loadArticleList(request, ctx)
+    else:
+        return redirect('Home')
+    
+def search(request):
+    if request.method == 'POST':
+        if request.POST['search']:
+            search = request.POST['search']
+
+            coincidences = list(models.Article.objects.filter(title__icontains=search))
+            coincidencesByOtherNames = models.Article.objects.filter(other_names__icontains=search)
+
+            ids = [ar.id for ar in coincidences]
+
+            for co in coincidencesByOtherNames:
+                if co.id not in ids:
+                    ids.append(co.id)
+                    coincidences.append(co)
+
+            related = getRelatedArticles(coincidences)
+
+            ctx = {
+                'title': f'Results for "{search}"',
+                'articles': coincidences,
+                'related': related,
+                'found': True
+            }
+
+            return loadArticleList(request, ctx)
+            
     else:
         return redirect('Home')
 
@@ -101,61 +135,95 @@ def getRandomArticle():
 def show_article(request, article, found = True, move_to = False, commentError = 0):
     ctx = { 'found': found}
     if found:
-        article_names = getAllArticleNames(article.title)
-        summary = getSummary(article, article_names)
+        articles_names = getAllArticleNames(article.title)
+        disambiguation = getDisambiguation(article.other_names, articles_names)
+        summary = getSummary(article, articles_names)
         related = getRelatedArticles(article.title)
-        sections = getArticleSections(article, article_names)
+        sections = getArticleSections(article, articles_names)
         images = getArticleImages(article)
         comment_form = CommentForm()
+        favourite = checkFavourite(article, request.user)
         
         article.views += 1
         article.save()
 
-        article.main = getContentWithLinks(article.main, article_names)
+        article.main = getContentWithLinks(article.main, articles_names)
 
         ctx = {
             'article': article,
             'article_images': images,
             'summary': summary,
             'relatedArtices': related,
+            'disambiguation': disambiguation,
             'sections': sections,
             'comment_form': comment_form,
             'move_to': move_to,
             'error': commentError,
+            'is_favourite': favourite,
             'found': found
             }
     
     return render(request, 'articles/article.html', ctx)
 
 def getSummary(article, ordened_names):
-    summary = models.Summary.objects.get(article=article)
-    summary.content = getContentWithLinks(summary.content, ordened_names) 
-    fields = summary.content.split(';')
+    summaries = models.Summary.objects.filter(article=article)
+    if len(summaries) > 0:
+        summary = models.Summary.objects.get(article=article)
+        summary.content = getContentWithLinks(summary.content, ordened_names) 
+        fields = summary.content.split(';')
+        result = []
+        for field in fields:
+            if field:
+                key, value = field.split(':')[0], field.split(':')[1]
+                censored = False
+                if '#C' in key.upper():
+                    key = key.split('#C')[1]
+                    censored = True
+
+                result.append({
+                    'field': key, 
+                    'value': value,
+                    'censored': censored
+                    })
+        return result
+    else:
+        return None
+
+def getRelatedArticles(item):
     result = []
-    for field in fields:
-        if field:
-            key, value = field.split(':')[0], field.split(':')[1]
-            censored = False
-            if '#C' in key.upper():
-                key = key.split('#C')[1]
-                censored = True
+    if type(item) == str:
+        if(len(models.RelatedArticles.objects.filter(article_title=item)) > 0):
+            related = models.RelatedArticles.objects.get(article_title=item)
+            for article in related.related.all():
+                result.append({'id':article.id, 'title': article.title})
 
-            result.append({
-                'field': key, 
-                'value': value,
-                'censored': censored
-                })
+    elif type(item) == list:
+        ids = [ ar.id for ar in item]
 
-    return result
+        for article in item:
+            related_articles = getRelatedArticles(article.title)
+            to_add = []
+            for related in related_articles:
+                if related['id'] in ids:
+                    continue
 
-def getRelatedArticles(title):
-    result = []
-    if(len(models.RelatedArticles.objects.filter(article_title=title)) > 0):
-        related = models.RelatedArticles.objects.get(article_title=title)
-        for article in related.related.all():
-            result.append({'id':article.id, 'title': article.title})
+                ids.append(related['id'])
+                to_add.append(related)
+
+            result += to_add
     
-    return result
+    return result    
+
+def getDisambiguation(other_names, articles):
+    article_names = [ar.lower().strip() for ar in other_names.split(',')]
+
+    for article in articles:
+        for name in article['names']:
+            if name in article_names:
+                return name.capitalize()
+
+    return None
+
 
 def getArticleSections(article, ordened_names):
     result = []
@@ -217,3 +285,12 @@ def getContentWithLinks(content, ordened_names):
                     break
 
     return new_content
+
+def checkFavourite(article, user):
+    if user.is_authenticated:
+        favourites = FavouriteArticles.objects.get(user=Author.objects.get(user=user))
+        found = [ ar.id for ar in favourites.articles.all() if ar.id == article.id ]
+        return True if len(found) == 1 else False
+    else:
+        return None
+    
