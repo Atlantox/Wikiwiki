@@ -11,31 +11,21 @@ def article(request, search:str, error = 0):
         exists = True if len(article) > 0 else False
         return show_article(request, article.first(), exists, commentError=error)
     else:
-        names = getAllArticleNames()
-        coincidences = []
-        exists = True
-        article = None
-        for name in names:
-            if search.lower() in name['names']:
-                coincidences.append(name['id'])
+        articles = getArticlesbySearch(search)
 
-        if len(coincidences) > 1:
-            articles = models.Article.objects.filter(id__in=coincidences).values('id', 'title')
-            
-            ctx = {
-                'title': search + ' (disambiguation)',
-                'articles': articles,
-                'found': exists
-                }
-            
-            return loadArticleList(request, ctx)
+        if articles is not None:
+            if len(articles) > 1:
+                ctx = {
+                    'title': search + ' (disambiguation)',
+                    'articles': articles.values('id', 'title'),
+                    'found': True
+                    }
+                return loadArticleList(request,ctx)
+            elif len(articles) == 1:
+                return show_article(request, articles.first(), True)
         else:
-            if len(coincidences) == 1:
-                article = models.Article.objects.get(id=coincidences[0])
-            else:
-                exists = False
+            return show_article(request, None, False)
 
-            return show_article(request, article, exists, commentError=error)
 
 def random_article(request):
     return show_article(request, getRandomArticle())
@@ -213,6 +203,19 @@ def getRelatedArticles(item):
             result += to_add
     
     return result    
+
+def getArticlesbySearch(search):
+    names = getAllArticleNames()
+    coincidences = []
+
+    for name in names:
+        if search.lower() in name['names']:
+            coincidences.append(name['id'])
+
+    if len(coincidences) > 0:
+        return models.Article.objects.filter(id__in=coincidences)
+    else:
+        return None
 
 def getDisambiguation(other_names, articles):
     article_names = [ar.lower().strip() for ar in other_names.split(',')]

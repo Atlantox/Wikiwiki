@@ -4,8 +4,19 @@ from django.shortcuts import render
 from django.forms.models import model_to_dict
 from comments import models as Com
 from comments.views import CommentForm
+from articles.views import getArticlesbySearch
 from articles import models as Art
 import re
+
+class Article(View):
+    def get(self, request, search:str):
+        articles = getArticlesbySearch(search)
+
+        if articles is None:
+            return JsonResponse({'message:': 'Articles not found', 'status': 'Ok'})
+        else:
+            articles = articles.values('id', 'title', 'main', 'other_names', 'views')
+            return JsonResponse({'message': 'Success', 'status': 'Ok', 'found': len(articles), 'articles': list(articles)})
 
 class Comment(View):
 
@@ -103,4 +114,4 @@ class Favourite(View):
             return JsonResponse({'message': 'success','status': 'ok'})
 
 def tutorial(request):
-    return render(request, 'api/tutorial.html')
+    return render(request, 'api/api_tutorial.html')

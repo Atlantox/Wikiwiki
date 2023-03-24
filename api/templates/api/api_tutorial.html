@@ -1,0 +1,160 @@
+{% extends 'WebApp/common/base.html' %}
+{% block title %} API tutorial {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row my-4 p-5">
+    <h1 class="border-bottom">
+        API Request list
+    </h1>
+</div>
+<div class="row my-3">
+    {% with request.get_host as url %}
+    <ul class="row justify-content-center list-unstyled">
+        <li class="col-9 p-4">
+
+            <table class="border w-100">
+                <tr>
+                    <th class="border text-center align-middle p-2">URL:</th>
+                    <th class="border p-2 fw-normal">{{url}}/api/comments/</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Method:</th>
+                    <th class="border p-2 fw-normal">GET</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Arguments:</th>
+                    <th class="border p-2 fw-normal">
+                        art_id: (optional) Get all comments of target article, leave in blank to get all articles comments
+                    </th>
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Use:</th>
+                    <th class="border p-2 fw-normal">
+                        Obtain all comments of all articles. Date is in format year-month-day hour:minutes                        
+                    </th>
+                </tr>
+
+                <tr class="invisible"></tr>
+
+                <tr>
+                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
+                    <th class="border border-warning p-2 fw-normal">{{url}}/api/comments/</th> 
+                </tr>
+                <tr class="w-auto">
+                    <th class="border border-warning text-center align-middle">Response:</th>
+                    <th class="border border-warning fw-normal" colpan="2">
+                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
+                            {
+                                "message": "Success",
+                                "comments":
+                                    [
+                                        {
+                                        "id": 3,
+                                        "author": "Atlantox7",
+                                        "content": "She is my favourite!",
+                                        "article": 1,
+                                        "date": "2023-03-19 20:27"
+                                        },
+                                        {
+                                        "id": 32,
+                                        "author": "El mas capo",
+                                        "content": "Me too!",
+                                        "article": 1,
+                                        "date": "2023-03-22 16:53"
+                                        }
+                                    ]
+                            }
+                        </p>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
+                    <th class="border border-warning p-2 fw-normal">{{url}}/api/comments/2</th> 
+                </tr>
+                <tr class="w-auto">
+                    <th class="border border-warning text-center align-middle">Response:</th>
+                    <th class="border border-warning fw-normal" colpan="2">
+                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
+                            {
+                                "message": "Success",
+                                "comments": [
+                                  {
+                                    "id": 33,
+                                    "author": "Atlantox7",
+                                    "content": "Dark elves are broken",
+                                    "article": 2,
+                                    "date": "2023-03-24 18:35"
+                                  }
+                                ]
+                              }
+                        </p>
+                    </th>
+                </tr>
+            </table>
+            
+        </li>
+        {% include 'WebApp/common/divisor_sm.html' %}
+
+        <li class="col-9 p-4">
+
+            <table class="border w-100">
+                <tr>
+                    <th class="border text-center align-middle p-2">URL:</th>
+                    <th class="border p-2 fw-normal">{{url}}/api/article/[your search]</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Method:</th>
+                    <th class="border p-2 fw-normal">GET</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Arguments:</th>
+                    <th class="border p-2 fw-normal">
+                        search: the search you want to execute (search by title and other names)
+                    </th>
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Use:</th>
+                    <th class="border p-2 fw-normal">
+                        Obtain the id, title, main content, other names and views of a list of articles
+                    </th>
+                </tr>
+
+                <tr class="invisible"></tr>
+
+                <tr>
+                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
+                    <th class="border border-warning p-2 fw-normal">{{url}}/api/article/stefannie</th> 
+                </tr>
+                <tr class="w-auto">
+                    <th class="border border-warning text-center align-middle">Response:</th>
+                    <th class="border border-warning fw-normal" colpan="2">
+                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
+                            {
+                                "message": "Success",
+                                "status": "Ok",
+                                "found": 1,
+                                "articles": [
+                                  {
+                                    "id": 1,
+                                    "title": "Stefannie Kyoi",
+                                    "main": "Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself",
+                                    "other_names": "Stefannie",
+                                    "views": 604
+                                  }
+                                ]
+                              }
+                        </p>
+                    </th>
+                </tr>
+            </table>
+            
+        </li>
+        {% include 'WebApp/common/divisor_sm.html' %}
+
+    </ul>
+    {% endwith %}
+</div>
+{% endblock %}
