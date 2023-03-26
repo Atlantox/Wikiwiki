@@ -1,6 +1,10 @@
 from django import forms
 
 class CommentForm(forms.Form):
+    '''
+        The comment form
+    '''
+
     comment = forms.CharField(
         max_length=200, 
         widget=forms.Textarea(

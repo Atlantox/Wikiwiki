@@ -1,7 +1,10 @@
 {% extends 'WebApp/common/base.html' %}
 {% block title %} 
-{{title}}
-{% if not found %} Not found {% endif %}
+    {% if found %}
+        {{title}}
+    {% else %}
+        Not found
+    {% endif %}
 {% endblock %}
 
 {% load static %}

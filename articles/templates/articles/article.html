@@ -7,6 +7,7 @@
 {% block content %}
 
     <script>
+        // Initializing important variables
         var currentImg = 1;
         var images = {};
         var api_path = "/api/comments/{{article.id}}"
@@ -61,6 +62,7 @@
             <div class="col-3 p-5 rounded shadowed">
 
                 {% if article_images|length > 1 %}
+                    <!-- Showing the buttons to toggle between images -->
                     <div class="row justify-content-around my-2">
                         <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(-1)"> < </button>
                         <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(1)"> > </button>
@@ -138,11 +140,6 @@
                 {% include 'comments/comment_list.html' %}
 
                 {% if user.is_authenticated %}
-                    {% if error %}
-                        <div class="row">
-                            <h4 class="text-danger text-center">Invalid comment</h4>
-                        </div>
-                    {% endif %}
                     
                     <form class="row justify-content-center align-middle" id="comment_form" novalidate> {% csrf_token %}
                         <div class="row p-2 align-items-center justify-content-center">
@@ -155,6 +152,24 @@
                     </form>
 
                     <script>
+                        /*
+                            This script do certain API request to the server when a form is submitted
+                        */
+                        
+                        const apis = {
+                            "comment_form" : {
+                                path : "{% url 'add_comment' article.id %}",
+                                method : "POST"
+                            },
+                            "add_favourite" : {
+                                path : "{% url 'add_favourite' article.id %}",
+                                method : "POST"
+                            },
+                            "delete_favourite" : {
+                                path : "{% url 'delete_favourite' article.id %}",
+                                method : "DELETE"
+                            }
+                        }
 
                         function ToggleFavouriteIcon(){
                             var img = document.getElementById('favourite_icon');
@@ -172,27 +187,20 @@
                 
                         function sendForm(event) {
                             event.preventDefault();
-                            var path = "";
-                            var method = "POST";
-                            if (event.srcElement.id == "comment_form"){
-                                path = "{% url 'add_comment' article.id %}";
-                            }
-                            else if(event.srcElement.id == "add_favourite"){
-                                path = "{% url 'add_favourite' article.id %}";
-                            }
-                            else if(event.srcElement.id == "delete_favourite"){
-                                path = "{% url 'delete_favourite' article.id %}";
-                                method = "DELETE";
-                            }
-                                const request = new Request(
-                                    path,
-                                    {
-                                        method: method,
-                                        headers: {'X-CSRFToken': csrfToken},
-                                        mode: 'same-origin',
-                                        body: new FormData(form)
-                                    }
-                                );
+                            
+
+                            var element = apis[event.srcElement.id];
+                            console.log(element);
+
+                            const request = new Request(
+                                element.path,
+                                {
+                                    method: element.method,
+                                    headers: {'X-CSRFToken': csrfToken},
+                                    mode: 'same-origin',
+                                    body: new FormData(form)
+                                }
+                            );
                             fetch(request)
                                 .then((response) => {
                                     if (response.ok) {
@@ -259,11 +267,5 @@
                 
         }
     </script>
-
-    {% if error %}
-        <script>
-            setTimeout(() => {  document.getElementById("comment_form").scrollIntoView({behavior: "smooth"}); }, 100);
-        </script>
-    {% endif %}
 
 {% endblock %}

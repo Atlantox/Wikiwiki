@@ -20,6 +20,7 @@ class Comment(models.Model):
     author = models.ForeignKey(Author, verbose_name='Registered author', on_delete=models.CASCADE, default=None, null=True)
     content = models.CharField(max_length=200, verbose_name='Content', validators=[XSS_VALIDATOR, MinLengthValidator(5)])
     article = models.ForeignKey(Article, verbose_name='Target article', on_delete=models.CASCADE)
+    bloqued = models.BooleanField(verbose_name='Is bloqued', default=False)
     created = models.DateTimeField(verbose_name='Created at', auto_now=True)
 
     def __str__(self):

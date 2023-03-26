@@ -35,6 +35,12 @@
                             '<span class="mx-2 fw-lighter">{1}</span>' +
                         '</div>' +
                         ' <p class="col-9 ms-5">{2}</p>' +
+                        '{% if request.user.is_staff %}' +
+                            '<form method="POST" id="block_comment" action="' + "{% url 'block_comment' article.id %}" + '"> {% csrf_token %}' +
+                                '<input type="text" hidden value="{3}" name="comment_id">' +
+                                '<button class="btn btn-danger" type="submit" >Block comment</button>' +
+                            '</form>' +
+                        '{% endif %}' +
                     '</div>' +
                 '</section>'
             
@@ -42,7 +48,7 @@
             
             comments.forEach(comment => {
                 if(!id_written.includes(comment.id)){
-                    comments_section.innerHTML += template.format(comment.author, comment.date, comment.content);
+                    comments_section.innerHTML += template.format(comment.author, comment.date, comment.content, comment.id);
                     id_written.push(comment.id);
                 }
             });

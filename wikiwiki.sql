@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-03-2023 a las 20:50:36
+-- Tiempo de generación: 26-03-2023 a las 23:57:15
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -42,11 +42,11 @@ CREATE TABLE `articles_article` (
 --
 
 INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`, `summary_id`) VALUES
-(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself. Liz\'amar', 622, '2023-03-24 19:45:02.135969', 1),
-(2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 40, '2023-03-24 19:29:03.236035', 2),
-(3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 92, '2023-03-24 19:31:14.061023', 3),
-(4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 39, '2023-03-24 19:30:20.844806', 4),
-(5, 'Liz\'Amar (War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 22, '2023-03-24 19:34:30.314774', 5);
+(1, 'Stefannie Kyoi', 'Stefannie', 'Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself. liz\'amar', 715, '2023-03-26 20:30:58.412734', 1),
+(2, 'Dark elves', 'Dark elf', 'The dark elves are one of the 5 races in Venslla, they are intelligent but over all their are very skullfuls, they have a powerfull feel of justice and often their are very strict', 42, '2023-03-26 20:32:58.369400', 2),
+(3, 'Stealth Instructor', 'Citria', 'Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy', 95, '2023-03-26 21:15:13.291174', 3),
+(4, 'Liz\'Amar (Tales of Venslla)', 'Liz\'Amar,Liz\'Amar Seitai', 'LizAmar are an orc, she is the most powerful member of the warrior branch and watch almost all physical activities as a challenge, always want to win.', 41, '2023-03-26 20:30:57.130531', 4),
+(5, 'Liz\'Amar (War of Venslla)', 'Liz\'Amar, Liz\'Amar Seitai', 'Liz\'Amar are a Phoenix of Venslla, is the most powerfull member in the warrior branch she was gradauted by the first promotion of the Hinotori Academy', 23, '2023-03-26 20:29:31.269621', 5);
 
 -- --------------------------------------------------------
 
@@ -422,7 +422,7 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-03-24 19:37:30.134663', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947'),
+(1, 'pbkdf2_sha256$390000$54PpeMFigfsMgcelEO2TFR$FaDKQh4NYA9g8ruT3mH1QZXz1TEX50LSPXZNy4T8zUw=', '2023-03-26 15:30:14.778939', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947'),
 (3, 'pbkdf2_sha256$390000$b6BMKBEKlJcOpkQGGavn4o$Ach1/68G7gOkQVNK1NRK0nH/Xc6vbX3JRLZkQZikZkI=', '2023-03-24 19:31:40.437301', 0, 'PepitoGaming', '', '', '', 0, 1, '2023-03-22 16:45:28.591718'),
 (4, 'pbkdf2_sha256$390000$suODQmZCXWIVcwW8DGVojI$xdS0n1w3tor+s9PXIOkASxjtm1/tGbWkbzaCzdCoOQk=', '2023-03-24 19:34:25.255157', 0, 'Romulo', '', '', '', 0, 1, '2023-03-22 18:15:57.674185'),
 (5, 'pbkdf2_sha256$390000$EVuNylHryN7whvJcG1J6GO$kJ8fBKo7omYjceyIgWQxyYCkU8lRA6yn/zDg9zTg8xA=', '2023-03-23 15:01:51.717027', 0, 'El_pepe', '', '', '', 0, 1, '2023-03-23 15:01:51.231327');
@@ -484,19 +484,21 @@ CREATE TABLE `comments_comment` (
   `content` varchar(200) NOT NULL,
   `created` datetime(6) NOT NULL,
   `article_id` bigint(20) NOT NULL,
-  `author_id` bigint(20) DEFAULT NULL
+  `author_id` bigint(20) DEFAULT NULL,
+  `bloqued` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `comments_comment`
 --
 
-INSERT INTO `comments_comment` (`id`, `content`, `created`, `article_id`, `author_id`) VALUES
-(3, 'She is my favourite!', '2023-03-19 20:27:53.751673', 1, 1),
-(32, 'Me too!', '2023-03-22 16:53:55.530658', 1, 2),
-(33, 'Dark elves are broken', '2023-03-24 18:35:54.160060', 2, 1),
-(34, 'Me recuerda a mi mamá cuando me pegaba', '2023-03-24 19:32:41.215056', 5, 2),
-(35, 'No me gusta, grita mucho', '2023-03-24 19:35:03.237308', 5, 2);
+INSERT INTO `comments_comment` (`id`, `content`, `created`, `article_id`, `author_id`, `bloqued`) VALUES
+(3, 'She is my favourite!', '2023-03-19 20:27:53.751673', 1, 1, 0),
+(32, 'Me too!', '2023-03-22 16:53:55.530658', 1, 2, 0),
+(33, 'Dark elves are broken', '2023-03-24 18:35:54.160060', 2, 1, 0),
+(34, 'Me recuerda a mi mamá cuando me pegaba', '2023-03-24 19:32:41.215056', 5, 2, 0),
+(35, 'No me gusta, grita mucho', '2023-03-24 19:35:03.237308', 5, 2, 0),
+(36, 'Comentario', '2023-03-26 16:40:35.484734', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -670,7 +672,16 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (106, '2023-03-24 19:44:13.828698', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
 (107, '2023-03-24 19:44:32.074838', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
 (108, '2023-03-24 19:44:45.954806', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
-(109, '2023-03-24 19:45:00.834316', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1);
+(109, '2023-03-24 19:45:00.834316', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(110, '2023-03-26 13:33:26.834183', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(111, '2023-03-26 13:35:44.146128', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(112, '2023-03-26 13:46:51.711953', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(113, '2023-03-26 13:53:12.664042', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(114, '2023-03-26 15:04:53.224573', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(115, '2023-03-26 15:16:51.063885', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(116, '2023-03-26 15:17:14.716229', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(117, '2023-03-26 15:17:26.092921', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1),
+(118, '2023-03-26 15:17:43.475333', '1', 'Stefannie Kyoi', 2, '[{\"changed\": {\"fields\": [\"Main content\"]}}]', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -760,7 +771,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (33, 'articles', '0012_remove_summary_article_article_summary', '2023-03-22 14:38:55.359013'),
 (34, 'comments', '0003_alter_author_options_alter_author_user_and_more', '2023-03-22 14:39:01.263245'),
 (35, 'articles', '0013_summary_title', '2023-03-22 14:42:18.543586'),
-(36, 'comments', '0004_alter_favouritearticles_articles', '2023-03-22 20:12:15.941235');
+(36, 'comments', '0004_alter_favouritearticles_articles', '2023-03-22 20:12:15.941235'),
+(37, 'comments', '0005_comment_bloqued', '2023-03-26 16:02:45.914407');
 
 -- --------------------------------------------------------
 
@@ -779,7 +791,7 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('k1u2hj5hq869un9j5480t83ib4ucxij9', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pfnEA:U06u5jCYYY-b9A9VNAKQPjdcLBk68SOC5kcsvo8Ivls', '2023-04-07 19:37:30.184406'),
+('eghzttjqdgm7v7h31caiz4b9nuoclofi', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pgSJy:NXdrqjZ2hF0aVTEl_2mY9fAbye7oVAkSdWlcRNavKHs', '2023-04-09 15:30:14.829184'),
 ('lyv9sqtvjb69vsb48fczdp02vv3x9015', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pWgTt:1vYdSAl2c65cvQVTtWQuEKvsG1Rg7oVMjTdNb5F1rNk', '2023-03-13 16:36:05.060484');
 
 -- --------------------------------------------------------
@@ -1104,7 +1116,7 @@ ALTER TABLE `comments_author`
 -- AUTO_INCREMENT de la tabla `comments_comment`
 --
 ALTER TABLE `comments_comment`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `comments_favouritearticles`
@@ -1122,7 +1134,7 @@ ALTER TABLE `comments_favouritearticles_articles`
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`
@@ -1134,7 +1146,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `webapp_contact`

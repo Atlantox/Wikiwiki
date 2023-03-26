@@ -13,8 +13,246 @@
 <div class="row my-3">
     {% with request.get_host as url %}
     <ul class="row justify-content-center list-unstyled">
-        <li class="col-9 p-4">
 
+        <li class="col-9 p-4">
+            <h2>Get articles by search</h2>
+            <table class="border w-100">
+                <tr>
+                    <th class="border text-center align-middle p-2">URL:</th>
+                    <th class="border p-2 fw-normal">{{url}}/api/article/[your search]</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Method:</th>
+                    <th class="border p-2 fw-normal">GET</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Arguments:</th>
+                    <th class="border p-2 fw-normal">
+                        search: the search you want to execute (search by title and other names)
+                    </th>
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Use:</th>
+                    <th class="border p-2 fw-normal">
+                        Obtain the id, title, main content, other names and views of a list of articles
+                    </th>
+                </tr>
+
+                <tr class="invisible"></tr>
+
+                <tr>
+                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
+                    <th class="border border-warning p-2 fw-normal">{{url}}/api/article/stefannie</th> 
+                </tr>
+                <tr class="w-auto">
+                    <th class="border border-warning text-center align-middle">Response:</th>
+                    <th class="border border-warning fw-normal" colpan="2">
+                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
+                            {
+                                "message": "Success",
+                                "status": "Ok",
+                                "found": 1,
+                                "articles": [
+                                  {
+                                    "id": 1,
+                                    "title": "Stefannie Kyoi",
+                                    "main": "Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself",
+                                    "other_names": "Stefannie",
+                                    "views": 604
+                                  }
+                                ]
+                              }
+                        </p>
+                    </th>
+                </tr>
+            </table>
+            
+        </li>
+
+        {% include 'WebApp/common/divisor_sm.html' %}
+
+        <li class="col-9 p-4">
+            <h2>Get full article</h2>
+            <table class="border w-100">
+                <tr>
+                    <th class="border text-center align-middle p-2">URL:</th>
+                    <th class="border p-2 fw-normal">{{url}}/api/full_article/[id]</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Method:</th>
+                    <th class="border p-2 fw-normal">GET</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Arguments:</th>
+                    <th class="border p-2 fw-normal">
+                        id: Target article id
+                    </th>
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Use:</th>
+                    <th class="border p-2 fw-normal">
+                        Obtain the id, title, main content, other names, views, summary, related articles (names) and each visible section
+                    </th>
+                </tr>
+
+                <tr class="invisible"></tr>
+
+                <tr>
+                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
+                    <th class="border border-warning p-2 fw-normal">{{url}}/api/full_article/1</th> 
+                </tr>
+                <tr class="w-auto">
+                    <th class="border border-warning text-center align-middle">Response:</th>
+                    <th class="border border-warning fw-normal" colpan="2">
+                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
+                            {
+                                "meesage": "Success",
+                                "status": "ok",
+                                "article": {
+                                  "id": 1,
+                                  "title": "Stefannie Kyoi",
+                                  "main": "Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself. liz'amar",
+                                  "other_names": "Stefannie",
+                                  "views": 713
+                                },
+                                "summary": {
+                                  "Gender": "female",
+                                  "Birthplace": "Quimol",
+                                  "Status": "alive"
+                                },
+                                "related_articles": [
+                                  "Dark elves",
+                                  "Stealth Instructor"
+                                ],
+                                "sections": [
+                                  {
+                                    "title": "Personality",
+                                    "content": "Stefannie is very independent, logical and solitaire,  always search the self benefit and never helps others without gain something, she is very direct and in many cases cruel."
+                                  },
+                                  {...
+                                    
+                                  ...}
+                                ]
+                              }
+                        </p>
+                    </th>
+                </tr>
+            </table>
+            
+        </li>
+
+        {% include 'WebApp/common/divisor_sm.html' %}
+
+        <li class="col-9 p-4">
+            <h2>Get random article</h2>
+            <table class="border w-100">
+                <tr>
+                    <th class="border text-center align-middle p-2">URL:</th>
+                    <th class="border p-2 fw-normal">{{url}}/api/random_article/</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Method:</th>
+                    <th class="border p-2 fw-normal">GET</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Use:</th>
+                    <th class="border p-2 fw-normal">
+                        Obtain the id, title, main content, other names and views of a random article
+                    </th>
+                </tr>
+
+                <tr class="invisible"></tr>
+
+                <tr>
+                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
+                    <th class="border border-warning p-2 fw-normal">{{url}}/api/random_article/</th> 
+                </tr>
+                <tr class="w-auto">
+                    <th class="border border-warning text-center align-middle">Response:</th>
+                    <th class="border border-warning fw-normal" colpan="2">
+                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
+                            {
+                                "message:": "Success",
+                                "status": "ok",
+                                "article": {
+                                  "id": 3,
+                                  "title": "Stealth Instructor",
+                                  "main": "Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy",
+                                  "other_names": "Citria",
+                                  "views": 93
+                                }
+                            }
+                        </p>
+                    </th>
+                </tr>
+            </table>
+            
+        </li>
+
+        {% include 'WebApp/common/divisor_sm.html' %}
+
+        
+        <li class="col-9 p-4">
+            <h2>Get most viewed articles</h2>
+            <table class="border w-100">
+                <tr>
+                    <th class="border text-center align-middle p-2">URL:</th>
+                    <th class="border p-2 fw-normal">{{url}}/api/most_viewed/</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Method:</th>
+                    <th class="border p-2 fw-normal">GET</th> 
+                </tr>
+                <tr>
+                    <th class="border text-center align-middle p-2">Use:</th>
+                    <th class="border p-2 fw-normal">
+                        Obtain the 10 articles with more views
+                    </th>
+                </tr>
+
+                <tr class="invisible"></tr>
+
+                <tr>
+                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
+                    <th class="border border-warning p-2 fw-normal">{{url}}/api/most_viewed/</th> 
+                </tr>
+                <tr class="w-auto">
+                    <th class="border border-warning text-center align-middle">Response:</th>
+                    <th class="border border-warning fw-normal" colpan="2">
+                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
+                            {
+                                "message:": "Succes",
+                                "status": "ok",
+                                "articles": [
+                                  {
+                                    "id": 1,
+                                    "title": "Stefannie Kyoi",
+                                    "main": "Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself. liz'amar",
+                                    "other_names": "Stefannie",
+                                    "views": 713
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "Stealth Instructor",
+                                    "main": "Citria that is, the stealth isntructor is one of the 4 instructors in the Hinotori academy",
+                                    "other_names": "Citria",
+                                    "views": 93
+                                  },
+                                  { ...
+
+                                  ...}
+                                ]
+                            }
+                        </p>
+                    </th>
+                </tr>
+                </table>
+        </li>
+
+        {% include 'WebApp/common/divisor_sm.html' %}
+
+        <li class="col-9 p-4">
+            <h2>Get Comments</h2>
             <table class="border w-100">
                 <tr>
                     <th class="border text-center align-middle p-2">URL:</th>
@@ -96,62 +334,8 @@
             </table>
             
         </li>
-        {% include 'WebApp/common/divisor_sm.html' %}
 
-        <li class="col-9 p-4">
 
-            <table class="border w-100">
-                <tr>
-                    <th class="border text-center align-middle p-2">URL:</th>
-                    <th class="border p-2 fw-normal">{{url}}/api/article/[your search]</th> 
-                </tr>
-                <tr>
-                    <th class="border text-center align-middle p-2">Method:</th>
-                    <th class="border p-2 fw-normal">GET</th> 
-                </tr>
-                <tr>
-                    <th class="border text-center align-middle p-2">Arguments:</th>
-                    <th class="border p-2 fw-normal">
-                        search: the search you want to execute (search by title and other names)
-                    </th>
-                </tr>
-                <tr>
-                    <th class="border text-center align-middle p-2">Use:</th>
-                    <th class="border p-2 fw-normal">
-                        Obtain the id, title, main content, other names and views of a list of articles
-                    </th>
-                </tr>
-
-                <tr class="invisible"></tr>
-
-                <tr>
-                    <th class="border border-warning text-center align-middle p-2">Example Request:</th>
-                    <th class="border border-warning p-2 fw-normal">{{url}}/api/article/stefannie</th> 
-                </tr>
-                <tr class="w-auto">
-                    <th class="border border-warning text-center align-middle">Response:</th>
-                    <th class="border border-warning fw-normal" colpan="2">
-                        <p class="m-0 p-0 h-auto text-start" style="white-space: pre-wrap;">
-                            {
-                                "message": "Success",
-                                "status": "Ok",
-                                "found": 1,
-                                "articles": [
-                                  {
-                                    "id": 1,
-                                    "title": "Stefannie Kyoi",
-                                    "main": "Stefannie is a dark elf and the most powerful member in the stealth branch of the Hinotori academy. She is very serious, direct and intimidating and rarely she talk about herself",
-                                    "other_names": "Stefannie",
-                                    "views": 604
-                                  }
-                                ]
-                              }
-                        </p>
-                    </th>
-                </tr>
-            </table>
-            
-        </li>
         {% include 'WebApp/common/divisor_sm.html' %}
 
     </ul>
