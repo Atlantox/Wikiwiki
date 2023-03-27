@@ -54,7 +54,7 @@
                         {% endif %}
                     </div>
                     <p class="px-2 my-4">
-                        {{article.main | safe }}
+                        {{article.main | safe | linebreaks }}
                     </p>
                 </div>
             </div>
@@ -90,13 +90,13 @@
                 {% if summary is not None %}
                     <div class="row mt-3 justify-content-center">
                         {% for field in summary %}
-                            <div class="col-6 text-center border text-capitalize">
+                            <div class=" p-1 col-6 fw-bold text-center border text-capitalize d-flex justify-content-center align-items-center">
                                 {{field.field}}
                             </div>
                             {% if field.censored %}
-                            <div class="col-6 text-center border text-capitalize censored">
+                            <div class="p-1 col-6 text-center border text-capitalize d-flex justify-content-center align-items-center censored">
                             {% else %}
-                            <div class="col-6 text-center border text-capitalize">
+                            <div class="p-1 col-6 text-center border text-capitalize d-flex justify-content-center align-items-center">
                             {% endif %}
                                 {{field.value | safe}}
                             </div>

@@ -7,18 +7,18 @@
     </h2>
 
 <div class="row mt-3">
-    <div class="col-3 text-center d-flex flex-column justify-content-center align-items-center">
+    <div class="col-3 text-center d-flex flex-column justify-content-center align-items-center my-2">
         {% for img in section.images.all %}
-            <button type="button" class="w-100 h-auto border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#fullImgModal" id="{{img.id}}" onclick="OpenModal({{img.id}})">
+            <button type="button" class="w-100 h-auto border-0 bg-transparent p-0 " data-bs-toggle="modal" data-bs-target="#fullImgModal" id="{{img.id}}" onclick="OpenModal({{img.id}})">
                 <img class="w-75" src="{{img.img.url}}" alt="{{section.title}} img">
             </button>
-            <span class="w-75 bg-primary-light">{{img.title}}</span>
+            <span class="w-75 bg-primary-light mb-4">{{img.title}}</span>
             {% include 'articles/imgModalLoader.html' %}
         {% endfor %}
     </div>
     <div class="col-9">
         <p>
-            {{section.content | safe}}
+            {{section.content | safe | linebreaks}}
         </p>
     </div>
 </div>

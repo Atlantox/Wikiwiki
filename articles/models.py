@@ -71,7 +71,7 @@ class Article(models.Model):
 
 class Section(models.Model):
     title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')
-    content = models.TextField(verbose_name='Section text', blank=True, null=True, validators=[XSS_VALIDATOR])
+    content = models.TextField(verbose_name='Section text. To create a list use #; as separator', blank=True, null=True, validators=[XSS_VALIDATOR])
     targetArticle = models.ForeignKey(Article, verbose_name='Target article', on_delete=models.CASCADE)
     images = models.ManyToManyField(Image, verbose_name='Section images', blank=True)
     sectionType = models.ForeignKey(SectionType, verbose_name='Section type', on_delete=models.SET_NULL, null=True)

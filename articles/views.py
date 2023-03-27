@@ -302,7 +302,8 @@ def getArticleSections(article, ordened_names):
                 section.content = getContentWithLinks(section.content, ordened_names)
 
             if section.sectionType.name in ['Ordened list', 'Unordened list']:
-                elements = [s.capitalize() for s in section.content.split('#;')]
+
+                elements = [s for s in section.content.split('#;') if s ]
                 section.content = elements
                 
             result.append(section)
