@@ -14,8 +14,8 @@ WikiWiki offers:
 
 Enjoy and leverage this template :)
 
-Made by Atlantox: https://github.com/Atlantox
-
-Github: https://github.com/Atlantox/Wikiwiki
-
 Example site: http://wikiwikiexample.pythonanywhere.com/
+
+Wikiwiki: https://github.com/Atlantox/Wikiwiki
+
+Made by Atlantox: https://twitter.com/atlantox7
