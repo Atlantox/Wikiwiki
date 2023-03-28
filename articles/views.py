@@ -105,17 +105,21 @@ def search(request):
 
     if request.method == 'POST':
         if request.POST['search']:
+            found = True
             search = request.POST['search']
             
             articles = getArticlesbySearch(search)
+
+            if len(articles) > 0:
+                found = True
 
             related = getRelatedArticles(articles)
 
             ctx = {
                 'title': f'Results for "{search}"',
-                'articles': articles.values('id', 'title'),
+                'articles': articles.values('id', 'title') if found else None,
                 'related': related,
-                'found': True
+                'found': found
             }
 
             return loadArticleList(request, ctx)
