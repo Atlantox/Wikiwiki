@@ -105,12 +105,12 @@ def search(request):
 
     if request.method == 'POST':
         if request.POST['search']:
-            found = True
+            found = False
             search = request.POST['search']
             
             articles = getArticlesbySearch(search)
 
-            if len(articles) > 0:
+            if articles is not None:
                 found = True
 
             related = getRelatedArticles(articles)
@@ -203,7 +203,7 @@ def getSummary(article, ordened_names):
     summaries = models.Summary.objects.filter(article=article)
     if len(summaries) > 0:
         summary = models.Summary.objects.get(article=article)
-        summary.content = getContentWithLinks(summary.content, ordened_names) 
+        summary.content = getContentWithLinks(summary.content, ordened_names)
         fields = summary.content.split(';')
         result = []
         for field in fields:
@@ -333,6 +333,7 @@ def getAllArticleNames(excluded_title = False):
     '''
         Return all names of all articles (title and other names)
         If you set excluded_title, then return all names of all articles excluding that title
+        Return a list of dicts with 'id' and 'names'
     '''
 
     articles = models.Article.objects.all().values('id', 'title', 'other_names')
