@@ -61,7 +61,7 @@
 
             <div class="col-3 p-5 rounded shadowed">
 
-                {% if article_images|length > 1 %}
+                {% if article.images.all|length > 1 %}
                     <!-- Showing the buttons to toggle between images -->
                     <div class="row justify-content-around my-2">
                         <button class="col-1 border-0 bg-secondary shadowed p-1" onclick="ChangeImg(-1)"> < </button>
@@ -70,16 +70,16 @@
                 {% endif %}
 
                 <div class="row p-2">
-                    {% for img in article_images %}
+                    {% for img in article.images.all %}
                         <button type="button" class="w-100 h-auto border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#fullImgModal" id="{{img.id}}" onclick="OpenModal({{img.id}})">
-                            {% if article_images|length > 1 %}
-                                {% if img.order == 1 %}
-                                    <img id="img-{{img.order}}" class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
+                            {% if article.images.all|length > 1 %}
+                                {% if forloop.counter == 1 %}
+                                    <img id="img-{{forloop.counter}}" class="w-100 article-img" src="{{img.img.url}}" alt="{{img.title}}">
                                 {% else %}
-                                    <img id="img-{{img.order}}" class="w-100 d-none article-img" src="{{img.url}}" alt="{{article.title}}">
+                                    <img id="img-{{forloop.counter}}" class="w-100 d-none article-img" src="{{img.img.url}}" alt="{{img.title}}">
                                 {% endif %}
                             {% else %}
-                                <img class="w-100 article-img" src="{{img.url}}" alt="{{article.title}}">
+                                <img class="w-100 article-img" src="{{img.img.url}}" alt="{{img.title}}">
                                 {% endif %}
                         </button>
                         {% include 'articles/imgModalLoader.html' %}

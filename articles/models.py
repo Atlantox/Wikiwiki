@@ -40,9 +40,9 @@ class Category(models.Model):
         return self.name
 
 class Summary(models.Model):
-    title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title', default='')
+    title = models.CharField(max_length=ARTICLE_TITLE_LENGTH, verbose_name='Title')
     content = models.TextField(verbose_name="Summary's content. Follow this format: name1:value1;name2:value2 \n\n Place #C before any name to set it as censored: #Cstatus:alive", 
-                               default=None, null=True, validators=[XSS_VALIDATOR])
+                               default='', null=True, validators=[XSS_VALIDATOR])
 
     class Meta():
         verbose_name= 'Article summary'

@@ -1,9 +1,12 @@
+import random
+
 from django.shortcuts import render, redirect
-from django.forms.models import model_to_dict
+from django.urls import reverse
+from django.views import generic
 from comments.views import CommentForm
 from comments.models import Author, FavouriteArticles
 from . import models
-import random
+
 
 def article(request, search:str):
     '''
@@ -14,7 +17,7 @@ def article(request, search:str):
         article = models.Article.objects.filter(id=int(search))
         exists = True if len(article) > 0 else False
         return show_article(request, article.first(), exists)
-    else:  # Search by name and other names
+    else:  # Search by title and other names
         articles = getArticlesbySearch(search)
 
         if articles is not None:
@@ -39,16 +42,13 @@ def random_article(request):
     return show_article(request, getRandomArticle())
 
 
-def categories(request):
-    '''
-        Display a list of all categories in the categories table
-    '''
+class CategoriesView(generic.ListView):
+    ''' Display a list of all categories in the categories table '''
+    template_name = 'articles/categories.html'
+    context_object_name = 'categories'
 
-    categories = models.Category.objects.all()
-    ctx = {
-        'categories': categories
-    }
-    return render(request, 'articles/categories.html', ctx)
+    def get_queryset(self):
+        return models.Category.objects.all()
 
 
 def category(request, search:str):
@@ -65,9 +65,10 @@ def category(request, search:str):
 
     if len(category) == 1:
         category = models.Category.objects.get(name=category[0].name)
-        articles = models.Article.objects.filter(category=category).order_by('title')
+        articles = category.article_set.all().order_by('title').values('id', 'title')
         search = category.name
         found = True
+
     ctx = {
         'title': search + ' Category',
         'articles': articles,
@@ -75,6 +76,7 @@ def category(request, search:str):
     }
 
     return loadArticleList(request, ctx)
+
 
 def favouriteArticles(request):
     '''
@@ -84,7 +86,7 @@ def favouriteArticles(request):
     if request.user.is_authenticated:
         author = Author.objects.get(user=request.user)
         favourites = FavouriteArticles.objects.get(user=author)
-        articles = [ a for a in favourites.articles.all() ]
+        articles = favourites.articles.all().order_by('title')
 
         related_total = getRelatedArticles(articles)
 
@@ -136,16 +138,16 @@ def loadArticleList(request, ctx):
     return render(request, 'articles/list.html', ctx)
 
 
-def gallery(request):
+class GalleryView(generic.ListView):
     '''
         Load the view of the gallery, showing al images registered in the Images table
     '''
+    template_name = 'articles/gallery.html'
+    context_object_name = 'images'
 
-    images = models.Image.objects.all().order_by('title')
-    ctx = {
-        'images': images,
-    }
-    return render(request, 'articles/gallery.html', ctx)
+    def get_queryset(self):
+        return models.Image.objects.order_by('title')
+
 
 def getRandomArticle():
     '''
@@ -156,21 +158,25 @@ def getRandomArticle():
     count = len(articles) - 1
     return articles[random.randint(0, count)]
 
+
 def show_article(request, article, found = True):
     '''
         Displays the full article view
     '''
 
     ctx = { 'found': found}
+
     if found:
         articles_names = getAllArticleNames(article.title)
         disambiguation = getDisambiguation(article.other_names, articles_names)
-        summary = getSummary(article, articles_names)
+        summary = getSummaryWithLinks(article.summary, articles_names)
         related = getRelatedArticles(article.title)
-        sections = getArticleSections(article, articles_names)
-        images = getArticleImages(article)
-        comment_form = CommentForm()
-        favourite = checkFavourite(article, request.user)
+
+        # Getting the visible sections ordered by order
+        sections = article.section_set.filter(visible=True).order_by('order')  
+        sections = getArticleSectionsWithLinks(sections, articles_names)
+
+        favourite = checkFavourite(article.id, request.user)
         
         article.views += 1
         article.save()
@@ -179,19 +185,19 @@ def show_article(request, article, found = True):
 
         ctx = {
             'article': article,
-            'article_images': images,
             'summary': summary,
             'relatedArtices': related,
             'disambiguation': disambiguation,
             'sections': sections,
-            'comment_form': comment_form,
+            'comment_form': CommentForm(),
             'is_favourite': favourite,
             'found': found
             }
     
     return render(request, 'articles/article.html', ctx)
 
-def getSummary(article, ordened_names):
+
+def getSummaryWithLinks(summary, ordened_names):
     '''
         Recieve an article and a list of ordered name (obtained by the getAllArticleNames function )
         Return the summary of the article with the hyperlinks added to them content
@@ -200,9 +206,7 @@ def getSummary(article, ordened_names):
             This too happens with the content of each section an main content or each article
     '''
 
-    summaries = models.Summary.objects.filter(article=article)
-    if len(summaries) > 0:
-        summary = models.Summary.objects.get(article=article)
+    if summary.content:
         summary.content = getContentWithLinks(summary.content, ordened_names)
         fields = summary.content.split(';')
         result = []
@@ -223,6 +227,7 @@ def getSummary(article, ordened_names):
     else:
         return None
 
+
 def getRelatedArticles(item):
     '''
         Recieve an string or a list:
@@ -232,12 +237,15 @@ def getRelatedArticles(item):
 
     result = []
     if type(item) == str:
-        if(len(models.RelatedArticles.objects.filter(article_title=item)) > 0):
-            related = models.RelatedArticles.objects.get(article_title=item)
+        # Recieving an article title
+        related = models.RelatedArticles.objects.filter(article_title=item)
+        if(len(related) > 0):
+            related = related.first()
             for article in related.related.all():
                 result.append({'id':article.id, 'title': article.title})
 
     elif type(item) == list:
+        # Recieving a list of articles
         ids = [ ar.id for ar in item]
 
         for article in item:
@@ -264,14 +272,15 @@ def getArticlesbySearch(search):
     coincidences = []
 
     for name in names:
-        buffer = [ n for n in name['names'] if search.lower() in n ]
-        if buffer:
+        coincidance = [ n for n in name['names'] if search.lower() in n ]
+        if coincidance:
             coincidences.append(name['id'])
 
     if len(coincidences) > 0:
-        return models.Article.objects.filter(id__in=coincidences)
+        return models.Article.objects.filter(pk__in=coincidences)
     else:
         return None
+
 
 def getDisambiguation(other_names, articles):
     '''
@@ -289,7 +298,7 @@ def getDisambiguation(other_names, articles):
     return None
 
 
-def getArticleSections(article, ordened_names):
+def getArticleSectionsWithLinks(sections, ordened_names):
     '''
         Recieve an article and the ordered_names of getAllArticleNames function
         Return all section of the article with hyperlinks added
@@ -299,8 +308,8 @@ def getArticleSections(article, ordened_names):
     '''
 
     result = []
-    sections = models.Section.objects.filter(targetArticle=article, visible=True).order_by('order')
-    if(len(sections) > 0):
+
+    if len(sections) > 0:
         for section in sections:
             if(section.content):
                 section.content = getContentWithLinks(section.content, ordened_names)
@@ -313,20 +322,6 @@ def getArticleSections(article, ordened_names):
             result.append(section)
     
     return result
-
-def getArticleImages(article):
-    '''
-        Get all the images of an article
-    '''
-
-    images = []
-    count = 1
-
-    for img in [model_to_dict(ar) | {'url': ar.img.url} for ar in article.images.all()]:
-        to_add = img | {'order' : count}
-        count += 1
-        images.append(to_add)
-    return images
 
 
 def getAllArticleNames(excluded_title = False):
@@ -381,13 +376,14 @@ def getReplacedContent(content:str, word:str):
     '''
 
     variants = [word.capitalize(), word.title(), word.lower()]
-    link = '<a class="text-capitalize fw-bold text-white" href="/article/{0}">{1}</a>'
+    link = '<a class="text-capitalize fw-bold text-white" href="{0}">{1}</a>'
 
     old = content
     for variant in variants:
+        url = reverse('article', args=(variant,))
         content = content.replace(
             variant,
-            link.format(variant, variant.title())
+            link.format(url, variant.title())
         )
 
         if content != old:
@@ -395,15 +391,18 @@ def getReplacedContent(content:str, word:str):
         
     return content, False
 
-def checkFavourite(article, user):
+
+def checkFavourite(article_id, user):
     '''
         Check if user has the article as favourite, return true or false, too can return None if the user is not logged in
     '''
 
     if user.is_authenticated:
-        favourites = FavouriteArticles.objects.get(user=Author.objects.get(user=user))
-        found = [ ar.id for ar in favourites.articles.all() if ar.id == article.id ]
-        return True if len(found) == 1 else False
+        author = Author.objects.get(user=user)
+        favourites = FavouriteArticles.objects.filter(
+            user=author,
+            articles__id=article_id)
+        
+        return True if favourites else False
     else:
         return None
-    

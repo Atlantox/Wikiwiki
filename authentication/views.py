@@ -9,16 +9,12 @@ from django.views import View
 
 class register(View):
     def get(self, request):
-        '''
-            Return the register view
-        '''
+        ''' Return the register view '''
 
         return render(request, 'authentication/register.html', {'form': myUserCreationForm()})
 
     def post(self, request):
-        '''
-            Check if the registration is available, then redirect the user to set_nickname and log in
-        '''
+        ''' Check if the registration is available, then redirect the user to set_nickname and log in '''
 
         form = myUserCreationForm(request.POST)
 
@@ -37,9 +33,7 @@ class register(View):
 
 class log_in(View):
     def get(self, request):
-        '''
-            Display the log in view
-        '''
+        ''' Display the log in view '''
 
         if request.user.is_authenticated:
             return redirect('Home')
@@ -47,9 +41,7 @@ class log_in(View):
             return render(request, 'authentication/login.html', {'form': MyUserAuthenticationForm()})
 
     def post(self, request):
-        ''''
-            Check if the login info is avaiable, then log the user and redirect to home
-        '''
+        ''' Check if the login info is avaiable, then log the user and redirect to home '''
 
         if not request.user.is_authenticated:
             username = request.POST['username']
@@ -73,18 +65,15 @@ class log_in(View):
 
 
 def log_out(request):
-    '''
-        Logout the user
-    '''
+    ''' Logout the user '''
 
     logout(request)
     return redirect('Home')
 
+
 class set_nickname(View):
     def get(self, request):
-        '''
-            Diplay a form to set the user's nickname
-        '''
+        ''' Diplay a form to set the user's nickname '''
 
         if request.user.is_authenticated:
             return render(request, 'authentication/set_nickname.html', {'form': SetNicknameForm()})
@@ -92,9 +81,7 @@ class set_nickname(View):
             redirect('Home')
 
     def post(self, request):
-        '''
-            Check if the form of nickname is available, then set the nickname and redirect to home
-        '''
+        ''' Check if the form of nickname is available, then set the nickname and redirect to home '''
 
         if request.user.is_authenticated:
             form = SetNicknameForm(request.POST)
@@ -116,9 +103,7 @@ class set_nickname(View):
 #######    F O R M S    #######
 
 class SetNicknameForm(forms.Form):
-    '''
-        The set nickname form
-    '''
+    ''' The set nickname form '''
 
     nickname = forms.CharField(
         max_length=20,
@@ -132,9 +117,7 @@ class SetNicknameForm(forms.Form):
     )
 
 class myUserCreationForm(UserCreationForm):
-    '''
-        The user creation form
-    '''
+    ''' The user creation form '''
 
     error_messages = {
         'password_mismatch': "Password or username invalid (can't have blank spaces)"
@@ -149,9 +132,7 @@ class myUserCreationForm(UserCreationForm):
 
 
 class MyUserAuthenticationForm(AuthenticationForm):
-     '''
-        The user login form
-     '''
+     ''' The user login form '''
 
      def __init__(self, *args, **kwargs):
         super(MyUserAuthenticationForm, self).__init__(*args, **kwargs)
