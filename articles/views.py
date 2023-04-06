@@ -356,10 +356,11 @@ def getContentWithLinks(content, ordened_names):
 
     written = []
     for names in ordened_names:
+        title = names['names'][-1]
         for name in names['names']:
             if name in written: continue
 
-            content, replaced = getReplacedContent(content, name)
+            content, replaced = getReplacedContent(content, name, title)
 
             if replaced:
                 written.append(name)
@@ -368,7 +369,7 @@ def getContentWithLinks(content, ordened_names):
     return content
 
 
-def getReplacedContent(content:str, word:str):
+def getReplacedContent(content:str, word:str, article_title:str):
     '''
         Recieves a string and a word
         Replace all the word's appear by a <a></a> HTML hyperlink 
@@ -380,7 +381,7 @@ def getReplacedContent(content:str, word:str):
 
     old = content
     for variant in variants:
-        url = reverse('article', args=(variant,))
+        url = reverse('article', args=(article_title,))
         content = content.replace(
             variant,
             link.format(url, variant.title())

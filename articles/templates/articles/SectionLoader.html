@@ -2,7 +2,7 @@
     This search in articles/templates/sections and display the section of the article searching the view with name "section.sectionType.html"
 -->
 
-<div class="row my-2 mt-5 justify-content-center px-4 h-auto">
+<div class="row my-2 mt-5 justify-content-center px-4 h-auto" name="{{article.title}}-{{section.title}}-section" id="article-section">
     {% if section.collapse %}
         {% load static %}
         <button class="col-12 px-2 row text-center border-0 border-bottom bg-transparent align-items-center h-auto" onclick="ToggleCollapse('{{section.id}}')">

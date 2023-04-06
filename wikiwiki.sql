@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-03-2023 a las 23:00:41
+-- Tiempo de generación: 06-04-2023 a las 21:27:30
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -42,9 +42,9 @@ CREATE TABLE `articles_article` (
 --
 
 INSERT INTO `articles_article` (`id`, `title`, `other_names`, `main`, `views`, `created`, `summary_id`) VALUES
-(6, 'Simón Bolívar', 'El Libertador, Simón José Antonio de la Santísima Trinidad Bolívar Ponte y Palacios Blanco', 'Simón José Antonio de la Santísima Trinidad Bolívar Ponte y Palacios Blanco (Caracas, July 24, 1783, Santa Marta - December 17, 1830), better known as Simón Bolívar or the Liberator, was a Venezuelan military and politician. He contributed to the independence of Venezuela, Colombia, in specifying that of Peru, in being the inspiration in the revolutionaries of Panama in their last stage of independence,18 in being involved in the independence of Ecuador and in the founding question of Bolivia. He stood out as a prominent figure of the Spanish-American emancipation against the Spanish Empire, for his actions he was awarded the title of El Libertador for his independence actions in Venezuela.\r\n\r\nHe led the campaigns that gave independence to several American nations, he was also the founder of Gran Colombia. He was also a legislator and drafter of constitutions, environmentalist and jurist. He carried out the Amphictyonic Congress of Panama, to create a Spanish-American confederation, which would unite from Mexico to Argentina, however due to internal political and economic conflicts in Greater Colombia, he could not continue with this emancipatory project that included Cuba, Puerto Rico , Florida and military support for the independence of the United Provinces of the Río de la Plata.\r\n\r\nHe had a political conflict with his field assistant Antonio José de Sucre, who together with Casimiro Olañeta had intentions of creating a new State on the margin of the provinces of Upper Peru. When the new State was founded, which Bolívar did not recognize, the deliberative assembly to recognize it called the nascent State the Bolívar Republic and later the Bolivian Republic or Bolivia, in honor of the Liberator.', 31, '2023-03-27 20:58:07.740189', 6),
-(7, 'Gran Colombia', '', 'Gran Colombia, officially the Republic of Colombia, was an American state, created by the Angostura Congress of 1819, through the Fundamental Law of the Republic, and later ratified by its counterpart Congress of 1821, which united Venezuela and New Granada. into a single nation, to which Panama (1821), Quito and Guayaquil (1822) later joined. The name Gran Colombia is used by historiography to differentiate it from the current Republic of Colombia.\r\n\r\nThis republic existed legally between 1821 and 1831 and was formed from the union of the administrative entities corresponding to the previous Viceroyalty of New Granada, the General Captaincy of Venezuela, the Royal Court of Quito and the Government of Guayaquil. Its surface corresponded to the territories of the current republics of Colombia, Ecuador, Panama and Venezuela —including Guayana Esequiba, in Guyano-Venezuelan claim—; and other territories in dispute with the Federal Republic of Central America, the Empire of Brazil and Peru that each ex-member country inherited after the dissolution of Gran Colombia as border conflicts.\r\n\r\nAlthough Gran Colombia was created by means of the Fundamental Law of the Republic of Colombia, issued during the Congress of Angostura (1819), the State as a result of the union of said territories did not see the light until the Congress of Colombia (1821), where the national Constitution was drafted with which its creation was implemented and regulated, as well as the political and institutional life of the new country. The political-administrative system adopted by the republic was unitary centralism.\r\n\r\nOn the other hand, the international recognition of the legitimate existence of Gran Colombia, as an independent, sovereign and delimited territory, was registered in a diplomatic context that in Europe was adverse to the formal recognition of the independence of the American countries. Thus, Austria, France and Russia only recognized independence in America if the new states submitted to a monarchical system, naming members of European dynasties as sovereigns.\r\n\r\nAt the time of its creation, Gran Colombia was the Spanish-American country with the greatest international prestige, so much so that various politicians in Europe and America, including John Quincy Adams, then Secretary of State and future president of the United States, envisioned it as a of the most powerful nations on the planet. This prestige, added to the figure of Bolívar, attracted to the nation unionist ideas of independence movements in Cuba, Spanish Haiti and Puerto Rico, which sought to form a state associated with the republic.\r\n\r\nThe country dissolved in the late 1820s and early 1830s, due to the political differences that existed between supporters of federalism and centralism, as well as regional tensions between the peoples that made up the republic. There are still people who clamor for the reunification of Gran Colombia.', 9, '2023-03-27 20:18:39.795142', 7),
-(8, 'Francisco de Miranda', 'Sebastián Francisco de Miranda y Rodríguez Espinoza', 'Sebastián Francisco de Miranda y Rodríguez Espinoza (Caracas, March 28, 1750-San Fernando, July 14, 1816), known as Francisco de Miranda, was a Venezuelan politician, soldier, diplomat, writer, humanist and ideologue, considered the precursor of American emancipation against the Spanish empire. Known as the first universal Venezuelan and the most universal American, he participated in the independence of the United States and in the French Revolution, an event in which he was a prominent protagonist for which he was awarded the title of hero of the revolution. Later he was leader of the patriot side in the independence of Venezuela.\r\n\r\nHe stood out in politics as a staunch defender of the independence and sovereignty of nations in the international arena. He was a member of the Girondins in France, he was a signatory of the Act of the Declaration of Independence of Venezuela and promoter and leader of the Patriotic Society. He was also the creator of the geopolitical project known as Gran Colombia, which Simón Bolívar would try to carry out in 1826 after the liberation of the territories that today make up Colombia, Panama, Ecuador and Venezuela; aspiring to unify them into a single nation.\r\n\r\nThe soldier in the ranks of the Spanish and French armies reached the ranks of colonel and marshal, respectively. In addition, he obtained the rank of colonel in the Russian army, granted by Catherine II the Great, and was the first commander-in-chief of the Venezuelan armies, holding the title of generalissimo. His military career includes his participation in four wars: the siege of Melilla (1774-1775) and the Spanish invasion of Algiers in North Africa in 1775, the American war of independence, the French revolutionary wars and the Venezuelan war of independence. . Among his military feats, his actions in the siege of Melilla, the battle of Pensacola in the United States and the battle of Valmy in France stand out. Miranda was a prominent combatant on three continents: Africa, America and Europe.2\r\n\r\nDespite having been part of so many revolutionary and governmental processes in the international arena, he failed to put his projects into practice in his own country, Venezuela. However, his political ideal endured over time and served as the basis for the founding of Gran Colombia, while his independence ideas influenced prominent leaders of American emancipation such as Simón Bolívar in Venezuela and Bernardo O\'Higgins in Chile.3\r\n\r\nHis name is engraved on the Arc de Triomphe in Paris, his portrait is part of the Gallery of Characters in the Palace of Versailles, and his statue stands in front of that of General Kellerman in the Champ de Valmy, France.', 4, '2023-03-27 20:58:12.421221', 8),
+(6, 'Simón Bolívar', 'El Libertador, Simón José Antonio de la Santísima Trinidad Bolívar Ponte y Palacios Blanco', 'Simón José Antonio de la Santísima Trinidad Bolívar Ponte y Palacios Blanco (Caracas, July 24, 1783, Santa Marta - December 17, 1830), better known as Simón Bolívar or the Liberator, was a Venezuelan military and politician. He contributed to the independence of Venezuela, Colombia, in specifying that of Peru, in being the inspiration in the revolutionaries of Panama in their last stage of independence,18 in being involved in the independence of Ecuador and in the founding question of Bolivia. He stood out as a prominent figure of the Spanish-American emancipation against the Spanish Empire, for his actions he was awarded the title of El Libertador for his independence actions in Venezuela.\r\n\r\nHe led the campaigns that gave independence to several American nations, he was also the founder of Gran Colombia. He was also a legislator and drafter of constitutions, environmentalist and jurist. He carried out the Amphictyonic Congress of Panama, to create a Spanish-American confederation, which would unite from Mexico to Argentina, however due to internal political and economic conflicts in Greater Colombia, he could not continue with this emancipatory project that included Cuba, Puerto Rico , Florida and military support for the independence of the United Provinces of the Río de la Plata.\r\n\r\nHe had a political conflict with his field assistant Antonio José de Sucre, who together with Casimiro Olañeta had intentions of creating a new State on the margin of the provinces of Upper Peru. When the new State was founded, which Bolívar did not recognize, the deliberative assembly to recognize it called the nascent State the Bolívar Republic and later the Bolivian Republic or Bolivia, in honor of the Liberator.', 54, '2023-04-06 14:58:39.813066', 6),
+(7, 'Gran Colombia', '', 'Gran Colombia, officially the Republic of Colombia, was an American state, created by the Angostura Congress of 1819, through the Fundamental Law of the Republic, and later ratified by its counterpart Congress of 1821, which united Venezuela and New Granada. into a single nation, to which Panama (1821), Quito and Guayaquil (1822) later joined. The name Gran Colombia is used by historiography to differentiate it from the current Republic of Colombia.\r\n\r\nThis republic existed legally between 1821 and 1831 and was formed from the union of the administrative entities corresponding to the previous Viceroyalty of New Granada, the General Captaincy of Venezuela, the Royal Court of Quito and the Government of Guayaquil. Its surface corresponded to the territories of the current republics of Colombia, Ecuador, Panama and Venezuela —including Guayana Esequiba, in Guyano-Venezuelan claim—; and other territories in dispute with the Federal Republic of Central America, the Empire of Brazil and Peru that each ex-member country inherited after the dissolution of Gran Colombia as border conflicts.\r\n\r\nAlthough Gran Colombia was created by means of the Fundamental Law of the Republic of Colombia, issued during the Congress of Angostura (1819), the State as a result of the union of said territories did not see the light until the Congress of Colombia (1821), where the national Constitution was drafted with which its creation was implemented and regulated, as well as the political and institutional life of the new country. The political-administrative system adopted by the republic was unitary centralism.\r\n\r\nOn the other hand, the international recognition of the legitimate existence of Gran Colombia, as an independent, sovereign and delimited territory, was registered in a diplomatic context that in Europe was adverse to the formal recognition of the independence of the American countries. Thus, Austria, France and Russia only recognized independence in America if the new states submitted to a monarchical system, naming members of European dynasties as sovereigns.\r\n\r\nAt the time of its creation, Gran Colombia was the Spanish-American country with the greatest international prestige, so much so that various politicians in Europe and America, including John Quincy Adams, then Secretary of State and future president of the United States, envisioned it as a of the most powerful nations on the planet. This prestige, added to the figure of Bolívar, attracted to the nation unionist ideas of independence movements in Cuba, Spanish Haiti and Puerto Rico, which sought to form a state associated with the republic.\r\n\r\nThe country dissolved in the late 1820s and early 1830s, due to the political differences that existed between supporters of federalism and centralism, as well as regional tensions between the peoples that made up the republic. There are still people who clamor for the reunification of Gran Colombia.', 12, '2023-04-04 16:06:41.705144', 7),
+(8, 'Francisco de Miranda', 'Sebastián Francisco de Miranda y Rodríguez Espinoza', 'Sebastián Francisco de Miranda y Rodríguez Espinoza (Caracas, March 28, 1750-San Fernando, July 14, 1816), known as Francisco de Miranda, was a Venezuelan politician, soldier, diplomat, writer, humanist and ideologue, considered the precursor of American emancipation against the Spanish empire. Known as the first universal Venezuelan and the most universal American, he participated in the independence of the United States and in the French Revolution, an event in which he was a prominent protagonist for which he was awarded the title of hero of the revolution. Later he was leader of the patriot side in the independence of Venezuela.\r\n\r\nHe stood out in politics as a staunch defender of the independence and sovereignty of nations in the international arena. He was a member of the Girondins in France, he was a signatory of the Act of the Declaration of Independence of Venezuela and promoter and leader of the Patriotic Society. He was also the creator of the geopolitical project known as Gran Colombia, which Simón Bolívar would try to carry out in 1826 after the liberation of the territories that today make up Colombia, Panama, Ecuador and Venezuela; aspiring to unify them into a single nation.\r\n\r\nThe soldier in the ranks of the Spanish and French armies reached the ranks of colonel and marshal, respectively. In addition, he obtained the rank of colonel in the Russian army, granted by Catherine II the Great, and was the first commander-in-chief of the Venezuelan armies, holding the title of generalissimo. His military career includes his participation in four wars: the siege of Melilla (1774-1775) and the Spanish invasion of Algiers in North Africa in 1775, the American war of independence, the French revolutionary wars and the Venezuelan war of independence. . Among his military feats, his actions in the siege of Melilla, the battle of Pensacola in the United States and the battle of Valmy in France stand out. Miranda was a prominent combatant on three continents: Africa, America and Europe.2\r\n\r\nDespite having been part of so many revolutionary and governmental processes in the international arena, he failed to put his projects into practice in his own country, Venezuela. However, his political ideal endured over time and served as the basis for the founding of Gran Colombia, while his independence ideas influenced prominent leaders of American emancipation such as Simón Bolívar in Venezuela and Bernardo O\'Higgins in Chile.3\r\n\r\nHis name is engraved on the Arc de Triomphe in Paris, his portrait is part of the Gallery of Characters in the Palace of Versailles, and his statue stands in front of that of General Kellerman in the Champ de Valmy, France.', 12, '2023-04-04 14:22:23.772301', 8),
 (9, 'Trinidad and Tovago', 'Trinity and Tovago, Republic of Trinity and Tobago, República de Trinidad and Tobago', 'Trinidad and Tobago, officially the Republic of Trinidad and Tobago, is a sovereign island country located in the Caribbean Sea, in the northern region of South America. Made up of the main islands, Trinidad and Tobago, and numerous other much smaller islands, it is located 130 kilometers south of Grenada and 11 kilometers off the northeast coast of Venezuela.\r\n\r\nIn addition, it shares maritime borders with Barbados to the northeast, Grenada to the northwest, and Venezuela to the south and west. Trinidad and Tobago is generally considered to be part of the Antilles. According to some geographical definitions, Trinidad and Tobago is also part of the Windward Islands and the Lesser Antilles, while other definitions consider it to be part of the South American continent.\r\n\r\nTrinidad was inhabited for centuries by Amerindian peoples before becoming a colony of the Spanish Empire, following the arrival of Christopher Columbus in 1498. Spanish Governor José María Chacón turned it over to a British fleet under Ralph Abercromby in 1797. During the In the same period, Tobago changed hands between Spanish, British, French and Dutch settlers more times than any other in the Caribbean. Trinidad and Tobago was ceded to Great Britain in 1802 under the Treaty of Amiens as separate states and united in 1889. Trinidad and Tobago gained independence in 1962 and became a republic in 1976.\r\n\r\nTrinidad and Tobago has the third highest GDP per capita in the Americas, according to purchasing power parity (PPP), after the United States and Canada.9 It is recognized by the World Bank as a high-income economy. most of the Caribbean nations and territories, which are highly dependent on tourism, the economy is primarily industrial, with an emphasis on oil and petrochemicals; much of the nation\'s wealth is derived from its vast reserves of oil and natural gas.\r\n\r\nTrinidad and Tobago is known for its African and Indian cultures, which are reflected in its great and famous celebrations of Carnival, Diwali and Hosay, as well as being the birthplace of steelpan, limbo and musical styles such as calypso, soca , rapso, parang, chutney and soca chutney.​', 0, '2023-03-27 20:28:28.112828', 9),
 (10, 'Caracazo', '', 'El Caracazo is the name of a series of strong protests, riots and looting in Venezuela that began on February 27, 1989 in Guarenas, extended to Caracas and ended on March 8 of the same year. The protests and riots began mainly in response to the economic measures announced during the government of Carlos Andrés Pérez, which included an increase in gasoline and the cost of urban transportation. The name of the event comes from Caracas, the city where most of the events took place. The death toll began on February 27 when security forces from the Metropolitan Police, the Armed Forces of the Army and the National Guard took to the streets to control the situation. Although official figures report 276 deaths, some unofficial reports speak of more than 3,000 deaths. Until then Venezuela had been one of the most stable countries in Latin America.', 12, '2023-03-27 20:45:40.625182', 10);
 
@@ -135,7 +135,7 @@ CREATE TABLE `articles_image` (
 --
 
 INSERT INTO `articles_image` (`id`, `title`, `img`, `description`) VALUES
-(13, 'Simon_Bolivar', 'article_imgs/Simon_Bolivar.jpg', 'Portrait of Bolívar by José Gil de Castro, 1825.'),
+(13, 'Simon Bolivar', 'article_imgs/Simon_Bolivar.jpg', 'Portrait of Bolívar by José Gil de Castro, 1825.'),
 (14, 'Heroes', 'article_imgs/heroes.png', ''),
 (15, 'Simon Bolivar 17 years old', 'article_imgs/simon_bolivar_17.jpg', 'Portrait of Simón Bolívar at the age of 17 (1801).'),
 (16, 'Diplomatic Bolivar', 'article_imgs/Diplomatic_bolivar.jpg', 'The Liberator (Diplomatic Bolívar), 1860. Oil on canvas 107×69 by Aita (pseudonym of Rita Matilde de la Peñuela, 1840-?), located in the art collection of the Central Bank of Venezuela.'),
@@ -302,7 +302,8 @@ INSERT INTO `articles_summary` (`id`, `content`, `title`) VALUES
 (7, 'Capital:Bogotá;Entity:Disbanded republic;Languaje:Spanish;surface:2172609Km and 2519954Km;Population:2469000;Current countries:Colombia, Ecuador, Panamá, Venezuela, Guayana Esequiba;Founder:Simón Bolívar', 'Gran Colombia'),
 (8, 'Full name:Sebastián Francisco de Miranda y Rodríguez Espinoza;Nickname:El Precursor, El Fran Americano Universal;Birthdate:1750/3/28;Death:1816/7/14;Nationality:Venezuelan, Spanish;Language:Spanish;Ocupation:Militar, politic, writter, humanist, diplomatic', 'Francisco de Miranda'),
 (9, 'Capital:Puerto España;Language:English;Surface:5128Km^2;Population:1363985', 'Trinidad and Tobago'),
-(10, 'Date:1989/2/27;Duration:9 days;Place:Venezuela;Deads:276', 'Caracazo');
+(10, 'Date:1989/2/27;Duration:9 days;Place:Venezuela;Deads:276', 'Caracazo'),
+(11, '<', 'uwu');
 
 -- --------------------------------------------------------
 
@@ -439,7 +440,7 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$390000$3CVRflDnrshgMq0Q5W74de$OvBVVV/for2wyXJjK6w7kpsFeG8Uadus+6avXhhDpzk=', '2023-03-26 15:30:14.778939', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947');
+(1, 'pbkdf2_sha256$390000$3CVRflDnrshgMq0Q5W74de$OvBVVV/for2wyXJjK6w7kpsFeG8Uadus+6avXhhDpzk=', '2023-04-04 13:42:50.474194', 1, 'atlantox', '', '', 'atlantox7@gmail.com', 1, 1, '2023-02-27 16:35:51.076947');
 
 -- --------------------------------------------------------
 
@@ -505,7 +506,8 @@ CREATE TABLE `comments_comment` (
 
 INSERT INTO `comments_comment` (`id`, `content`, `created`, `article_id`, `author_id`, `bloqued`) VALUES
 (37, 'Horrible...', '2023-03-27 20:46:00.606954', 10, 1, 0),
-(38, 'Que hermosa es la pintura de Miranda en la carraca', '2023-03-27 20:46:24.989346', 8, 1, 0);
+(38, 'Que hermosa es la pintura de Miranda en la carraca', '2023-03-27 20:46:24.989346', 8, 1, 0),
+(39, 'Big Colombia, my home', '2023-04-04 16:08:38.258258', 7, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -536,6 +538,14 @@ CREATE TABLE `comments_favouritearticles_articles` (
   `favouritearticles_id` bigint(20) NOT NULL,
   `article_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comments_favouritearticles_articles`
+--
+
+INSERT INTO `comments_favouritearticles_articles` (`id`, `favouritearticles_id`, `article_id`) VALUES
+(7, 1, 6),
+(8, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -766,7 +776,8 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (205, '2023-03-27 20:57:15.925162', '6', 'Simón Bolívar', 1, '[{\"added\": {}}]', 13, 1),
 (206, '2023-03-27 20:57:38.334543', '7', 'Gran Colombia', 1, '[{\"added\": {}}]', 13, 1),
 (207, '2023-03-27 20:57:51.259950', '8', 'Francisco de Miranda', 1, '[{\"added\": {}}]', 13, 1),
-(208, '2023-03-27 21:00:00.831218', '1', 'atlantox', 2, '[{\"changed\": {\"fields\": [\"password\"]}}]', 4, 1);
+(208, '2023-03-27 21:00:00.831218', '1', 'atlantox', 2, '[{\"changed\": {\"fields\": [\"password\"]}}]', 4, 1),
+(209, '2023-04-06 19:27:14.499766', '13', 'Simon Bolivar', 2, '[{\"changed\": {\"fields\": [\"Image title\"]}}]', 9, 1);
 
 -- --------------------------------------------------------
 
@@ -857,7 +868,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (34, 'comments', '0003_alter_author_options_alter_author_user_and_more', '2023-03-22 14:39:01.263245'),
 (35, 'articles', '0013_summary_title', '2023-03-22 14:42:18.543586'),
 (36, 'comments', '0004_alter_favouritearticles_articles', '2023-03-22 20:12:15.941235'),
-(37, 'comments', '0005_comment_bloqued', '2023-03-26 16:02:45.914407');
+(37, 'comments', '0005_comment_bloqued', '2023-03-26 16:02:45.914407'),
+(38, 'articles', '0014_alter_section_content_alter_summary_content_and_more', '2023-04-04 21:15:18.589104');
 
 -- --------------------------------------------------------
 
@@ -877,6 +889,7 @@ CREATE TABLE `django_session` (
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('6pu113abaphkyzpgrp8dga8ah7wlknv6', '.eJxVjDEOwjAMRe-SGUUNdqnDyM4ZItd2SQE1UtNOiLtDpQ6w_vfef7nE65LTWm1Oo7qzC-7wu_UsD5s2oHeebsVLmZZ57P2m-J1Wfy1qz8vu_h1krvlbm4YYWyKFllQ7AzlSQyzAiAFxYIodD0oI2EAkMkQJJKCseBIS9_4A2fE3wA:1pgtwe:dzJtzcbvn1ERiQiwtKWwducorzhLUumtSzpzeObDeJY', '2023-04-10 21:00:00.946874'),
+('di6oad6xwqnum97o3gw38fmh2rw48axc', '.eJxVjDEOwjAMRe-SGUUNdqnDyM4ZItd2SQE1UtNOiLtDpQ6w_vfef7nE65LTWm1Oo7qzC-7wu_UsD5s2oHeebsVLmZZ57P2m-J1Wfy1qz8vu_h1krvlbm4YYWyKFllQ7AzlSQyzAiAFxYIodD0oI2EAkMkQJJKCseBIS9_4A2fE3wA:1pjgvy:Ez009y6vynPkJo1jOw0bFyo3WC_2YD8Da-jAzeNCOFY', '2023-04-18 13:42:50.519828'),
 ('lyv9sqtvjb69vsb48fczdp02vv3x9015', '.eJxVjEEOgjAQRe_StWkobZmOS_ecoZnOjIIaSCisjHdXEha6_e-9_zKZtnXIW9Ulj2LOxpnT71aIHzrtQO403WbL87QuY7G7Yg9abT-LPi-H-3cwUB2-NSJ5lYjAAogSGqYGuQCmzgeNVBTa0iVghyGCiwwt-SAhOfVtuIp5fwDhcTeS:1pWgTt:1vYdSAl2c65cvQVTtWQuEKvsG1Rg7oVMjTdNb5F1rNk', '2023-03-13 16:36:05.060484');
 
 -- --------------------------------------------------------
@@ -1153,7 +1166,7 @@ ALTER TABLE `articles_section_images`
 -- AUTO_INCREMENT de la tabla `articles_summary`
 --
 ALTER TABLE `articles_summary`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_group`
@@ -1201,7 +1214,7 @@ ALTER TABLE `comments_author`
 -- AUTO_INCREMENT de la tabla `comments_comment`
 --
 ALTER TABLE `comments_comment`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `comments_favouritearticles`
@@ -1213,13 +1226,13 @@ ALTER TABLE `comments_favouritearticles`
 -- AUTO_INCREMENT de la tabla `comments_favouritearticles_articles`
 --
 ALTER TABLE `comments_favouritearticles_articles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`
@@ -1231,7 +1244,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `webapp_contact`
