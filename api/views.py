@@ -101,9 +101,15 @@ class Favourite(View):
 
         if request.user.is_authenticated:
             author = Com.Author.objects.get(user=request.user)
-            current_favourite = Com.FavouriteArticles.objects.get(user=author)
-            current_favourite.articles.add(Art.Article.objects.get(id=id))
-            current_favourite.save()
+            favourites = Com.FavouriteArticles.objects.filter(user=author)
+            if len(favourites) == 0:
+                curren_favourite = Com.FavouriteArticles.objects.create(user=author)
+            else:
+                curren_favourite = favourites.first()
+                
+            curren_favourite.articles.add(Art.Article.objects.get(id=id))
+            curren_favourite.save()
+        
 
             return JsonResponse({'message': 'success','status': 'ok'})
         else:

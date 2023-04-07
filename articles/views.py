@@ -1,10 +1,12 @@
 import random
 
 from django.shortcuts import render, redirect
+
 from django.urls import reverse
 from django.views import generic
 from comments.views import CommentForm
 from comments.models import Author, FavouriteArticles
+from django.http import Http404
 from . import models
 
 
@@ -80,25 +82,30 @@ def category(request, search:str):
 
 def favouriteArticles(request):
     '''
-        Display a list of the varoutire articles of the user and related articles of them
+        Display a list of the favourite articles of the user and related articles of them
     '''
 
     if request.user.is_authenticated:
         author = Author.objects.get(user=request.user)
-        favourites = FavouriteArticles.objects.get(user=author)
-        articles = favourites.articles.all().order_by('title')
+        favourites = FavouriteArticles.objects.filter(user=author)
+        if len(favourites) == 0:
+            my_favourite = FavouriteArticles.objects.create(user=author)
+        else:
+            my_favourite = favourites.first()
+
+        articles = my_favourite.articles.all().order_by('title')
 
         related_total = getRelatedArticles(articles)
 
         ctx = {
             'title': 'Your favourite articles',
-            'articles': articles,
+            'articles': articles.values('id', 'title'),
             'related': related_total,
             'found': True
         }
         return loadArticleList(request, ctx)
     else:
-        return redirect('Home')
+        raise Http404
     
 def search(request):
     '''
@@ -239,12 +246,12 @@ def getRelatedArticles(item):
     if type(item) == str:
         # Recieving an article title
         related = models.RelatedArticles.objects.filter(article_title=item)
-        if(len(related) > 0):
+        if len(related) > 0:
             related = related.first()
             for article in related.related.all():
                 result.append({'id':article.id, 'title': article.title})
 
-    elif type(item) == list:
+    else:
         # Recieving a list of articles
         ids = [ ar.id for ar in item]
 

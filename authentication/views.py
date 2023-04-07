@@ -22,6 +22,7 @@ class register(View):
             user = form.save()
             new_author = Author(user=user, nickname=user.username)
             new_author.save()
+            FavouriteArticles.objects.create(user=new_author)
             login(request, user)
             return redirect('set_nickname')
         else:

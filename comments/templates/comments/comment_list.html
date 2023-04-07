@@ -24,11 +24,11 @@
         xhReq.open("GET", window.location.origin + api_path, false);
         xhReq.send(null);
         var comments = JSON.parse(xhReq.responseText).comments;
-
+        var comments_section = document.getElementById("comments_section");
         
         if (comments){
             var template = 
-                '<section class="row col-12 p-3 justify-content-center">'+
+                '<section class="row col-12 p-3 justify-content-center" id="article-comment">'+
                     '<div class="row bg-primary-dark p-3 flex-column border border-primary-light">' +
                         '<div class="col-12 d-flex justify-content-between align-items-center mb-3">' +
                             '<h4 class="m-0">{0}</h4>' +
@@ -44,14 +44,17 @@
                     '</div>' +
                 '</section>'
             
-            var comments_section = document.getElementById("comments_section");
             
+
             comments.forEach(comment => {
                 if(!id_written.includes(comment.id)){
                     comments_section.innerHTML += template.format(comment.author, comment.date, comment.content, comment.id);
                     id_written.push(comment.id);
                 }
             });
+        }
+        else{
+            comments_section.innerHTML = "Looks like this article don't have comments yet";
         }
     
     }
