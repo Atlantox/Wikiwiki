@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django import forms
+from django.urls import reverse
 from comments.models import Author, FavouriteArticles
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
@@ -10,11 +11,15 @@ from django.views import View
 class register(View):
     def get(self, request):
         ''' Return the register view '''
-
+        if request.user.is_authenticated:
+            return redirect('Home')
+        
         return render(request, 'authentication/register.html', {'form': myUserCreationForm()})
 
     def post(self, request):
         ''' Check if the registration is available, then redirect the user to set_nickname and log in '''
+        if request.user.is_authenticated:
+            return redirect('Home')
 
         form = myUserCreationForm(request.POST)
 
@@ -38,15 +43,15 @@ class log_in(View):
 
         if request.user.is_authenticated:
             return redirect('Home')
-        else:
-            return render(request, 'authentication/login.html', {'form': MyUserAuthenticationForm()})
+        
+        return render(request, 'authentication/login.html', {'form': MyUserAuthenticationForm()})
 
     def post(self, request):
         ''' Check if the login info is avaiable, then log the user and redirect to home '''
 
         if not request.user.is_authenticated:
-            username = request.POST['username']
-            password = request.POST['password']
+            username = request.POST.get('username')
+            password = request.POST.get('password')
             form = MyUserAuthenticationForm(request, {'username': username, 'password': password})
 
             if form.is_valid():
@@ -62,7 +67,7 @@ class log_in(View):
 
             return render(request, 'authentication/login.html', {'form': form})
         else:
-            redirect('Home')
+            return redirect('Home')
 
 
 def log_out(request):
@@ -79,7 +84,7 @@ class set_nickname(View):
         if request.user.is_authenticated:
             return render(request, 'authentication/set_nickname.html', {'form': SetNicknameForm()})
         else:
-            redirect('Home')
+            return redirect('Home')
 
     def post(self, request):
         ''' Check if the form of nickname is available, then set the nickname and redirect to home '''
@@ -98,7 +103,7 @@ class set_nickname(View):
                     messages.error(request, form.error_messages[msg])
                 return render(request, 'authentication/set_nickname.html', {'form': form})
         else:
-            redirect('Home')
+            return redirect('Home')
         
         
 #######    F O R M S    #######

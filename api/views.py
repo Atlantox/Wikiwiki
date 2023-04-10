@@ -17,15 +17,15 @@ class Article(View):
         articles = getArticlesbySearch(search)
 
         if articles is None:
-            return JsonResponse({'message:': 'Articles not found', 'status': 'Ok'})
+            return JsonResponse({'message': 'Articles not found', 'status': 'fail'})
         else:
             articles = articles.values('id', 'title', 'main', 'other_names', 'views')
-            return JsonResponse({'message': 'Success', 'status': 'Ok', 'found': len(articles), 'articles': list(articles)})
+            return JsonResponse({'message': 'Success', 'status': 'ok', 'found': len(articles), 'articles': list(articles)})
 
 class Comment(View):
     def get(self, request, art_id=None):
         '''
-            Get each comment of each article
+            Get each not bloqued comment of each article
             Passing art_id return each comment of that article's id
         '''
 
@@ -33,16 +33,16 @@ class Comment(View):
             comments = Com.Comment.objects.filter(article=art_id, bloqued=False)
             comments = getOrderedComments(comments)
             if len(comments) > 0:
-                data = {'message': 'Success', 'comments': comments,}
+                data = {'message': 'Success', 'status':'ok', 'comments': comments}
+            else:
+                data = {'message': 'This article not have comments', 'status':'fail'}
         else:
             comments = Com.Comment.objects.filter(bloqued=False)
-
             comments = getOrderedComments(comments)
             if len(comments) > 0:
-                data = {'message': 'Success', 'comments': comments}
-
-        if len(comments) == 0:
-            data = {'message': 'No comments in data base'}
+                data = {'message': 'Success', 'status':'ok', 'comments': comments}
+            else:
+                data = {'message': 'No comments in data base', 'status':'fail'}
 
         return JsonResponse(data)
 
@@ -55,22 +55,27 @@ class Comment(View):
 
         if request.user.is_authenticated:
             author = Com.Author.objects.get(user=request.user)
-            article = Art.Article.objects.get(id=art_id)
-            content = request.POST['comment']
-            form = CommentForm(request.POST)
-            if form.is_valid() and not re.search('[<>]', content):
-                to_add = Com.Comment(
-                    author=author,
-                    content=form.cleaned_data['comment'],
-                    article=article)
+            articles = Art.Article.objects.filter(id=art_id)
+            if len(articles) == 1:
+                content = request.POST['comment']
+                article = articles.first()
+                form = CommentForm(request.POST)
+                if form.is_valid() and not re.search('[<>]', content):
+                    to_add = Com.Comment(
+                        author=author,
+                        content=form.cleaned_data['comment'],
+                        article=article)
 
-                to_add.save()
-                data = {'status': 'ok'}
+                    to_add.save()
+                    data = {'status': 'ok'}
+                else:
+                    data = {'status': 'fail'}
             else:
-                data = {'status': 'fail'}
+                data = {'message': 'Article not found', 'status': 'fail'}
+
             return JsonResponse(data)
         else:
-            return JsonResponse({'message:': 'You are not logged in', 'status': 'fail'})
+            return JsonResponse({'message': 'You are not logged in', 'status': 'fail'})
        
 
 class Favourite(View):
@@ -83,16 +88,15 @@ class Favourite(View):
             author = Com.Author.objects.get(user=request.user)
             favourites = Com.FavouriteArticles.objects.get(user=author)
             favourites = [fa for fa in favourites.articles.all().values('id', 'title') ]
-            print(favourites)
             data = {
-                'message': 'success',
+                'message': 'Success',
                 'status': 'ok',
                 'favourites': favourites
             }
 
             return JsonResponse(data)
         else:
-            return JsonResponse({'message:': 'You are not logged in', 'status': 'fail'})
+            return JsonResponse({'message': 'You are not logged in', 'status': 'fail'})
 
     def post(self, request, id):
         '''
@@ -103,17 +107,21 @@ class Favourite(View):
             author = Com.Author.objects.get(user=request.user)
             favourites = Com.FavouriteArticles.objects.filter(user=author)
             if len(favourites) == 0:
-                curren_favourite = Com.FavouriteArticles.objects.create(user=author)
+                current_favourite = Com.FavouriteArticles.objects.create(user=author)
             else:
-                curren_favourite = favourites.first()
+                current_favourite = favourites.first()
                 
-            curren_favourite.articles.add(Art.Article.objects.get(id=id))
-            curren_favourite.save()
-        
+            articles = Art.Article.objects.filter(id=id)
+            if len(articles) == 1:
+                current_favourite.articles.add(articles.first())
+                current_favourite.save()
+                data = {'message': 'Success','status': 'ok'}
+            else:
+                data = {'message': 'Article not found','status': 'fail'}        
 
-            return JsonResponse({'message': 'success','status': 'ok'})
+            return JsonResponse(data)
         else:
-            return JsonResponse({'message:': 'You are not logged in', 'status': 'fail'})
+            return JsonResponse({'message': 'You are not logged in', 'status': 'fail'})
 
     def delete(self, request, id):
         '''
@@ -122,14 +130,23 @@ class Favourite(View):
 
         if request.user.is_authenticated:
             author = Com.Author.objects.get(user=request.user)
-            current_favourite = Com.FavouriteArticles.objects.get(user=author)
+            favourites = Com.FavouriteArticles.objects.filter(user=author)
+            if len(favourites) == 0:
+                current_favourite = Com.FavouriteArticles.objects.create(user=author)
+            else:
+                current_favourite = favourites.first()
 
-            current_favourite.articles.remove(Art.Article.objects.get(id=id))
-            current_favourite.save()
+            articles = current_favourite.articles.filter(id=id)
+            if len(articles) == 1:
+                current_favourite.articles.remove(articles.first())
+                current_favourite.save()
+                data = {'message': 'Success','status': 'ok'}
+            else:
+                data = {'message': 'Article not found','status': 'fail'} 
 
-            return JsonResponse({'message': 'success','status': 'ok'})
+            return JsonResponse(data)
         else:
-            return JsonResponse({'message': 'success','status': 'ok'})
+            return JsonResponse({'message': 'You are not logged in','status': 'fail'})
 
 def tutorial(request):
     '''
@@ -151,9 +168,10 @@ def block_comment(request, art_id):
                 to_block = to_block.first()
                 to_block.bloqued = True
                 to_block.save()
-                print(to_block.bloqued)
-        
-    return redirect('article', search=art_id)
+                return redirect('article', search=art_id)
+            
+    return redirect('Home')        
+    
 
 def getMostViewed(request):
     '''
@@ -161,7 +179,11 @@ def getMostViewed(request):
     '''
 
     most_viewed = Art.Article.objects.all().order_by('-views')[0:10].values('id', 'title', 'main', 'other_names', 'views')
-    return JsonResponse({'message:': 'Success', 'status': 'ok', 'articles': list(most_viewed)})
+    if len(most_viewed) > 0:
+        return JsonResponse({'message': 'Success', 'status': 'ok', 'articles': list(most_viewed)})
+    
+    return JsonResponse({'message': 'Not articles in data base', 'status': 'fail'})
+
 
 def getFullArticle(request, art_id:str):
     '''
@@ -169,7 +191,7 @@ def getFullArticle(request, art_id:str):
         Returns id, title, main content, other names, views, summary, sections and related articles
     '''
 
-    if art_id.isnumeric:
+    if art_id.isnumeric():
         result = Art.Article.objects.filter(id=art_id)
         if len(result) == 1:
             article = result.first()
@@ -182,16 +204,17 @@ def getFullArticle(request, art_id:str):
 
             content = article.summary.content
             summary = {}
-            for sum in content.split(';'):
-                key, value = sum.split(':')
-            
-                if '#' in key:
-                    key = key[2:]
+            if content != '':
+                for sum in content.split(';'):
+                    key, value = sum.split(':')
+                
+                    if '#' in key:
+                        key = key[2:]
 
-                summary[key] = value
+                    summary[key] = value
 
             return JsonResponse({
-                'meesage': 'Success',
+                'message': 'Success',
                 'status': 'ok',
                 'article': result.values('id', 'title', 'main', 'other_names', 'views').first(),
                 'sections': sections,
@@ -199,9 +222,9 @@ def getFullArticle(request, art_id:str):
                 'related_articles': related_names
             })
         else:
-            return JsonResponse({'message:': 'Duplicated id error', 'status': 'fail' })    
+            return JsonResponse({'message': 'Article not found', 'status': 'fail' })
     else:
-        return JsonResponse({'message:': 'Invalid id', 'status': 'fail' })
+        return JsonResponse({'message': 'Invalid id', 'status': 'fail' })
 
 
 def getRandomArticle(request):
@@ -210,6 +233,9 @@ def getRandomArticle(request):
     '''
 
     article = randomArticle()
+    if article is None:
+        return JsonResponse({'message': 'Not articles in database', 'status': 'fail'})
+
     article = {
         'id': article.id,
         'title':article.title,
@@ -218,7 +244,7 @@ def getRandomArticle(request):
         'views': article.views
     }
     
-    return JsonResponse({'message:': 'Success', 'status': 'ok', 'article': article })
+    return JsonResponse({'message': 'Success', 'status': 'ok', 'article': article })
 
 
 def getOrderedComments(comments):

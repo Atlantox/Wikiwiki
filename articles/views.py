@@ -40,8 +40,9 @@ def random_article(request):
     '''
         Display a random article
     '''
+    article = getRandomArticle()
+    return show_article(request, article, found=False if article is not None else True)
 
-    return show_article(request, getRandomArticle())
 
 
 class CategoriesView(generic.ListView):
@@ -162,6 +163,10 @@ def getRandomArticle():
     '''
 
     articles = models.Article.objects.all()
+
+    if len(articles) == 0:
+        return None
+
     count = len(articles) - 1
     return articles[random.randint(0, count)]
 
