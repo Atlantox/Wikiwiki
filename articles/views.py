@@ -41,7 +41,7 @@ def random_article(request):
         Display a random article
     '''
     article = getRandomArticle()
-    return show_article(request, article, found=False if article is not None else True)
+    return show_article(request, article, found=True if article is not None else False)
 
 
 
